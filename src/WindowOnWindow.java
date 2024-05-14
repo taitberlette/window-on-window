@@ -1,4 +1,4 @@
-public class Main {
+public class WindowOnWindow {
     public static void main(String[] args) {
         System.out.println("Goodbye universe!");
         System.out.println("Test");
