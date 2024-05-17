@@ -1,6 +1,10 @@
 package States;
 
+import Game.Game;
+
 public class GameState extends State {
+    private Game game;
+
     public GameState(StateManager stateManager) {
         super(stateManager);
     }
@@ -14,9 +18,14 @@ public class GameState extends State {
     }
 
     public void update(long deltaTime) {
-
+        if(game != null) {
+            game.update(deltaTime);
+        }
     }
 
     public void loadGame(int slot) {
+        System.out.println("LOAD GAME");
+
+        game = new Game(stateManager, slot);
     }
 }
