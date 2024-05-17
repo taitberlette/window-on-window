@@ -77,4 +77,8 @@ public class StateManager {
             runningState.update(deltaTime);
         }
     }
+
+    public void loadGame(int slot) {
+        gameState.loadGame(slot);
+    }
 }

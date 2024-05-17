@@ -16,4 +16,7 @@ public class GameState extends State {
     public void update(long deltaTime) {
 
     }
+
+    public void loadGame(int slot) {
+    }
 }
