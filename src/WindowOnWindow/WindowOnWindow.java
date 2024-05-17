@@ -1,5 +1,6 @@
 package WindowOnWindow;
 
+import States.StateManager;
 import Windows.ButtonWindow;
 import Windows.TextboxWindow;
 
@@ -17,18 +18,21 @@ public class WindowOnWindow {
     public static void main(String[] args) throws InterruptedException {
         loadFont();
 
-        ButtonWindow textboxWindow = new ButtonWindow("Text", "This is the title");
+        StateManager stateManager = new StateManager();
 
         while(true) {
-            textboxWindow.update(0);
+            stateManager.update(0);
 
-            if(textboxWindow.wasClicked()) {
-                textboxWindow.resetClicked();
-                System.out.println("CLICKEd");
+            if(stateManager.isEmpty()) {
+                break;
             }
 
             Thread.sleep(10);
         }
+
+        System.out.println("Game exit");
+
+        System.exit(0);
     }
 
     private static void loadFont() {
