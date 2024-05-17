@@ -1,4 +1,6 @@
 package Game.GameObjects.Entities;
 
-public abstract class Entity {
+import Game.GameObjects.GameObject;
+
+public abstract class Entity extends GameObject {
 }

@@ -27,8 +27,16 @@ public class View {
         frame.setSize(dimension);
     }
 
+    public Dimension getSize() {
+        return frame.getSize();
+    }
+
     public void setLocation(Point point) {
         frame.setLocation(point);
+    }
+
+    public Point getLocation() {
+        return frame.getLocation();
     }
 
     public void setVisible(boolean visible) {
