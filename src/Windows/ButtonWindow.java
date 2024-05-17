@@ -10,14 +10,18 @@ public class ButtonWindow extends Panel implements MouseListener {
     private String text;
     private boolean pressed = false;
 
-    public ButtonWindow(String text, String title) {
+    private Dimension defaultDimension = new Dimension(344, 128);
+
+    public ButtonWindow(String text, String title, Point location) {
+        super(title);
         this.text = text;
-        this.view = new View(title, new Dimension(200, 200), this);
+        this.view = new View(defaultDimension, this);
+        this.view.setLocation(location);
         addMouseListener(this);
     }
 
     public void draw(Graphics2D graphics2D, Dimension size) {
-        Font font = WindowOnWindow.getDefaultFont();
+        Font font = WindowOnWindow.getTextFont();
 
         graphics2D.setColor(Color.BLACK);
         graphics2D.setFont(font);
@@ -26,7 +30,7 @@ public class ButtonWindow extends Panel implements MouseListener {
 
         int textWidth = fontMetrics.stringWidth(text);
 
-        graphics2D.drawString(text, (int) ((size.getWidth() - textWidth) / 2), (int) (size.getHeight() / 2));
+        graphics2D.drawString(text, (int) ((size.getWidth() - textWidth) / 2), (int) ((size.getHeight() - (TITLE_BAR_HEIGHT / 2)) / 2) + TITLE_BAR_HEIGHT);
     }
 
     public boolean wasClicked() {

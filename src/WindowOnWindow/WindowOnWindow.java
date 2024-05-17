@@ -10,6 +10,8 @@ import java.io.IOException;
 public class WindowOnWindow {
 
     private static Font font;
+    private static Font titleFont;
+    private static Font textFont;
     private static final String FONT_PATH = "res/JetBrainsMono-Regular.ttf";
 
     public static void main(String[] args) throws InterruptedException {
@@ -31,7 +33,9 @@ public class WindowOnWindow {
 
     private static void loadFont() {
         try {
-            font = Font.createFont(Font.TRUETYPE_FONT, new File(FONT_PATH)).deriveFont(36f);
+            font = Font.createFont(Font.TRUETYPE_FONT, new File(FONT_PATH));
+            titleFont = font.deriveFont(20f);
+            textFont = font.deriveFont(36f);
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             graphicsEnvironment.registerFont(font);
         } catch (IOException ioException) {
@@ -49,5 +53,13 @@ public class WindowOnWindow {
 
     public static Font getDefaultFont() {
         return font;
+    }
+
+    public static Font getTitleFont() {
+        return titleFont;
+    }
+
+    public static Font getTextFont() {
+        return textFont;
     }
 }
