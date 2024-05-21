@@ -1,9 +1,15 @@
 package Game.GameObjects;
 
+import Game.Game;
+
 import java.awt.*;
 
 public class GameObject {
-    private Point position;
+    protected Point position;
+
+    public GameObject() {
+        position = new Point(0, 0);
+    }
 
     public void update(long deltaTime) {
 

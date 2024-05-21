@@ -12,11 +12,14 @@ import Game.Level;
 import Windows.WorldWindow;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.LinkedList;
 
-public abstract class World {
+public abstract class World implements KeyListener {
     protected Game game;
     protected Level level;
+    protected Player player;
 
     protected LinkedList<Switch> switches = new LinkedList<>();
     protected LinkedList<Mechanism> mechanisms = new LinkedList<>();
@@ -31,7 +34,8 @@ public abstract class World {
     protected LinkedList<WorldWindow> worldWindows = new LinkedList<>();
 
     public World(Game game, Level level) {
-
+        this.game = game;
+        this.level = level;
     }
 
     public void update(long deltaTime) {
@@ -72,18 +76,52 @@ public abstract class World {
 
     public void addEntity(Entity entity) {
         addEntities.add(entity);
+
+        if(entity instanceof Player) {
+            player = (Player) entity;
+        }
     }
 
     public void removeEntity(Entity entity) {
         removeEntities.add(entity);
+        if(entity instanceof Player) {
+            player = null;
+        }
     }
 
-    public void draw(Graphics2D graphics2D) {
-        int w = 1920, h = 1080;
-        Color color1 = Color.RED;
-        Color color2 = Color.GREEN;
-        GradientPaint gp = new GradientPaint(0, 0, color1, w, h, color2);
-        graphics2D.setPaint(gp);
-        graphics2D.fillRect(0, 0, w, h);
+    public abstract void draw(Graphics2D graphics2D);
+
+    public void open() {
+        for(WorldWindow worldWindow : worldWindows) {
+            worldWindow.setVisible(true);
+        }
     }
+
+    public void close() {
+        for(WorldWindow worldWindow : worldWindows) {
+            worldWindow.setVisible(false);
+        }
+    }
+    public void keyTyped(KeyEvent e) {
+        if(player == null) {
+            return;
+        }
+        player.keyTyped(e);
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+        if(player == null) {
+            return;
+        }
+        player.keyPressed(e);
+    }
+
+    public void keyReleased(KeyEvent e) {
+        if(player == null) {
+            return;
+        }
+        player.keyReleased(e);
+    }
+
 }

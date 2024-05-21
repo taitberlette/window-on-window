@@ -1,6 +1,7 @@
 package States;
 
 import Game.Game;
+import Game.ActiveLevel;
 
 public class GameState extends State {
     private Game game;
@@ -27,5 +28,7 @@ public class GameState extends State {
         System.out.println("LOAD GAME");
 
         game = new Game(stateManager, slot);
+
+        game.loadLevel(ActiveLevel.LEVEL_ONE);
     }
 }

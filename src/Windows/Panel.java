@@ -4,6 +4,8 @@ import WindowOnWindow.WindowOnWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public abstract class Panel extends JPanel {
     protected View view;
@@ -46,6 +48,7 @@ public abstract class Panel extends JPanel {
         graphics2D.setClip(0, TITLE_BAR_HEIGHT, (int) size.getWidth(), (int) (size.getHeight() - TITLE_BAR_HEIGHT));
 
         draw(graphics2D, size);
+
     }
 
     public void setLocation(Point point) {
@@ -54,5 +57,9 @@ public abstract class Panel extends JPanel {
 
     public void setVisible(boolean visible) {
         view.setVisible(visible);
+    }
+
+    public void setKeyListener(KeyListener keyListener) {
+        view.setListener(keyListener);
     }
 }

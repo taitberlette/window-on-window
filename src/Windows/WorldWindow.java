@@ -34,17 +34,16 @@ public class WorldWindow extends Panel {
     }
 
     public void update(long deltaTime) {
-//        if(target == null) {
-//            return;
-//        }
+        if(target == null) {
+            return;
+        }
 
-//        Point targetPosition = target.getLocation();
+        Point targetPosition = target.getLocation();
         Dimension size = view.getSize();
 
-        Point targetPosition = view.getLocation();
-        targetPosition.setLocation(targetPosition.getX() + 1, targetPosition.getY());
+        view.setLocation(new Point((int) (targetPosition.getX() - (size.getWidth() / 2)), (int) (targetPosition.getY() - (size.getHeight() / 2))));
 
-//        view.setLocation(new Point((int) (targetPosition.getX() - (size.getWidth() / 2)), (int) (targetPosition.getY() - (size.getHeight() / 2))));
+        view.update(deltaTime);
     }
 
     public void setTarget(GameObject target) {
