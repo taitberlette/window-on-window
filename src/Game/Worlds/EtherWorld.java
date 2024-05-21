@@ -20,7 +20,7 @@ public class EtherWorld extends World {
         super(game, level);
 
         try{
-            this.testing = ImageIO.read(new File("res\\Tutorial Ether.png"));
+            this.testing = ImageIO.read(new File("res\\Level_Tutorial\\Ether.png"));
         } catch (Exception e) {
             System.out.println("Failed to load 'Tutorial Ether.png'");
         }

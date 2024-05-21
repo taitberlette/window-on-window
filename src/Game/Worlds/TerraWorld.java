@@ -21,7 +21,7 @@ public class TerraWorld extends World {
         super(game, level);
 
         try{
-            this.testing = ImageIO.read(new File("res\\Tutorial Terra.png"));
+            this.testing = ImageIO.read(new File("res\\Level_Tutorial\\Terra.png"));
         } catch (Exception e) {
             System.out.println("Failed to load 'Tutorial Terra.png'");
         }
