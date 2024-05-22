@@ -93,6 +93,57 @@ public abstract class World implements KeyListener {
         }
     }
 
+    public CollisionType checkCollision(Point position) {
+        int colour = collision.getRGB((int) position.getX(), (int) position.getY());
+
+        boolean ground = (colour & 0x00FF0000) != 0;
+        boolean ladder = (colour & 0x0000FF00) != 0;
+        boolean stairs = (colour & 0x000000FF) != 0;
+
+        if(ground) {
+            return CollisionType.GROUND;
+        }
+
+        if(ladder) {
+            return CollisionType.LADDER;
+        }
+
+        if(stairs) {
+            return CollisionType.STAIRS;
+        }
+
+        return CollisionType.NONE;
+    }
+
+    public void draw(Graphics2D graphics2D) {
+        if(image != null) {
+            graphics2D.drawImage(image, 0, 0, 1920, 1080, null);
+        }
+
+        for(Switch switcher : switches) {
+            switcher.draw(graphics2D);
+        }
+
+        for(Mechanism mechanism : mechanisms) {
+            mechanism.draw(graphics2D);
+        }
+
+        for(GameObject gameObject : gameObjects) {
+            gameObject.draw(graphics2D);
+        }
+
+        for(Projectile projectile : projectiles) {
+            projectile.draw(graphics2D);
+        }
+
+        for(Weapon droppedWeapon : droppedWeapons) {
+            droppedWeapon.draw(graphics2D);
+        }
+
+        for(Entity entity : entities) {
+            entity.draw(graphics2D);
+        }
+    }
 
     public void open() {
         for(WorldWindow worldWindow : worldWindows) {

@@ -20,14 +20,20 @@ public class WindowOnWindow {
 
         StateManager stateManager = new StateManager();
 
+        long time = System.currentTimeMillis();
+
         while(true) {
-            stateManager.update(0);
+            long currentTime = System.currentTimeMillis();
+
+            stateManager.update(currentTime - time);
 
             if(stateManager.isEmpty()) {
                 break;
             }
 
             Thread.sleep(10);
+
+            time = currentTime;
         }
 
         System.out.println("Game exit");
