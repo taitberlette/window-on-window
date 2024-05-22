@@ -22,4 +22,8 @@ public class GameObject {
     public Point getLocation() {
         return position;
     }
+
+    public void draw(Graphics2D graphics2D) {
+
+    }
 }

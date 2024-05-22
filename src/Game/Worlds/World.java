@@ -14,12 +14,16 @@ import Windows.WorldWindow;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 public abstract class World implements KeyListener {
     protected Game game;
     protected Level level;
     protected Player player;
+
+    protected BufferedImage image;
+    protected BufferedImage collision;
 
     protected LinkedList<Switch> switches = new LinkedList<>();
     protected LinkedList<Mechanism> mechanisms = new LinkedList<>();
@@ -89,7 +93,6 @@ public abstract class World implements KeyListener {
         }
     }
 
-    public abstract void draw(Graphics2D graphics2D);
 
     public void open() {
         for(WorldWindow worldWindow : worldWindows) {

@@ -15,19 +15,21 @@ import java.security.Key;
 
 public class TerraWorld extends World {
 
-    private BufferedImage testing;
-
     public TerraWorld(Game game, Level level) {
         super(game, level);
 
         try{
-            this.testing = ImageIO.read(new File("res\\Level_Tutorial\\Terra.png"));
+            this.image = ImageIO.read(new File("res\\Level_Tutorial\\Terra.png"));
+            this.collision = ImageIO.read(new File("res\\Level_Tutorial\\TerraCollision.png"));
         } catch (Exception e) {
             System.out.println("Failed to load 'Tutorial Terra.png'");
         }
 
         WorldWindow worldWindow = new WorldWindow(this);
         Player player = new Player();
+
+        player.setWorld(this);
+
         worldWindow.setTarget(player);
         worldWindow.setFocusable(true);
         worldWindow.requestFocus();
@@ -38,6 +40,6 @@ public class TerraWorld extends World {
     }
 
     public void draw(Graphics2D graphics2D) {
-        graphics2D.drawImage(testing, 0, 0, 1920, 1080, null);
+        super.draw(graphics2D);
     }
 }
