@@ -22,7 +22,7 @@ public class Player extends Entity implements KeyListener {
     BufferedImage etherImage;
 
     public Player() {
-        super(new Dimension(128, 128));
+        super(new Dimension(52, 128));
 
         position.setLocation(500, 500);
 

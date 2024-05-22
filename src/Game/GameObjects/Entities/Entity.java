@@ -24,10 +24,12 @@ public abstract class Entity extends GameObject {
     }
 
     public void update(long deltaTime) {
-        position.translate((int) velocityX, 0);
 
         Point feet = new Point(this.position);
         feet.translate(0, (int) size.getHeight() / 2);
+
+        Point head = new Point(this.position);
+        head.translate(0, -(int) size.getHeight() / 2);
 
         CollisionType collisionType = world.checkCollision(feet);
 
@@ -50,12 +52,54 @@ public abstract class Entity extends GameObject {
                     }
                 }
             } else {
-                height = (int) -velocityY;
+                for(height = 0; height < Math.abs(travel); height++) {
+                    feet.translate(0, -1);
+                    CollisionType testPoint = world.checkCollision(head);
+                    if(testPoint == CollisionType.GROUND) {
+                        velocityY = 0;
+                        height++;
+                        break;
+                    }
+                }
+
+                height = -height;
             }
 
-            position.translate((int) velocityX, height);
+            position.translate(0, height);
         }
 
+        if(velocityX < 0) {
+            Point left = new Point(this.position);
+            left.translate((int) -(size.getWidth() / 2), 0);
+
+            int distance = 0;
+
+            for(distance = 0; distance < Math.abs(velocityX); distance++) {
+                left.translate(-1, 0);
+                CollisionType testPoint = world.checkCollision(left);
+                if(testPoint == CollisionType.GROUND) {
+                    break;
+                }
+            }
+
+            position.translate((int) -distance, 0);
+        } else if(velocityX > 0) {
+            Point right = new Point(this.position);
+            right.translate((int) (size.getWidth() / 2), 0);
+
+            int distance = 0;
+
+            for(distance = 0; distance < Math.abs(velocityX); distance++) {
+                right.translate(1, 0);
+                CollisionType testPoint = world.checkCollision(right);
+                if(testPoint == CollisionType.GROUND) {
+                    break;
+                }
+            }
+
+            position.translate((int) distance, 0);
+
+        }
 
 
     }
