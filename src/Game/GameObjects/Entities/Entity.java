@@ -33,7 +33,11 @@ public abstract class Entity extends GameObject {
 
         CollisionType collisionType = world.checkCollision(feet);
 
-        onGround = collisionType == CollisionType.GROUND;
+        onGround = collisionType == CollisionType.GROUND || collisionType == CollisionType.LADDER;
+
+        if(collisionType == CollisionType.LADDER) {
+            position.translate(0, -5);
+        }
 
         if(!onGround || velocityY > 0) {
             int height = 0;
@@ -45,7 +49,7 @@ public abstract class Entity extends GameObject {
                 for(height = 0; height < Math.abs(travel); height++) {
                     feet.translate(0, 1);
                     CollisionType testPoint = world.checkCollision(feet);
-                    if(testPoint == CollisionType.GROUND) {
+                    if(testPoint != CollisionType.NONE) {
                         velocityY = 0;
                         height++;
                         break;
@@ -55,7 +59,7 @@ public abstract class Entity extends GameObject {
                 for(height = 0; height < Math.abs(travel); height++) {
                     feet.translate(0, -1);
                     CollisionType testPoint = world.checkCollision(head);
-                    if(testPoint == CollisionType.GROUND) {
+                    if(testPoint != CollisionType.NONE) {
                         velocityY = 0;
                         height++;
                         break;
