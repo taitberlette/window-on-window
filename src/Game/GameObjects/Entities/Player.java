@@ -9,6 +9,7 @@ public class Player extends Entity implements KeyListener {
     int vy = 0;
 
     public Player() {
+        super(new Dimension(128, 128));
         position.setLocation(500, 500);
     }
 
