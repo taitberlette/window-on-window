@@ -12,6 +12,7 @@ import Game.Worlds.World;
 public class WorldWindow extends Panel {
     private World world;
     private GameObject target;
+    private Point lastPoint;
 
     private Dimension defaultDimension = new Dimension((1080 / 4), (1080 / 4) + TITLE_BAR_HEIGHT);
 
@@ -30,7 +31,13 @@ public class WorldWindow extends Panel {
 
         this.world.draw((Graphics2D) image.getGraphics());
 
+//        if(lastPoint != position) {
+//            lastPoint = position;
+//        }
+
         graphics2D.drawImage((Image) image, (int) -position.getX(), (int) -position.getY() + TITLE_BAR_HEIGHT, (int) 1920, (int) 1080, null);
+
+//        lastPoint = position;
     }
 
     public void update(long deltaTime) {
