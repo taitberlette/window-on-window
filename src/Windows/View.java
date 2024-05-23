@@ -58,4 +58,8 @@ public class View {
     public void setListener(KeyListener listener) {
         this.listener = listener;
     }
+
+    public JFrame getFrame() {
+        return frame;
+    }
 }

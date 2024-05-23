@@ -1,10 +1,14 @@
 package Game;
 
 import Game.GameObjects.Entities.Player;
+import Game.Levels.ActiveLevel;
+import Game.Levels.*;
 import States.StateManager;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import static Game.Levels.ActiveLevel.*;
 
 public class Game implements KeyListener {
     private Level[] levels = new Level[ActiveLevel.COUNT_LEVEL.ordinal()];
@@ -18,9 +22,10 @@ public class Game implements KeyListener {
 
         player = new Player();
 
-        for(int i = 0; i < levels.length; i++) {
-            levels[i] = new Level(this, player);
-        }
+        levels[LEVEL_ONE.ordinal()] = new LevelOne(this, player);
+        levels[LEVEL_TWO.ordinal()] = new LevelTwo(this, player);
+        levels[LEVEL_THREE.ordinal()] = new LevelThree(this, player);
+        levels[LEVEL_TUTORIAL.ordinal()] = new LevelZero(this, player);
     }
 
     public void update(long deltaTime) {

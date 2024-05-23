@@ -29,7 +29,7 @@ public class Player extends Entity implements KeyListener {
 
         try{
             terraImage = ImageIO.read(new File("res\\Player\\TerraPlayerIdol.png"));
-//            etherImage = ImageIO.read(new File("res\\Player\\EtherPlayerIdol.png"));
+            etherImage = ImageIO.read(new File("res\\Player\\EtherPlayerIdol.png"));
         } catch (Exception e) {
             System.out.println("Failed to load images for the player!");
         }

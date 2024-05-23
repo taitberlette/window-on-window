@@ -8,7 +8,7 @@ import Game.GameObjects.Gadgets.Switch;
 import Game.GameObjects.GameObject;
 import Game.GameObjects.Projectiles.Projectile;
 import Game.GameObjects.Weapons.Weapon;
-import Game.Level;
+import Game.Levels.Level;
 import Windows.WorldWindow;
 
 import java.awt.*;
@@ -35,7 +35,6 @@ public abstract class World implements KeyListener {
     protected LinkedList<Entity> addEntities = new LinkedList<>();
     protected LinkedList<Entity> removeEntities = new LinkedList<>();
 
-    protected LinkedList<WorldWindow> worldWindows = new LinkedList<>();
 
     public World(Game game, Level level) {
         this.game = game;
@@ -72,10 +71,6 @@ public abstract class World implements KeyListener {
 
         addEntities.clear();
         removeEntities.clear();
-
-        for(WorldWindow worldWindow : worldWindows) {
-            worldWindow.update(deltaTime);
-        }
     }
 
     public void addEntity(Entity entity) {
@@ -151,15 +146,11 @@ public abstract class World implements KeyListener {
     }
 
     public void open() {
-        for(WorldWindow worldWindow : worldWindows) {
-            worldWindow.setVisible(true);
-        }
+
     }
 
     public void close() {
-        for(WorldWindow worldWindow : worldWindows) {
-            worldWindow.setVisible(false);
-        }
+
     }
     public void keyTyped(KeyEvent e) {
         if(player == null) {

@@ -1,7 +1,7 @@
 package States;
 
 import Game.Game;
-import Game.ActiveLevel;
+import Game.Levels.ActiveLevel;
 
 public class GameState extends State {
     private Game game;
@@ -29,6 +29,6 @@ public class GameState extends State {
 
         game = new Game(stateManager, slot);
 
-        game.loadLevel(ActiveLevel.LEVEL_ONE);
+        game.loadLevel(ActiveLevel.LEVEL_TUTORIAL);
     }
 }

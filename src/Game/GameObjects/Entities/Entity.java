@@ -133,4 +133,8 @@ public abstract class Entity extends GameObject {
 
     }
 
+    public Dimension getSize() {
+        return size;
+    }
+
 }

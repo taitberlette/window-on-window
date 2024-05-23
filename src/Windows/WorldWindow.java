@@ -31,29 +31,37 @@ public class WorldWindow extends Panel {
 
         this.world.draw((Graphics2D) image.getGraphics());
 
-//        if(lastPoint != position) {
-//            lastPoint = position;
-//        }
-
         graphics2D.drawImage((Image) image, (int) -position.getX(), (int) -position.getY() + TITLE_BAR_HEIGHT, (int) 1920, (int) 1080, null);
-
-//        lastPoint = position;
     }
 
     public void update(long deltaTime) {
-        if(target == null) {
-            return;
+        if(target != null) {
+            Point targetPosition = target.getLocation();
+            Dimension size = view.getSize();
+
+            view.setLocation(new Point((int) (targetPosition.getX() - (size.getWidth() / 2)), (int) (targetPosition.getY() - (size.getHeight() / 2))));
         }
-
-        Point targetPosition = target.getLocation();
-        Dimension size = view.getSize();
-
-        view.setLocation(new Point((int) (targetPosition.getX() - (size.getWidth() / 2)), (int) (targetPosition.getY() - (size.getHeight() / 2))));
 
         view.update(deltaTime);
     }
 
     public void setTarget(GameObject target) {
         this.target = target;
+    }
+
+    public GameObject getTarget() {
+        return target;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public Rectangle getBounds() {
+       return getView().getFrame().getBounds();
     }
 }
