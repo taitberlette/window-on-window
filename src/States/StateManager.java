@@ -1,5 +1,6 @@
 package States;
 
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class StateManager {
@@ -10,6 +11,8 @@ public class StateManager {
     private ResetState resetState;
 
     private Stack<State> runningStates = new Stack<>();
+    private LinkedList<State> statesToPush = new LinkedList<>();
+    private int statesToPop = 0;
 
     private State runningState;
 
@@ -38,44 +41,61 @@ public class StateManager {
     }
 
     public void pushState(State state) {
-//        runningStates.push(state);
 
-        runningState = state;
-        runningState.open();
+        statesToPush.add(state);
+
+//        runningState = state;
+//        runningState.open();
     }
 
     public void popState() {
-//        runningStates.pop();
+        statesToPop++;
 
-        runningState.close();
-        runningState = null;
+//        runningState.close();
+//        runningState = null;
     }
 
     public void clearStates() {
+        statesToPop = runningStates.size();
+
 //        runningStates.clear();
 
 //        for(State state : runningStates) {
 //            state.close();
 //        }
 
-        runningState.close();
-        runningState = null;
+//        runningState.close();
+//        runningState = null;
     }
 
     public boolean isEmpty() {
-//        return runningStates.isEmpty();
+        return runningStates.isEmpty();
 
-        return runningState == null;
+//        return runningState == null;
     }
 
     public void update(long deltaTime) {
-//        for(State state : runningStates) {
-//            state.update(deltaTime);
-//        }
-
-        if(runningState != null) {
-            runningState.update(deltaTime);
+        for(State state : runningStates) {
+            state.update(deltaTime);
         }
+
+        for(int i = 0; i < statesToPop; i++) {
+            State popped = runningStates.pop();
+            popped.close();
+        }
+
+        for(State stateToPush : statesToPush) {
+            runningStates.push(stateToPush);
+            stateToPush.open();
+        }
+
+        statesToPop = 0;
+        statesToPush.clear();
+
+
+//        if(runningState != null) {
+//            runningState.update(deltaTime);
+//        }
     }
 
     public void loadGame(int slot) {

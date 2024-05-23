@@ -3,7 +3,9 @@ package Game;
 import Game.GameObjects.Entities.Player;
 import Game.Levels.ActiveLevel;
 import Game.Levels.*;
+import States.PauseState;
 import States.StateManager;
+import States.StateName;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -80,6 +82,10 @@ public class Game implements KeyListener {
 
         if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
             levels[index].keyPressed(e);
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            stateManager.pushState(StateName.STATE_PAUSE);
         }
     }
 

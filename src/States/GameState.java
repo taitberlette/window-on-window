@@ -15,7 +15,7 @@ public class GameState extends State {
     }
 
     public void close() {
-
+        game.loadLevel(ActiveLevel.NONE);
     }
 
     public void update(long deltaTime) {
@@ -25,8 +25,6 @@ public class GameState extends State {
     }
 
     public void loadGame(int slot) {
-        System.out.println("LOAD GAME");
-
         game = new Game(stateManager, slot);
 
         game.loadLevel(ActiveLevel.LEVEL_TUTORIAL);
