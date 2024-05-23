@@ -25,21 +25,41 @@ public abstract class Entity extends GameObject {
 
     public void update(long deltaTime) {
 
-        Point feet = new Point(this.position);
-        feet.translate(0, (int) size.getHeight() / 2);
 
-        Point head = new Point(this.position);
-        head.translate(0, -(int) size.getHeight() / 2);
-
-        CollisionType collisionType = world.checkCollision(feet);
+        Point base = new Point(this.position);
+        base.translate(0, ((int) size.getHeight() / 2));
+        CollisionType collisionType = world.checkCollision(base);
 
         onGround = collisionType == CollisionType.GROUND || collisionType == CollisionType.LADDER;
 
         if(collisionType == CollisionType.LADDER) {
-            position.translate(0, -5);
+            Point feet = new Point(this.position);
+            feet.translate(0, ((int) size.getHeight() / 2));
+
+            int height = 0;
+
+            for(height = 0; height < 5; height++) {
+                feet.translate(0, -1);
+
+                CollisionType testPoint = world.checkCollision(feet);
+                if(testPoint != CollisionType.LADDER) {
+                    velocityY = 0;
+                    break;
+                }
+            }
+
+            position.translate(0, -height);
+
+            if(height < 5) {
+                onGround = true;
+            }
         }
 
         if(!onGround || velocityY > 0) {
+
+            Point feet = new Point(this.position);
+            feet.translate(0, (int) size.getHeight() / 2);
+
             int height = 0;
 
             velocityY += gravityAcceleration * ((double) deltaTime / 1000);
@@ -56,6 +76,9 @@ public abstract class Entity extends GameObject {
                     }
                 }
             } else {
+                Point head = new Point(this.position);
+                head.translate(0, -(int) size.getHeight() / 2);
+
                 for(height = 0; height < Math.abs(travel); height++) {
                     feet.translate(0, -1);
                     CollisionType testPoint = world.checkCollision(head);
