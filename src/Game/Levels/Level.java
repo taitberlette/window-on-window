@@ -109,6 +109,7 @@ public abstract class Level implements KeyListener {
                 continue;
             }
 
+            worldWindow.getView().getFrame().toFront();
             worldWindow.setTarget(player);
             currentWindow.setTarget(null);
 
