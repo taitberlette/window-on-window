@@ -94,6 +94,11 @@ public abstract class World implements KeyListener {
     }
 
     public CollisionType checkCollision(Point position) {
+
+        if(position.getX() < 0 || position.getX() >= collision.getWidth() || position.getY() < 0 || position.getY() >= collision.getHeight()) {
+            return CollisionType.GROUND;
+        }
+
         int colour = collision.getRGB((int) position.getX(), (int) position.getY());
 
         boolean ground = (colour & 0x00FF0000) != 0;
@@ -109,7 +114,7 @@ public abstract class World implements KeyListener {
         }
 
         if(stairs) {
-            return CollisionType.STAIRS;
+            return CollisionType.LADDER;
         }
 
         return CollisionType.NONE;
