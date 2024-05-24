@@ -65,7 +65,10 @@ public class HomeState extends State {
         if(tutorialButton.wasClicked()) {
             tutorialButton.resetClicked();
 
-            System.out.println("Load Tutorial");
+            stateManager.popState();
+            stateManager.pushState(StateName.STATE_GAME);
+
+            stateManager.loadTutorial();
         }
 
         if(loadButton.wasClicked()) {

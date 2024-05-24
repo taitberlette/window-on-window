@@ -101,4 +101,8 @@ public class StateManager {
     public void loadGame(int slot) {
         gameState.loadGame(slot);
     }
+
+    public void loadTutorial() {
+        gameState.loadTutorial();
+    }
 }

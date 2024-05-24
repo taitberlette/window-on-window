@@ -35,10 +35,12 @@ public abstract class World implements KeyListener {
     protected LinkedList<Entity> addEntities = new LinkedList<>();
     protected LinkedList<Entity> removeEntities = new LinkedList<>();
 
+    protected String levelPath;
 
-    public World(Game game, Level level) {
+    public World(Game game, Level level, String levelPath) {
         this.game = game;
         this.level = level;
+        this.levelPath = levelPath;
     }
 
     public void update(long deltaTime) {

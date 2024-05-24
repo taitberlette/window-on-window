@@ -5,6 +5,6 @@ import Game.GameObjects.Entities.Player;
 
 public class LevelThree extends Level {
     public LevelThree(Game game, Player player) {
-        super(game, player);
+        super(game, player, "Level_Three");
     }
 }

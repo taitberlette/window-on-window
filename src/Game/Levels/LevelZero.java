@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class LevelZero extends Level {
     public LevelZero(Game game, Player player) {
-        super(game, player);
+        super(game, player, "Level_Tutorial");
 
         player.setLocation(new Point(246, 674));
         player.setWorld(terraWorld);

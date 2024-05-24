@@ -19,14 +19,17 @@ public abstract class Level implements KeyListener {
     protected TerraWorld terraWorld;
     protected EtherWorld etherWorld;
 
+    protected String levelPath;
+
     protected LinkedList<WorldWindow> worldWindows = new LinkedList<>();
 
-    public Level(Game game, Player player) {
+    public Level(Game game, Player player, String levelPath) {
         this.game = game;
         this.player = player;
+        this.levelPath = levelPath;
 
-        terraWorld = new TerraWorld(game, this);
-        etherWorld = new EtherWorld(game, this);
+        terraWorld = new TerraWorld(game, this, levelPath);
+        etherWorld = new EtherWorld(game, this, levelPath);
     }
 
     public void update(long deltaTime) {
