@@ -1,7 +1,10 @@
 package Game.GameObjects.Entities;
 
+import Game.Utilities.Skill;
 import Game.Worlds.TerraWorld;
 import Game.Worlds.World;
+import Game.Game;
+import Windows.PlayerStatsWindow;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,11 +21,31 @@ public class Player extends Entity implements KeyListener {
 //    private BufferedImage[] playerMeleeTerraImages = new BufferedImage[2];
 //    private BufferedImage[] playerMeleeEtherImages = new BufferedImage[2];
 
-    BufferedImage terraImage;
-    BufferedImage etherImage;
+    private BufferedImage terraImage;
+    private BufferedImage etherImage;
 
-    public Player() {
+    private PlayerStatsWindow playerStatsWindow;
+
+    private String name;
+    private Game game;
+
+    private Skill photosynthesisSkill;
+    private Skill fastLegsSkill;
+    private Skill tunnelVisionSkill;
+
+    public Player(String name, Game game) {
         super(new Dimension(52, 128));
+
+        this.name = name;
+        this.game = game;
+
+        this.photosynthesisSkill = new Skill();
+        this.fastLegsSkill = new Skill();
+        this.tunnelVisionSkill = new Skill();
+
+        this.maxHealth = 250;
+
+        this.playerStatsWindow = new PlayerStatsWindow(name, this, game, photosynthesisSkill, fastLegsSkill, tunnelVisionSkill);
 
         position.setLocation(500, 500);
 
@@ -33,10 +56,16 @@ public class Player extends Entity implements KeyListener {
         } catch (Exception e) {
             System.out.println("Failed to load images for the player!");
         }
+
+        playerStatsWindow.setVisible(true);
     }
 
     public void update(long deltaTime) {
         super.update(deltaTime);
+
+        playerStatsWindow.update(deltaTime);
+
+        this.health = (this.health + 1) % this.maxHealth;
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -51,6 +80,13 @@ public class Player extends Entity implements KeyListener {
 
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    public void kill() {
+        if(playerStatsWindow != null) {
+            playerStatsWindow.setVisible(false);
+            playerStatsWindow = null;
+        }
     }
 
     public void keyTyped(KeyEvent e) {
@@ -76,5 +112,9 @@ public class Player extends Entity implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
             velocityX = 0;
         }
+    }
+
+    public String getName() {
+        return name;
     }
 }

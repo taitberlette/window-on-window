@@ -40,6 +40,10 @@ public class View {
         frame.setLocation(point);
     }
 
+    public void setLocation(int x, int y) {
+        frame.setLocation(x, y);
+    }
+
     public Point getLocation() {
         return frame.getLocation();
     }

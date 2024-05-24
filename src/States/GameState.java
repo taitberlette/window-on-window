@@ -15,7 +15,8 @@ public class GameState extends State {
     }
 
     public void close() {
-        game.loadLevel(ActiveLevel.NONE);
+        game.kill();
+        game = null;
     }
 
     public void update(long deltaTime) {

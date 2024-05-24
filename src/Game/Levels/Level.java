@@ -59,6 +59,17 @@ public abstract class Level implements KeyListener {
         }
     }
 
+    public void kill() {
+        terraWorld.kill();
+        etherWorld.kill();
+
+        for(WorldWindow worldWindow : worldWindows) {
+            worldWindow.setVisible(false);
+        }
+
+        worldWindows.clear();
+    }
+
     public void keyTyped(KeyEvent e) {
         terraWorld.keyTyped(e);
         etherWorld.keyTyped(e);

@@ -26,4 +26,8 @@ public class GameObject {
     public void draw(Graphics2D graphics2D) {
 
     }
+
+    public void kill() {
+
+    }
 }

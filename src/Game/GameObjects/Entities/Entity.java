@@ -10,6 +10,7 @@ public abstract class Entity extends GameObject {
 
     protected Point realPosition = new Point(0, 0);
     protected int health;
+    protected int maxHealth;
     protected int maxSpeed;
     protected double velocityX;
     protected double velocityY;
@@ -22,6 +23,14 @@ public abstract class Entity extends GameObject {
 
     public Entity(Dimension size) {
         this.size = size;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 
     public void update(long deltaTime) {

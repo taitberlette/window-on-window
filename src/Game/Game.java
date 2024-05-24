@@ -19,10 +19,21 @@ public class Game implements KeyListener {
 
     private StateManager stateManager;
 
+    private int slot;
+    private boolean shouldSave;
+    private String[] paths = {"Alpha", "Beta", "Gamma"};
+    private String savePath;
+
     public Game(StateManager stateManager, int slot) {
         this.stateManager = stateManager;
 
-        player = new Player();
+        this.slot = slot;
+        shouldSave = slot >= 0;
+        if(shouldSave) {
+            savePath = paths[slot];
+        }
+
+        player = new Player(slot >= 0 ? savePath : "Player", this);
 
         levels[LEVEL_ONE.ordinal()] = new LevelOne(this, player);
         levels[LEVEL_TWO.ordinal()] = new LevelTwo(this, player);
@@ -66,6 +77,14 @@ public class Game implements KeyListener {
             case COUNT_LEVEL -> null;
             case NONE -> null;
         };
+    }
+
+    public void kill() {
+        for(Level level : levels) {
+            level.kill();
+        }
+
+        player.kill();
     }
 
 

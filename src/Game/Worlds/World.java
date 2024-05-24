@@ -154,6 +154,33 @@ public abstract class World implements KeyListener {
     public void close() {
 
     }
+
+    public void kill() {
+        for(Switch switcher : switches) {
+            switcher.kill();
+        }
+
+        for(Mechanism mechanism : mechanisms) {
+            mechanism.kill();
+        }
+
+        for(GameObject gameObject : gameObjects) {
+            gameObject.kill();
+        }
+
+        for(Projectile projectile : projectiles) {
+            projectile.kill();
+        }
+
+        for(Weapon droppedWeapon : droppedWeapons) {
+            droppedWeapon.kill();
+        }
+
+        for(Entity entity : entities) {
+            entity.kill();
+        }
+    }
+
     public void keyTyped(KeyEvent e) {
         if(player == null) {
             return;
