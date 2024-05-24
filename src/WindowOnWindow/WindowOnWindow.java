@@ -31,7 +31,7 @@ public class WindowOnWindow {
                 break;
             }
 
-            Thread.sleep(10);
+            Thread.sleep(1);
 
             time = currentTime;
         }

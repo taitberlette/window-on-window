@@ -59,13 +59,13 @@ public class Player extends Entity implements KeyListener {
 
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_UP && onGround) {
-            velocityY = 7;
+            velocityY = 400;
         }
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            velocityX = -5;
+            velocityX = -200;
         }
         if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            velocityX = 5;
+            velocityX = 200;
         }
     }
 

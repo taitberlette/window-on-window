@@ -109,7 +109,7 @@ public abstract class World implements KeyListener {
         }
 
         if(stairs) {
-            return CollisionType.LADDER;
+            return CollisionType.STAIRS;
         }
 
         return CollisionType.NONE;
