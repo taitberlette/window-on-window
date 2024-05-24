@@ -1,5 +1,6 @@
 package States;
 
+import WindowOnWindow.WindowOnWindow;
 import Windows.ButtonWindow;
 
 import java.awt.*;
@@ -12,15 +13,16 @@ public class PauseState extends State {
     public PauseState(StateManager stateManager) {
         super(stateManager);
 
-        int width = 1920;
-        int middle = width / 2;
+        Dimension screen = WindowOnWindow.getMonitorSize();
+        int buttonHeight = (int) (screen.getHeight() - 400);
+        int middle = (int) (screen.getWidth() / 2);
         int buttonWidth = 344;
 
-        int padding = 128;
+        int padding = 64;
 
-        reset = new ButtonWindow("reset", "Reset your save", new Point(middle - (buttonWidth / 2) - padding - buttonWidth, 625));
-        resume = new ButtonWindow("resume", "Resume the game", new Point(middle - (buttonWidth / 2), 625));
-        home = new ButtonWindow("home", "Return to home", new Point(middle + (buttonWidth / 2) + padding, 625));
+        reset = new ButtonWindow("reset", "Reset your save", new Point(middle - (buttonWidth / 2) - padding - buttonWidth, buttonHeight));
+        resume = new ButtonWindow("resume", "Resume the game", new Point(middle - (buttonWidth / 2), buttonHeight));
+        home = new ButtonWindow("home", "Return to home", new Point(middle + (buttonWidth / 2) + padding, buttonHeight));
 
     }
 

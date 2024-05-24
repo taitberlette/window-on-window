@@ -1,5 +1,6 @@
 package States;
 
+import WindowOnWindow.WindowOnWindow;
 import Windows.ButtonWindow;
 import Windows.TextboxWindow;
 
@@ -20,6 +21,7 @@ public class SlotState extends State {
         title = new TextboxWindow[titleText.length];
 
 
+
         int offset = 0;
 
         for(int i = 0; i < title.length; i++) {
@@ -27,18 +29,19 @@ public class SlotState extends State {
             offset += (title[i].getWidth() - 20);
         }
 
-        int width = 1920;
-        int middle = width / 2;
+        Dimension screen = WindowOnWindow.getMonitorSize();
+        int buttonHeight = (int) (screen.getHeight() - 400);
+        int middle = (int) (screen.getWidth() / 2);
         int buttonWidth = 344;
-        int padding = 128;
+        int padding = 64;
 
         games = new ButtonWindow[gameNames.length];
 
         for(int i = 0; i < games.length; i++) {
-            games[i] = new ButtonWindow(gameNames[i], String.format("Game slot %s", numberNames[i]), new Point((middle - (buttonWidth / 2) - padding - buttonWidth) + (i * (padding + buttonWidth)), 625));
+            games[i] = new ButtonWindow(gameNames[i], String.format("Game slot %s", numberNames[i]), new Point((middle - (buttonWidth / 2) - padding - buttonWidth) + (i * (padding + buttonWidth)), buttonHeight));
         }
 
-        homeButton = new ButtonWindow("home", "Back to main menu", new Point((middle - (buttonWidth / 2)), 815));
+        homeButton = new ButtonWindow("home", "Back to main menu", new Point((middle - (buttonWidth / 2)), (int) (screen.getHeight() - 200)));
     }
 
     public void open() {

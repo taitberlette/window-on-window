@@ -1,7 +1,9 @@
 package States;
 
+import WindowOnWindow.WindowOnWindow;
 import Windows.ButtonWindow;
 import Windows.TextboxWindow;
+import Windows.WorldWindow;
 
 import java.awt.*;
 
@@ -26,16 +28,17 @@ public class HomeState extends State {
             offset += (title[i].getWidth() - 20);
         }
 
-        int width = 1920;
-        int middle = width / 2;
+        Dimension screen = WindowOnWindow.getMonitorSize();
+        int buttonHeight = (int) (screen.getHeight() - 400);
+        int middle = (int) (screen.getWidth() / 2);
         int buttonWidth = 344;
 
-        int padding = 128;
+        int padding = 64;
 
 
-        tutorialButton = new ButtonWindow("tutorial", "Learn how to play", new Point(middle - (buttonWidth / 2) - padding - buttonWidth, 625));
-        loadButton = new ButtonWindow("load", "Select game slot", new Point(middle - (buttonWidth / 2), 625));
-        closeButton = new ButtonWindow("close", "Close the game", new Point(middle + (buttonWidth / 2) + padding, 625));
+        tutorialButton = new ButtonWindow("tutorial", "Learn how to play", new Point(middle - (buttonWidth / 2) - padding - buttonWidth, buttonHeight));
+        loadButton = new ButtonWindow("load", "Select game slot", new Point(middle - (buttonWidth / 2), buttonHeight));
+        closeButton = new ButtonWindow("close", "Close the game", new Point(middle + (buttonWidth / 2) + padding, buttonHeight));
     }
 
     public void open() {

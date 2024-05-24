@@ -72,4 +72,13 @@ public class WindowOnWindow {
     public static Font getTextFont() {
         return textFont;
     }
+
+    public static Dimension getMonitorSize() {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+
+        return new Dimension(width, height);
+    }
+
 }
