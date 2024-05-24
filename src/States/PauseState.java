@@ -31,16 +31,24 @@ public class PauseState extends State {
 //            checkpoints[i].setVisible(true);
         }
 
+        reset.setVisible(true);
         resume.setVisible(true);
         home.setVisible(true);
     }
 
     public void close() {
+        reset.setVisible(false);
         resume.setVisible(false);
         home.setVisible(false);
     }
 
     public void update(long deltaTime) {
+        if(reset.wasClicked()) {
+            reset.resetClicked();
+
+            stateManager.pushState(StateName.STATE_RESET);
+        }
+
         if(resume.wasClicked()) {
             resume.resetClicked();
 

@@ -10,11 +10,18 @@ import java.awt.event.KeyListener;
 public abstract class Panel extends JPanel {
     protected View view;
     protected String title;
+    protected boolean drawTitleBar;
 
     protected final int TITLE_BAR_HEIGHT = 30;
 
+    public Panel(String title, boolean drawTitleBar) {
+        this.title = title;
+        this.drawTitleBar = drawTitleBar;
+    }
+
     public Panel(String title) {
         this.title = title;
+        drawTitleBar = true;
     }
 
     public void update(long deltaTime) {
@@ -32,20 +39,22 @@ public abstract class Panel extends JPanel {
 
         Dimension size = getSize();
 
-        graphics2D.setColor(Color.LIGHT_GRAY);
-        graphics2D.fillRect(0, 0, (int) size.getWidth(), TITLE_BAR_HEIGHT);
+        if(drawTitleBar) {
+            graphics2D.setColor(Color.LIGHT_GRAY);
+            graphics2D.fillRect(0, 0, (int) size.getWidth(), TITLE_BAR_HEIGHT);
 
-        Font font = WindowOnWindow.getTitleFont();
+            Font font = WindowOnWindow.getTitleFont();
 
-        graphics2D.setColor(Color.BLACK);
-        graphics2D.setFont(font);
+            graphics2D.setColor(Color.BLACK);
+            graphics2D.setFont(font);
 
-        int yPosition = (TITLE_BAR_HEIGHT + 15) / 2;
+            int yPosition = (TITLE_BAR_HEIGHT + 15) / 2;
 
-        graphics2D.drawString(title, 10, yPosition);
-        graphics2D.drawString("x", (int) (size.getWidth() - 20), yPosition);
+            graphics2D.drawString(title, 10, yPosition);
+            graphics2D.drawString("x", (int) (size.getWidth() - 20), yPosition);
 
-        graphics2D.setClip(0, TITLE_BAR_HEIGHT, (int) size.getWidth(), (int) (size.getHeight() - TITLE_BAR_HEIGHT));
+            graphics2D.setClip(0, TITLE_BAR_HEIGHT, (int) size.getWidth(), (int) (size.getHeight() - TITLE_BAR_HEIGHT));
+        }
 
         draw(graphics2D, size);
 
@@ -61,5 +70,9 @@ public abstract class Panel extends JPanel {
 
     public void setKeyListener(KeyListener keyListener) {
         view.setListener(keyListener);
+    }
+
+    public View getView() {
+        return view;
     }
 }

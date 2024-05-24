@@ -53,10 +53,6 @@ public class WorldWindow extends Panel {
         return target;
     }
 
-    public View getView() {
-        return view;
-    }
-
     public World getWorld() {
         return world;
     }
