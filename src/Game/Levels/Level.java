@@ -113,6 +113,10 @@ public abstract class Level implements KeyListener {
             worldWindow.setTarget(player);
             currentWindow.setTarget(null);
 
+            Point currentPosition = currentWindow.getView().getFrame().getLocation();
+            currentWindow.getView().getFrame().setLocation(worldWindow.getView().getFrame().getLocation());
+            worldWindow.getView().getFrame().setLocation(currentPosition);
+
             switchWorld.addEntity(player);
             currentWorld.removeEntity(player);
 
