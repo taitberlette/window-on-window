@@ -26,27 +26,27 @@ public class WorldWindow extends Panel {
     }
 
     protected void draw(Graphics2D graphics2D, Dimension size) {
+        Point position = view.getLocation();
+
+        if(target != null) {
+            Point targetPosition = target.getLocation();
+            position = new Point((int) (targetPosition.getX() - (size.getWidth() / 2)), (int) (targetPosition.getY() - (size.getHeight() / 2)));
+            view.setLocation(position);
+        } else {
+            position = view.getLocation();
+        }
 
         double scale = WindowOnWindow.getScale();
         Dimension rendering = WindowOnWindow.getRenderingSize();
 
         BufferedImage image = new BufferedImage((int) rendering.getWidth(), (int) rendering.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 
-        Point position = view.getLocation();
-
         this.world.draw((Graphics2D) image.getGraphics());
 
-        graphics2D.drawImage((Image) image, (int) (-position.getX() * scale), (int) ((-position.getY() + TITLE_BAR_HEIGHT) * scale), (int) (rendering.getWidth() * scale), (int) (rendering.getHeight() * scale), null);
+        graphics2D.drawImage(image, (int) (-position.getX() * scale), (int) ((-position.getY() + TITLE_BAR_HEIGHT) * scale), (int) (rendering.getWidth() * scale), (int) (rendering.getHeight() * scale), null);
     }
 
     public void update(long deltaTime) {
-        if(target != null) {
-            Point targetPosition = target.getLocation();
-            Dimension size = view.getSize();
-
-            view.setLocation(new Point((int) (targetPosition.getX() - (size.getWidth() / 2)), (int) (targetPosition.getY() - (size.getHeight() / 2))));
-        }
-
         view.update(deltaTime);
     }
 
