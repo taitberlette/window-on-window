@@ -32,8 +32,8 @@ public abstract class World implements KeyListener {
     protected LinkedList<Weapon> droppedWeapons = new LinkedList<>();
 
     protected LinkedList<Entity> entities = new LinkedList<>();
-    protected LinkedList<Entity> addEntities = new LinkedList<>();
-    protected LinkedList<Entity> removeEntities = new LinkedList<>();
+    protected LinkedList<GameObject> addGameObjects = new LinkedList<>();
+    protected LinkedList<GameObject> removeGameObjects = new LinkedList<>();
 
     protected String levelPath;
 
@@ -68,24 +68,52 @@ public abstract class World implements KeyListener {
             entity.update(deltaTime);
         }
 
-        entities.addAll(addEntities);
-        entities.removeAll(removeEntities);
+        for(GameObject gameObject : addGameObjects) {
+            if(gameObject instanceof Switch) {
+                switches.add((Switch) gameObject);
+            } else if(gameObject instanceof Mechanism) {
+                mechanisms.add((Mechanism) gameObject);
+            } else if(gameObject instanceof Projectile) {
+                projectiles.add((Projectile) gameObject);
+            } else if(gameObject instanceof Weapon) {
+                droppedWeapons.add((Weapon) gameObject);
+            } else if(gameObject instanceof Entity) {
+                entities.add((Entity) gameObject);
+            } else {
+                gameObjects.add(gameObject);
+            }
+        }
+        addGameObjects.clear();
 
-        addEntities.clear();
-        removeEntities.clear();
+        for(GameObject gameObject : removeGameObjects) {
+            if(gameObject instanceof Switch) {
+                switches.remove((Switch) gameObject);
+            } else if(gameObject instanceof Mechanism) {
+                mechanisms.remove((Mechanism) gameObject);
+            } else if(gameObject instanceof Projectile) {
+                projectiles.remove((Projectile) gameObject);
+            } else if(gameObject instanceof Weapon) {
+                droppedWeapons.remove((Weapon) gameObject);
+            } else if(gameObject instanceof Entity) {
+                entities.remove((Entity) gameObject);
+            } else {
+                gameObjects.remove(gameObject);
+            }
+        }
+        removeGameObjects.clear();
     }
 
-    public void addEntity(Entity entity) {
-        addEntities.add(entity);
+    public void addGameObject(GameObject gameObject) {
+        addGameObjects.add(gameObject);
 
-        if(entity instanceof Player) {
-            player = (Player) entity;
+        if(gameObject instanceof Player) {
+            player = (Player) gameObject;
         }
     }
 
-    public void removeEntity(Entity entity) {
-        removeEntities.add(entity);
-        if(entity instanceof Player) {
+    public void removeGameObject(GameObject gameObject) {
+        removeGameObjects.add(gameObject);
+        if(gameObject instanceof Player) {
             player = null;
         }
     }

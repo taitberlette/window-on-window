@@ -120,13 +120,13 @@ public abstract class Level implements KeyListener {
                 Point feet = new Point(player.getLocation());
                 feet.translate(0, (int) player.getSize().getHeight() / 2);
 
-                switchWorld.addEntity(player);
-                currentWorld.removeEntity(player);
-
                 if(switchWorld.checkCollision(feet) != CollisionType.NONE) {
                     continue;
                 }
 
+                switchWorld.addGameObject(player);
+                currentWorld.removeGameObject(player);
+                
                 player.setWorld(switchWorld);
             }
 
