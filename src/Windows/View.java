@@ -4,10 +4,7 @@ import WindowOnWindow.WindowOnWindow;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 public class View {
     private JFrame frame;
@@ -23,6 +20,7 @@ public class View {
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setFocusable(true);
         frame.setAlwaysOnTop(true);
+
 
         setSize(size);
     }

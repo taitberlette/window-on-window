@@ -1,6 +1,8 @@
 package Windows;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -23,6 +25,16 @@ public class WorldWindow extends Panel {
         this.view = new View(defaultDimension, this);
 
         this.world = world;
+
+        this.view.getFrame().addComponentListener(new ComponentAdapter()
+        {
+
+            @Override
+            public void componentMoved(ComponentEvent e)
+            {
+                view.update(0);
+            }
+        });
     }
 
     protected void draw(Graphics2D graphics2D, Dimension size) {
@@ -31,7 +43,6 @@ public class WorldWindow extends Panel {
         if(target != null) {
             Point targetPosition = target.getLocation();
             position = new Point((int) (targetPosition.getX() - (defaultDimension.getWidth() / 2)), (int) (targetPosition.getY() - (defaultDimension.getHeight() / 2)));
-            view.setLocation(position);
         } else {
             position = view.getLocation();
         }
@@ -39,15 +50,23 @@ public class WorldWindow extends Panel {
         double scale = WindowOnWindow.getScale();
         Dimension rendering = WindowOnWindow.getRenderingSize();
 
-        BufferedImage image = new BufferedImage((int) rendering.getWidth(), (int) rendering.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+        BufferedImage image = new BufferedImage((int) rendering.getWidth(), (int) rendering.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 
-        this.world.draw((Graphics2D) image.getGraphics());
+        Graphics2D worldGraphics2D = (Graphics2D) image.getGraphics();
+        worldGraphics2D.setClip((int) (position.getX() * scale), (int) ((position.getY()) * scale), (int) (rendering.getWidth() * scale), (int) (rendering.getHeight() * scale));
+        this.world.draw(worldGraphics2D);
 
         graphics2D.drawImage(image, (int) (-position.getX() * scale), (int) ((-position.getY() + TITLE_BAR_HEIGHT) * scale), (int) (rendering.getWidth() * scale), (int) (rendering.getHeight() * scale), null);
     }
 
     public void update(long deltaTime) {
-        view.update(deltaTime);
+        if(target != null) {
+            Point targetPosition = target.getLocation();
+            Point position = new Point((int) (targetPosition.getX() - (defaultDimension.getWidth() / 2)), (int) (targetPosition.getY() - (defaultDimension.getHeight() / 2)));
+            view.setLocation(position);
+        } else {
+            view.update(deltaTime);
+        }
     }
 
     public void setTarget(GameObject target) {
