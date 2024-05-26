@@ -9,7 +9,7 @@ public class BlurredWindow extends Panel {
     public BlurredWindow() {
         super("", false);
 
-        this.view = new View(WindowOnWindow.getMonitorSize(), this);
+        this.view = new View(WindowOnWindow.getRenderingSize(), this);
         this.view.setLocation(new Point(0, 0));
 
         JFrame frame = this.view.getFrame();
@@ -19,7 +19,5 @@ public class BlurredWindow extends Panel {
     protected void draw(Graphics2D graphics2D, Dimension size) {
         graphics2D.setColor(Color.DARK_GRAY);
         graphics2D.fillRect(0, 0, (int) WindowOnWindow.getMonitorSize().getWidth(), (int) WindowOnWindow.getMonitorSize().getHeight());
-
-        System.out.println("DRAW THE BLURRE DWINDOW");
     }
 }

@@ -28,7 +28,7 @@ public class HomeState extends State {
             offset += (title[i].getWidth() - 20);
         }
 
-        Dimension screen = WindowOnWindow.getMonitorSize();
+        Dimension screen = WindowOnWindow.getRenderingSize();
         int buttonHeight = (int) (screen.getHeight() - 400);
         int middle = (int) (screen.getWidth() / 2);
         int buttonWidth = 344;

@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import Game.GameObjects.GameObject;
 import Game.Worlds.TerraWorld;
 import Game.Worlds.World;
+import WindowOnWindow.WindowOnWindow;
 
 public class WorldWindow extends Panel {
     private World world;
@@ -25,13 +26,17 @@ public class WorldWindow extends Panel {
     }
 
     protected void draw(Graphics2D graphics2D, Dimension size) {
-        BufferedImage image = new BufferedImage(1920, 1080, BufferedImage.TYPE_4BYTE_ABGR);
+
+        double scale = WindowOnWindow.getScale();
+        Dimension rendering = WindowOnWindow.getRenderingSize();
+
+        BufferedImage image = new BufferedImage((int) rendering.getWidth(), (int) rendering.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 
         Point position = view.getLocation();
 
         this.world.draw((Graphics2D) image.getGraphics());
 
-        graphics2D.drawImage((Image) image, (int) -position.getX(), (int) -position.getY() + TITLE_BAR_HEIGHT, (int) 1920, (int) 1080, null);
+        graphics2D.drawImage((Image) image, (int) (-position.getX() * scale), (int) ((-position.getY() + TITLE_BAR_HEIGHT) * scale), (int) (rendering.getWidth() * scale), (int) (rendering.getHeight() * scale), null);
     }
 
     public void update(long deltaTime) {

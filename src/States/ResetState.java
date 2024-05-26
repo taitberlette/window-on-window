@@ -22,7 +22,7 @@ public class ResetState extends State {
 
         title = new TextboxWindow("are you sure", new Point(782, 234));
 
-        Dimension screen = WindowOnWindow.getMonitorSize();
+        Dimension screen = WindowOnWindow.getRenderingSize();
         int buttonHeight = (int) (screen.getHeight() - 400);
         int middle = (int) (screen.getWidth() / 2);
         int buttonWidth = 344;

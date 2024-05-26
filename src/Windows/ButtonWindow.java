@@ -21,6 +21,8 @@ public class ButtonWindow extends Panel implements MouseListener {
     }
 
     public void draw(Graphics2D graphics2D, Dimension size) {
+        double scale = WindowOnWindow.getScale();
+
         Font font = WindowOnWindow.getTextFont();
 
         graphics2D.setColor(Color.BLACK);
@@ -30,7 +32,7 @@ public class ButtonWindow extends Panel implements MouseListener {
 
         int textWidth = fontMetrics.stringWidth(text);
 
-        graphics2D.drawString(text, (int) ((size.getWidth() - textWidth) / 2), (int) ((size.getHeight() - (TITLE_BAR_HEIGHT / 2)) / 2) + TITLE_BAR_HEIGHT);
+        graphics2D.drawString(text, (int) (((size.getWidth()) - textWidth) / 2), (int) ((int) (((size.getHeight()) - ((TITLE_BAR_HEIGHT * scale) / 2)) / 2) + (TITLE_BAR_HEIGHT * scale)));
     }
 
     public boolean wasClicked() {

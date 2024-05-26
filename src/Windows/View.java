@@ -1,5 +1,7 @@
 package Windows;
 
+import WindowOnWindow.WindowOnWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
@@ -18,10 +20,11 @@ public class View {
         frame.add(panel);
         frame.setUndecorated(true);
         frame.setResizable(false);
-        frame.setSize((int) size.getWidth(), (int) size.getHeight());
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setFocusable(true);
         frame.setAlwaysOnTop(true);
+
+        setSize(size);
     }
 
     public void update(long deltaTime) {
@@ -29,23 +32,32 @@ public class View {
     }
 
     public void setSize(Dimension dimension) {
-        frame.setSize(dimension);
+        double scale = WindowOnWindow.getScale();
+        Dimension scaled = new Dimension((int) (dimension.getWidth() * scale), (int) (dimension.getHeight() * scale));
+        frame.setSize(scaled);
     }
 
     public Dimension getSize() {
-        return frame.getSize();
+        double scale = WindowOnWindow.getScale();
+        Dimension scaled = frame.getSize();
+        return new Dimension((int) (scaled.getWidth() / scale), (int) (scaled.getHeight() / scale));
     }
 
     public void setLocation(Point point) {
-        frame.setLocation(point);
+        double scale = WindowOnWindow.getScale();
+        Point scaled = new Point((int) (point.getX() * scale), (int) (point.getY() * scale));
+        frame.setLocation(scaled);
     }
 
     public void setLocation(int x, int y) {
-        frame.setLocation(x, y);
+        double scale = WindowOnWindow.getScale();
+        frame.setLocation((int) (x * scale), (int) (y * scale));
     }
 
     public Point getLocation() {
-        return frame.getLocation();
+        double scale = WindowOnWindow.getScale();
+        Point scaled = frame.getLocation();
+        return new Point((int) (scaled.getX() / scale), (int) (scaled.getY() / scale));
     }
 
     public void setVisible(boolean visible) {

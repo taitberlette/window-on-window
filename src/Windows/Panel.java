@@ -40,20 +40,22 @@ public abstract class Panel extends JPanel {
         Dimension size = getSize();
 
         if(drawTitleBar) {
+            double scale = WindowOnWindow.getScale();
+
             graphics2D.setColor(Color.LIGHT_GRAY);
-            graphics2D.fillRect(0, 0, (int) size.getWidth(), TITLE_BAR_HEIGHT);
+            graphics2D.fillRect(0, 0, (int) ((int) size.getWidth()), (int) (TITLE_BAR_HEIGHT * scale));
 
             Font font = WindowOnWindow.getTitleFont();
 
             graphics2D.setColor(Color.BLACK);
             graphics2D.setFont(font);
 
-            int yPosition = (TITLE_BAR_HEIGHT + 15) / 2;
+            int yPosition = (int) ((((TITLE_BAR_HEIGHT + 15) * scale) / 2));
 
-            graphics2D.drawString(title, 10, yPosition);
-            graphics2D.drawString("x", (int) (size.getWidth() - 20), yPosition);
+            graphics2D.drawString(title, (int) (10 * scale), yPosition);
+            graphics2D.drawString("x", (int) (((int) ((size.getWidth()) - (20 * scale)))), yPosition);
 
-            graphics2D.setClip(0, TITLE_BAR_HEIGHT, (int) size.getWidth(), (int) (size.getHeight() - TITLE_BAR_HEIGHT));
+            graphics2D.setClip(0, (int) ((TITLE_BAR_HEIGHT) * scale), (int) (((int) size.getWidth())), (int) ((int) (size.getHeight() - (TITLE_BAR_HEIGHT * scale))));
         }
 
         draw(graphics2D, size);

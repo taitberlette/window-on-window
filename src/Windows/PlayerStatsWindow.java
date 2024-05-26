@@ -58,49 +58,51 @@ public class PlayerStatsWindow extends Panel {
     }
 
     protected void draw(Graphics2D graphics2D, Dimension size) {
+        double scale = WindowOnWindow.getScale();
+
         // draw health bar
         graphics2D.setColor(healthBarBackground);
-        graphics2D.fillRect(18, 48, 352, 27);
+        graphics2D.fillRect((int)(18 * scale), (int)(48 * scale), (int)(352 * scale), (int)(27 * scale));
 
         double percentHealth = (double) player.getHealth() / player.getMaxHealth();
 
         graphics2D.setColor(healthBar);
-        graphics2D.fillRect(18, 48, (int) (352 * percentHealth), 27);
+        graphics2D.fillRect((int)(18 * scale), (int)(48 * scale), (int) (352 * percentHealth * scale), (int)(27 * scale));
 
         BufferedImage heartType = photosynthesisSkill.wasUnlocked() ? photosynthesisHeartImage : heartImage;
-        graphics2D.drawImage(heartType, 347, 53, 16, 16, null);
+        graphics2D.drawImage(heartType, (int)(347 * scale), (int)(53 * scale), (int)(16 * scale), (int)(16 * scale), null);
 
 
 
         // draw fast legs bar
         graphics2D.setColor(fastLegsBarBackground);
-        graphics2D.fillRect(18, 84, 172, 27);
+        graphics2D.fillRect((int)(18 * scale), (int)(84 * scale), (int)(172 * scale), (int)(27 * scale));
 
         double percentFastLegsCooldown = (double) fastLegsSkill.getCooldown() / fastLegsSkill.getCooldownLength();
 
         graphics2D.setColor(fastLegsBar);
-        graphics2D.fillRect(18, 84, (int) (172 * percentFastLegsCooldown), 27);
+        graphics2D.fillRect((int)(18 * scale), (int)(84 * scale), (int) (172 * percentFastLegsCooldown * scale), (int)(27 * scale));
 
-        graphics2D.drawImage(fastLegsImage, 170, 90, 16, 16, null);
+        graphics2D.drawImage(fastLegsImage, (int)(170 * scale), (int)(90 * scale), (int)(16 * scale), (int)(16 * scale), null);
 
 
         // draw tunnel vision bar
         graphics2D.setColor(tunnelVisionBarBackground);
-        graphics2D.fillRect(198, 84, 172, 27);
+        graphics2D.fillRect((int)(198 * scale), (int)(84 * scale), (int)(172 * scale), (int)(27 * scale));
 
         double percentTunnelVisionCooldown = (double) tunnelVisionSkill.getCooldown() / tunnelVisionSkill.getCooldownLength();
 
         graphics2D.setColor(tunnelVisionBar);
-        graphics2D.fillRect(198, 84, (int) (172 * percentTunnelVisionCooldown), 27);
+        graphics2D.fillRect((int)(198 * scale), (int)(84 * scale), (int) (172 * percentTunnelVisionCooldown * scale), (int)(27 * scale));
 
-        graphics2D.drawImage(tunnelVisionImage, 350, 90, 16, 16, null);
+        graphics2D.drawImage(tunnelVisionImage, (int)(350 * scale), (int)(90 * scale), (int)(16 * scale), (int)(16 * scale), null);
     }
 
     public void update(long deltaTime) {
         super.update(deltaTime);
 
         Point playerPosition = player.getLocation();
-        Dimension monitor = WindowOnWindow.getMonitorSize();
+        Dimension monitor = WindowOnWindow.getRenderingSize();
 
         int xPosition = (int) ((monitor.getWidth() - defaultDimension.getWidth()) / 2);
         int yDistance = 25;
