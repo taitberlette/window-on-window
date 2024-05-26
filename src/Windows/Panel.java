@@ -74,6 +74,8 @@ public abstract class Panel extends JPanel {
         view.setVisible(visible);
     }
 
+    public boolean isVisible() { return view.isVisible(); }
+
     public void setKeyListener(KeyListener keyListener) {
         view.setListener(keyListener);
     }

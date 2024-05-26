@@ -3,8 +3,10 @@ package Game.GameObjects;
 import Game.Game;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class GameObject {
+public class GameObject implements KeyListener {
     protected Point position;
 
     public GameObject() {
@@ -28,6 +30,18 @@ public class GameObject {
     }
 
     public void kill() {
+
+    }
+
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    public void keyReleased(KeyEvent e) {
 
     }
 }

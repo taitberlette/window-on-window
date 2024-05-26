@@ -164,4 +164,12 @@ public abstract class Entity extends GameObject {
         super.setLocation(position);
         realPosition.setLocation(position);
     }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public World getWorld() {
+        return this.world;
+    }
 }

@@ -126,7 +126,7 @@ public abstract class Level implements KeyListener {
 
                 switchWorld.addGameObject(player);
                 currentWorld.removeGameObject(player);
-                
+
                 player.setWorld(switchWorld);
             }
 

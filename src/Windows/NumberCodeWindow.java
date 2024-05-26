@@ -57,7 +57,12 @@ public class NumberCodeWindow extends Panel {
 
         for(int i = 0; i < typedNumbers.length; i++) {
 
-            graphics2D.setColor(i < nextNumber ? Color.BLACK : Color.GRAY);
+            if(isCorrect()) {
+                graphics2D.setColor(Color.GREEN);
+            } else {
+                graphics2D.setColor(i < nextNumber ? Color.BLACK : Color.GRAY);
+            }
+
             graphics2D.drawString("" + typedNumbers[i], start + (i * charWidth), (int) ((int) (((size.getHeight()) - ((TITLE_BAR_HEIGHT * scale) / 2)) / 2) + (TITLE_BAR_HEIGHT * scale)));
 
             if(i == nextNumber) {

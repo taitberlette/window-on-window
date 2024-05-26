@@ -69,6 +69,10 @@ public class View {
         }
     }
 
+    public boolean isVisible() {
+        return frame.isVisible();
+    }
+
     public void setListener(KeyListener listener) {
         this.listener = listener;
     }

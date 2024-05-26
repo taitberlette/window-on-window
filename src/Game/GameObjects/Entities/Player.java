@@ -49,7 +49,6 @@ public class Player extends Entity implements KeyListener {
 
         position.setLocation(500, 500);
 
-
         try{
             terraImage = ImageIO.read(new File("res\\Player\\TerraPlayerIdol.png"));
             etherImage = ImageIO.read(new File("res\\Player\\EtherPlayerIdol.png"));
@@ -76,10 +75,6 @@ public class Player extends Entity implements KeyListener {
         BufferedImage image = world instanceof TerraWorld ? terraImage : etherImage;
 
         graphics2D.drawImage((Image) image, (int) position.getX() - 64,(int) position.getY() - 64, 128, 128, null);
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
     }
 
     public void kill() {

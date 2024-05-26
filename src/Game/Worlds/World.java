@@ -210,25 +210,81 @@ public abstract class World implements KeyListener {
     }
 
     public void keyTyped(KeyEvent e) {
-        if(player == null) {
-            return;
+        for(Switch switcher : switches) {
+            switcher.keyTyped(e);
         }
-        player.keyTyped(e);
+
+        for(Mechanism mechanism : mechanisms) {
+            mechanism.keyTyped(e);
+        }
+
+        for(GameObject gameObject : gameObjects) {
+            gameObject.keyTyped(e);
+        }
+
+        for(Projectile projectile : projectiles) {
+            projectile.keyTyped(e);
+        }
+
+        for(Weapon droppedWeapon : droppedWeapons) {
+            droppedWeapon.keyTyped(e);
+        }
+
+        for(Entity entity : entities) {
+            entity.keyTyped(e);
+        }
     }
 
     public void keyPressed(KeyEvent e) {
-
-        if(player == null) {
-            return;
+        for(Switch switcher : switches) {
+            switcher.keyPressed(e);
         }
-        player.keyPressed(e);
+
+        for(Mechanism mechanism : mechanisms) {
+            mechanism.keyPressed(e);
+        }
+
+        for(GameObject gameObject : gameObjects) {
+            gameObject.keyPressed(e);
+        }
+
+        for(Projectile projectile : projectiles) {
+            projectile.keyPressed(e);
+        }
+
+        for(Weapon droppedWeapon : droppedWeapons) {
+            droppedWeapon.keyPressed(e);
+        }
+
+        for(Entity entity : entities) {
+            entity.keyPressed(e);
+        }
     }
 
     public void keyReleased(KeyEvent e) {
-        if(player == null) {
-            return;
+        for(Switch switcher : switches) {
+            switcher.keyReleased(e);
         }
-        player.keyReleased(e);
+
+        for(Mechanism mechanism : mechanisms) {
+            mechanism.keyReleased(e);
+        }
+
+        for(GameObject gameObject : gameObjects) {
+            gameObject.keyReleased(e);
+        }
+
+        for(Projectile projectile : projectiles) {
+            projectile.keyReleased(e);
+        }
+
+        for(Weapon droppedWeapon : droppedWeapons) {
+            droppedWeapon.keyReleased(e);
+        }
+
+        for(Entity entity : entities) {
+            entity.keyReleased(e);
+        }
     }
 
 }
