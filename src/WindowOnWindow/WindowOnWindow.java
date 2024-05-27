@@ -29,8 +29,6 @@ public class WindowOnWindow {
 
             stateManager.update(currentTime - time);
 
-            System.out.println(currentTime - time);
-
             if(stateManager.isEmpty()) {
                 break;
             }
