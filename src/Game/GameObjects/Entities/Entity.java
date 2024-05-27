@@ -48,7 +48,7 @@ public abstract class Entity extends GameObject {
             int height = 0;
 
             // update "real" position using delta time
-            double verticalAutoMovement = (200 * ((double) deltaTime / 1000));
+            double verticalAutoMovement = (200 * ((double) deltaTime / 1000000000));
             realPosition.setLocation(realPosition.getX(), realPosition.getY() - verticalAutoMovement);
 
             int testHeight = (int) (position.getY() - realPosition.getY());
@@ -86,8 +86,8 @@ public abstract class Entity extends GameObject {
 
 
             // update velocity and "real" position using delta time
-            velocityY += gravityAcceleration * ((double) deltaTime / 1000);
-            double verticalMovement = (velocityY * ((double) deltaTime / 1000));
+            velocityY += gravityAcceleration * ((double) deltaTime / 1000000000);
+            double verticalMovement = (velocityY * ((double) deltaTime / 1000000000));
             realPosition.setLocation(realPosition.getX(), realPosition.getY() - verticalMovement);
 
             // figure out how far we need to go for game position to reach real position
@@ -124,7 +124,7 @@ public abstract class Entity extends GameObject {
         }
         
         // update "real" position using delta time
-        double horizontalMovement = (velocityX * ((double) deltaTime / 1000));
+        double horizontalMovement = (velocityX * ((double) deltaTime / 1000000000));
         realPosition.setLocation(realPosition.getX() + horizontalMovement, realPosition.getY());
 
         // figure out how far we need to go for game position to reach real position

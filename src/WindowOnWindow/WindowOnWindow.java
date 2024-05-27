@@ -22,18 +22,18 @@ public class WindowOnWindow {
 
         StateManager stateManager = new StateManager();
 
-        long time = System.currentTimeMillis();
+        long time = System.nanoTime();
 
         while(true) {
-            long currentTime = System.currentTimeMillis();
+            long currentTime = System.nanoTime();
 
             stateManager.update(currentTime - time);
+
+            System.out.println(currentTime - time);
 
             if(stateManager.isEmpty()) {
                 break;
             }
-
-            Thread.sleep(1);
 
             time = currentTime;
         }
