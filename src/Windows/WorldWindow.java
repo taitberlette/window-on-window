@@ -63,7 +63,11 @@ public class WorldWindow extends Panel {
         if(target != null) {
             Point targetPosition = target.getLocation();
             Point position = new Point((int) (targetPosition.getX() - (defaultDimension.getWidth() / 2)), (int) (targetPosition.getY() - (defaultDimension.getHeight() / 2)));
-            view.setLocation(position);
+            if(position.equals(view.getLocation())) {
+                view.update(deltaTime);
+            } else {
+                view.setLocation(position);
+            }
         } else {
             view.update(deltaTime);
         }
