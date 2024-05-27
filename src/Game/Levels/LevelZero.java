@@ -39,6 +39,13 @@ public class LevelZero extends Level {
         etherWorldWindow.setKeyListener(game);
         etherWorldWindow.setLocation(new Point(911, 674));
         worldWindows.add(etherWorldWindow);
+
+        HellHound hellHound = new HellHound();
+        hellHound.setWorld(etherWorld);
+        hellHound.setPlayer(player);
+        hellHound.setLocation(new Point(562, 764));
+        etherWorld.addGameObject(hellHound);
+
     }
 
     public void update(long deltaTime) {

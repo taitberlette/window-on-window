@@ -44,10 +44,10 @@ public class Player extends Entity implements KeyListener {
     private Skill fastLegsSkill;
     private Skill tunnelVisionSkill;
 
-    private HorizontalDirection lastDirection;
-
     public Player(String name, Game game) {
         super(new Dimension(52, 128));
+
+        this.maxSpeed = 200;
 
         this.name = name;
         this.game = game;
@@ -94,9 +94,9 @@ public class Player extends Entity implements KeyListener {
 
         BufferedImage image = world instanceof TerraWorld ? terraImage : etherImage;
 
-        int offsetX = lastDirection == HorizontalDirection.RIGHT ? 128 : 0;
+        int offsetX = lastDirection == HorizontalDirection.RIGHT ? image.getWidth() : 0;
 
-        graphics2D.drawImage((Image) image, ((int) position.getX() - 64) + offsetX,(int) position.getY() - 64, 128 * (lastDirection == HorizontalDirection.RIGHT ? -1 : 1), 128, null);
+        graphics2D.drawImage((Image) image, ((int) position.getX() - image.getWidth() / 2) + offsetX,(int) position.getY() - image.getHeight() / 2, image.getWidth() * (lastDirection == HorizontalDirection.RIGHT ? -1 : 1), image.getHeight(), null);
 
         if(pocketKnife != null)  {
             pocketKnife.draw(graphics2D);
@@ -126,14 +126,14 @@ public class Player extends Entity implements KeyListener {
                 pocketKnife.cancel();
             }
             lastDirection = HorizontalDirection.LEFT;
-            velocityX = -200;
+            velocityX = -maxSpeed;
         }
         if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
             if(lastDirection == HorizontalDirection.LEFT && !pocketKnife.checkCooldown()) {
                 pocketKnife.cancel();
             }
             lastDirection = HorizontalDirection.RIGHT;
-            velocityX = 200;
+            velocityX = maxSpeed;
         }
     }
 

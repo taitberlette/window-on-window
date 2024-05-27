@@ -1,6 +1,7 @@
 package Game.GameObjects.Entities;
 
 import Game.GameObjects.GameObject;
+import Game.Utilities.HorizontalDirection;
 import Game.Worlds.CollisionType;
 import Game.Worlds.World;
 
@@ -12,6 +13,7 @@ public abstract class Entity extends GameObject {
     protected int health;
     protected int maxHealth;
     protected int maxSpeed;
+    protected HorizontalDirection lastDirection;
     protected double velocityX;
     protected double velocityY;
     protected double gravityAcceleration = -9.81 * 64;

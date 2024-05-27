@@ -4,6 +4,6 @@ import java.awt.*;
 
 public class SilverBack extends Enemy {
     public SilverBack(Dimension size) {
-        super(size);
+        super(size, 0, 0, 0, 0, 0);
     }
 }

@@ -24,7 +24,7 @@ public class PocketKnife extends Melee {
         super(20, 2, 0,52);
 
         try{
-            pocketKnifeImage = ImageIO.read(new File("res\\Weapons and Attacks\\PocketKnife.png"));
+            pocketKnifeImage = ImageIO.read(new File("res\\Enemies\\HellHound.png"));
         } catch (Exception e) {
             System.out.println("Failed to load images for the pocket knife!");
         }
