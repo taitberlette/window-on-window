@@ -26,7 +26,7 @@ public class PocketKnife extends Melee {
         try{
             pocketKnifeImage = ImageIO.read(new File("res\\Weapons and Attacks\\PocketKnife.png"));
         } catch (Exception e) {
-            System.out.println("Failed to load images for the player!");
+            System.out.println("Failed to load images for the pocket knife!");
         }
     }
 
