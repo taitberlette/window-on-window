@@ -1,5 +1,10 @@
 package Game.GameObjects.Entities;
 
+import Game.GameObjects.Objects.Box;
+import Game.GameObjects.Weapons.Melee.PocketKnife;
+import Game.GameObjects.Weapons.Shooter.BoneShooter;
+import Game.GameObjects.Weapons.Weapon;
+import Game.Utilities.HorizontalDirection;
 import Game.Utilities.Skill;
 import Game.Worlds.TerraWorld;
 import Game.Worlds.World;
@@ -29,15 +34,25 @@ public class Player extends Entity implements KeyListener {
     private String name;
     private Game game;
 
+    private PocketKnife pocketKnife;
+    private BoneShooter boneShooter;
+    private Weapon carryingWeapon;
+
+    private Box carryingBox;
+
     private Skill photosynthesisSkill;
     private Skill fastLegsSkill;
     private Skill tunnelVisionSkill;
+
+    private HorizontalDirection lastDirection;
 
     public Player(String name, Game game) {
         super(new Dimension(52, 128));
 
         this.name = name;
         this.game = game;
+
+        this.pocketKnife = new PocketKnife();
 
         this.photosynthesisSkill = new Skill();
         this.fastLegsSkill = new Skill();
@@ -62,6 +77,11 @@ public class Player extends Entity implements KeyListener {
     public void update(long deltaTime) {
         super.update(deltaTime);
 
+        if(pocketKnife != null) {
+            pocketKnife.setLocation(position);
+            pocketKnife.update(deltaTime);
+        }
+
         playerStatsWindow.update(deltaTime);
 
         this.health = (this.health + 1) % this.maxHealth;
@@ -74,7 +94,13 @@ public class Player extends Entity implements KeyListener {
 
         BufferedImage image = world instanceof TerraWorld ? terraImage : etherImage;
 
-        graphics2D.drawImage((Image) image, (int) position.getX() - 64,(int) position.getY() - 64, 128, 128, null);
+        int offsetX = lastDirection == HorizontalDirection.RIGHT ? 128 : 0;
+
+        graphics2D.drawImage((Image) image, ((int) position.getX() - 64) + offsetX,(int) position.getY() - 64, 128 * (lastDirection == HorizontalDirection.RIGHT ? -1 : 1), 128, null);
+
+        if(pocketKnife != null)  {
+            pocketKnife.draw(graphics2D);
+        }
     }
 
     public void kill() {
@@ -92,10 +118,21 @@ public class Player extends Entity implements KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_UP && onGround) {
             velocityY = 400;
         }
+        if(e.getKeyCode() == KeyEvent.VK_Q && pocketKnife != null && pocketKnife.checkCooldown()) {
+            pocketKnife.attack(lastDirection);
+        }
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+            if(lastDirection == HorizontalDirection.RIGHT && !pocketKnife.checkCooldown()) {
+                pocketKnife.cancel();
+            }
+            lastDirection = HorizontalDirection.LEFT;
             velocityX = -200;
         }
         if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            if(lastDirection == HorizontalDirection.LEFT && !pocketKnife.checkCooldown()) {
+                pocketKnife.cancel();
+            }
+            lastDirection = HorizontalDirection.RIGHT;
             velocityX = 200;
         }
     }
@@ -111,5 +148,13 @@ public class Player extends Entity implements KeyListener {
 
     public String getName() {
         return name;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+
+        if(this.pocketKnife != null) {
+            this.pocketKnife.setWorld(world);
+        }
     }
 }
