@@ -10,11 +10,13 @@ import Game.GameObjects.Projectiles.Projectile;
 import Game.GameObjects.Weapons.Weapon;
 import Game.Levels.Level;
 import Windows.WorldWindow;
+import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public abstract class World implements KeyListener {
@@ -172,6 +174,9 @@ public abstract class World implements KeyListener {
 
         for(Entity entity : entities) {
             entity.draw(graphics2D);
+
+            graphics2D.setColor(Color.RED);
+            graphics2D.draw(entity.getBounds());
         }
     }
 
@@ -181,6 +186,34 @@ public abstract class World implements KeyListener {
 
     public void close() {
 
+    }
+
+    public ArrayList<Entity> findEntities(Point point) {
+        ArrayList<Entity> collidingEntities = new ArrayList<>();
+
+        for(Entity entity : entities) {
+            Rectangle bounds = entity.getBounds();
+
+            if(bounds.contains(point)) {
+                collidingEntities.add(entity);
+            }
+        }
+
+        return collidingEntities;
+    }
+
+    public ArrayList<Entity> findEntities(Rectangle originalBounds) {
+        ArrayList<Entity> collidingEntities = new ArrayList<>();
+
+        for(Entity entity : entities) {
+            Rectangle bounds = entity.getBounds();
+
+            if(bounds.intersects(originalBounds)) {
+                collidingEntities.add(entity);
+            }
+        }
+
+        return collidingEntities;
     }
 
     public void kill() {

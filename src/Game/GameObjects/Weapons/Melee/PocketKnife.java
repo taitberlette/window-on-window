@@ -1,5 +1,7 @@
 package Game.GameObjects.Weapons.Melee;
 
+import Game.GameObjects.Entities.Enemies.Enemy;
+import Game.GameObjects.Entities.Entity;
 import Game.Utilities.HorizontalDirection;
 import Game.Worlds.World;
 
@@ -9,6 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class PocketKnife extends Melee {
     private BufferedImage pocketKnifeImage;
@@ -17,6 +20,7 @@ public class PocketKnife extends Melee {
     private HorizontalDirection attackDirection;
     private Point offset = new Point(0, 0);
     private boolean attacking = false;
+    private boolean hitSomething = false;
 
     private final long ATTACK_TIME = 1000;
 
@@ -24,7 +28,7 @@ public class PocketKnife extends Melee {
         super(20, 2, 0,52);
 
         try{
-            pocketKnifeImage = ImageIO.read(new File("res\\Enemies\\HellHound.png"));
+            pocketKnifeImage = ImageIO.read(new File("res\\Weapons and Attacks\\PocketKnife.png"));
         } catch (Exception e) {
             System.out.println("Failed to load images for the pocket knife!");
         }
@@ -45,6 +49,21 @@ public class PocketKnife extends Melee {
             } else {
                 offset.setLocation(multiplier * (reach - (reach * ((double) ((progress + ATTACK_TIME)) / ATTACK_TIME / 2))), 0);
             }
+
+            if(!hitSomething) {
+                int endOfKnife = (int) (position.getX() + offset.getX() + (attackDirection == HorizontalDirection.RIGHT ? 48 : - 48) - 1);
+                Point knife = new Point(endOfKnife, (int) position.getY());
+
+                ArrayList<Entity> entities = world.findEntities(knife);
+
+                for(Entity entity : entities) {
+                    if(entity instanceof Enemy enemy) {
+                        enemy.hurt(damage);
+                        hitSomething = true;
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -59,13 +78,18 @@ public class PocketKnife extends Melee {
             xOffset -= (32 + (52 / 2));
         }
 
+
         graphics2D.drawImage(pocketKnifeImage, (int) (position.getX() + offset.getX() + xOffset), (int) position.getY() - 16, 32 * (attackDirection == HorizontalDirection.RIGHT ? -1 : 1), 32, null);
+
+//        graphics2D.setColor(Color.BLUE);
+//        graphics2D.fillRect((int) (position.getX() + offset.getX() + (attackDirection == HorizontalDirection.RIGHT ? 48 : - 48) - 1), (int) (position.getY() - 1), 3, 3);
     }
 
     public void attack(HorizontalDirection attackDirection) {
         if(attackDirection == null || attackDirection == HorizontalDirection.NONE) return;
         this.attackDirection = attackDirection;
         startAttack = System.currentTimeMillis();
+        hitSomething = false;
     }
 
     public boolean checkCooldown() {

@@ -13,6 +13,7 @@ public class WindowOnWindow {
     private static Font font;
     private static Font titleFont;
     private static Font textFont;
+    private static Font statFont;
 
     private static final Dimension DEFAULT_SIZE = new Dimension(1920, 1080);
     private static final String FONT_PATH = "res/JetBrainsMono-Regular.ttf";
@@ -48,6 +49,7 @@ public class WindowOnWindow {
         try {
             font = Font.createFont(Font.TRUETYPE_FONT, new File(FONT_PATH));
             titleFont = font.deriveFont((float) (20f * fontScale));
+            statFont = font.deriveFont((float) (28f * fontScale));
             textFont = font.deriveFont((float) (36f * fontScale));
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             graphicsEnvironment.registerFont(font);
@@ -71,6 +73,8 @@ public class WindowOnWindow {
     public static Font getTitleFont() {
         return titleFont;
     }
+
+    public static Font getStatFont() { return statFont; }
 
     public static Font getTextFont() {
         return textFont;

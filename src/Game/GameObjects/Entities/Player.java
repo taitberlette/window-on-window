@@ -5,6 +5,7 @@ import Game.GameObjects.Weapons.Melee.PocketKnife;
 import Game.GameObjects.Weapons.Shooter.BoneShooter;
 import Game.GameObjects.Weapons.Weapon;
 import Game.Utilities.HorizontalDirection;
+import Game.Utilities.Inventory;
 import Game.Utilities.Skill;
 import Game.Worlds.TerraWorld;
 import Game.Worlds.World;
@@ -34,6 +35,8 @@ public class Player extends Entity implements KeyListener {
     private String name;
     private Game game;
 
+    private Inventory inventory;
+
     private PocketKnife pocketKnife;
     private BoneShooter boneShooter;
     private Weapon carryingWeapon;
@@ -47,10 +50,12 @@ public class Player extends Entity implements KeyListener {
     public Player(String name, Game game) {
         super(new Dimension(52, 128));
 
-        this.maxSpeed = 200;
+        this.maxSpeed = 300;
 
         this.name = name;
         this.game = game;
+
+        this.inventory = new Inventory();
 
         this.pocketKnife = new PocketKnife();
 
@@ -59,6 +64,7 @@ public class Player extends Entity implements KeyListener {
         this.tunnelVisionSkill = new Skill();
 
         this.maxHealth = 250;
+        this.health = 250;
 
         this.playerStatsWindow = new PlayerStatsWindow(name, this, game, photosynthesisSkill, fastLegsSkill, tunnelVisionSkill);
 
@@ -82,9 +88,9 @@ public class Player extends Entity implements KeyListener {
             pocketKnife.update(deltaTime);
         }
 
-        playerStatsWindow.update(deltaTime);
-
-        this.health = (this.health + 1) % this.maxHealth;
+        if(playerStatsWindow != null){
+            playerStatsWindow.update(deltaTime);
+        }
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -156,5 +162,9 @@ public class Player extends Entity implements KeyListener {
         if(this.pocketKnife != null) {
             this.pocketKnife.setWorld(world);
         }
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

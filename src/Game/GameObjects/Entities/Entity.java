@@ -1,9 +1,11 @@
 package Game.GameObjects.Entities;
 
+import Game.GameObjects.Entities.Enemies.HellHound;
 import Game.GameObjects.GameObject;
 import Game.Utilities.HorizontalDirection;
 import Game.Worlds.CollisionType;
 import Game.Worlds.World;
+import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 
@@ -85,8 +87,6 @@ public abstract class Entity extends GameObject {
             realPosition.setLocation(position);
             onGround = true;
         } else {
-
-
             // update velocity and "real" position using delta time
             velocityY += gravityAcceleration * ((double) deltaTime / 1000000000);
             double verticalMovement = (velocityY * ((double) deltaTime / 1000000000));
@@ -131,7 +131,7 @@ public abstract class Entity extends GameObject {
 
         // figure out how far we need to go for game position to reach real position
         int horizontalDistance = 0;
-        int maxHorizontalDistance = (int) (realPosition.getX() - position.getX());
+        double maxHorizontalDistance = (realPosition.getX() - position.getX());
 
         // which way we are going
         int horizontalMultiplier = maxHorizontalDistance < 0 ? -1 : 1;
@@ -173,5 +173,18 @@ public abstract class Entity extends GameObject {
 
     public World getWorld() {
         return this.world;
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle((int) (position.getX() - size.getWidth() / 2), (int) (position.getY() - size.getHeight() / 2), (int) size.getWidth(), (int) size.getHeight());
+    }
+
+    public void hurt(int damage) {
+        this.health -= damage;
+
+        if(health <= 0) {
+            world.removeGameObject(this);
+            this.kill();
+        }
     }
 }

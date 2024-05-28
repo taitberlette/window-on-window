@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import Game.Game;
 import Game.GameObjects.Entities.Player;
+import Game.Utilities.Ammunition;
+import Game.Utilities.Inventory;
 import Game.Utilities.Skill;
 import WindowOnWindow.WindowOnWindow;
 
@@ -33,6 +35,10 @@ public class PlayerStatsWindow extends Panel {
     private Color tunnelVisionBar = new Color(0x16FF02);
     private BufferedImage tunnelVisionImage;
 
+    private BufferedImage boneImage;
+    private BufferedImage fireChargeImage;
+    private BufferedImage lightningImage;
+
     public PlayerStatsWindow(String title, Player player, Game game, Skill photosynthesisSkill, Skill fastLegsSkill, Skill tunnelVisionSkill) {
         super(title);
 
@@ -46,8 +52,9 @@ public class PlayerStatsWindow extends Panel {
             photosynthesisHeartImage = ImageIO.read(new File("res\\Ammunition and Skills\\GoldenHeart.png"));
             fastLegsImage = ImageIO.read(new File("res\\Ammunition and Skills\\Wind.png"));
             tunnelVisionImage = ImageIO.read(new File("res\\Ammunition and Skills\\Tunnel Vision Icon.png"));
-//            heartImage = ImageIO.read(new File("res\\Ammunition and Skills\\"));
-//            heartImage = ImageIO.read(new File("res\\Ammunition and Skills\\"));
+            boneImage = ImageIO.read(new File("res\\Ammunition and Skills\\Bone1.png"));
+            fireChargeImage = ImageIO.read(new File("res\\Ammunition and Skills\\FlameIcon.png"));
+            lightningImage = ImageIO.read(new File("res\\Ammunition and Skills\\Lightning.png"));
         } catch (IOException e) {
             System.out.println("Failed to load assests for the player stats window!");
         }
@@ -96,6 +103,26 @@ public class PlayerStatsWindow extends Panel {
         graphics2D.fillRect((int)(198 * scale), (int)(84 * scale), (int) (172 * percentTunnelVisionCooldown * scale), (int)(27 * scale));
 
         graphics2D.drawImage(tunnelVisionImage, (int)(350 * scale), (int)(90 * scale), (int)(16 * scale), (int)(16 * scale), null);
+
+
+        Inventory inventory = player.getInventory();
+
+        Font font = WindowOnWindow.getStatFont();
+        graphics2D.setColor(Color.BLACK);
+        graphics2D.setFont(font);
+        int yPosition = (int) ((((132 + 28) * scale)));
+
+
+        graphics2D.drawImage(boneImage, (int)(18 * scale), (int)(132 * scale), (int) (32 * scale), (int) (32 * scale), null);
+        graphics2D.drawString("" + inventory.getCount(Ammunition.BONE), (int) ((18 + 32 + 16) * scale), yPosition);
+
+        graphics2D.drawImage(fireChargeImage, (int)(141 * scale), (int)(132 * scale), (int) (32 * scale), (int) (32 * scale), null);
+        graphics2D.drawString("" + inventory.getCount(Ammunition.FIRE_CHARGE), (int) ((141 + 32 + 16) * scale), yPosition);
+
+        graphics2D.drawImage(lightningImage, (int)(264 * scale), (int)(132 * scale), (int) (32 * scale), (int) (32 * scale), null);
+        graphics2D.drawString("" + inventory.getCount(Ammunition.LIGHTNING_CHARGE), (int) ((264 + 32 + 16) * scale), yPosition);
+
+
     }
 
     public void update(long deltaTime) {

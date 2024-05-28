@@ -43,6 +43,7 @@ public class LevelZero extends Level {
         HellHound hellHound = new HellHound();
         hellHound.setWorld(etherWorld);
         hellHound.setPlayer(player);
+//        hellHound.setLocation(new Point(362, 764));
         hellHound.setLocation(new Point(562, 764));
         etherWorld.addGameObject(hellHound);
 
