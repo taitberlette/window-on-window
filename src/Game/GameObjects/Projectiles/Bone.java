@@ -20,6 +20,11 @@ public class Bone extends Projectile {
 
     public void draw(Graphics2D graphics2D) {
         super.draw(graphics2D);
+
+        double angle = Math.atan2(velocityY, velocityX) - Math.PI / 4;
+
+        graphics2D.rotate(-angle, (int) (position.getX() - (size.getWidth() / 2)), (int) (position.getY() - (size.getHeight() / 2)));
         graphics2D.drawImage(boneImage, (int) (position.getX() - (size.getWidth() / 2)), (int) (position.getY() - (size.getHeight() / 2)), null);
+        graphics2D.rotate(angle, (int) (position.getX() - (size.getWidth() / 2)), (int) (position.getY() - (size.getHeight() / 2)));
     }
 }
