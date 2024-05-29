@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public abstract class World implements KeyListener {
     protected Game game;
@@ -27,15 +27,15 @@ public abstract class World implements KeyListener {
     protected BufferedImage image;
     protected BufferedImage collision;
 
-    protected LinkedList<Switch> switches = new LinkedList<>();
-    protected LinkedList<Mechanism> mechanisms = new LinkedList<>();
-    protected LinkedList<GameObject> gameObjects = new LinkedList<>();
-    protected LinkedList<Projectile> projectiles = new LinkedList<>();
-    protected LinkedList<Weapon> droppedWeapons = new LinkedList<>();
+    protected ArrayList<Switch> switches = new ArrayList<>();
+    protected ArrayList<Mechanism> mechanisms = new ArrayList<>();
+    protected ArrayList<GameObject> gameObjects = new ArrayList<>();
+    protected ArrayList<Projectile> projectiles = new ArrayList<>();
+    protected ArrayList<Weapon> droppedWeapons = new ArrayList<>();
 
-    protected LinkedList<Entity> entities = new LinkedList<>();
-    protected LinkedList<GameObject> addGameObjects = new LinkedList<>();
-    protected LinkedList<GameObject> removeGameObjects = new LinkedList<>();
+    protected ArrayList<Entity> entities = new ArrayList<>();
+    protected ArrayList<GameObject> addGameObjects = new ArrayList<>();
+    protected ArrayList<GameObject> removeGameObjects = new ArrayList<>();
 
     protected String levelPath;
 
@@ -46,63 +46,70 @@ public abstract class World implements KeyListener {
     }
 
     public void update(long deltaTime) {
-        for(Switch switcher : switches) {
-            switcher.update(deltaTime);
-        }
-
-        for(Mechanism mechanism : mechanisms) {
-            mechanism.update(deltaTime);
-        }
-
-        for(GameObject gameObject : gameObjects) {
-            gameObject.update(deltaTime);
-        }
-
-        for(Projectile projectile : projectiles) {
-            projectile.update(deltaTime);
-        }
-
-        for(Weapon droppedWeapon : droppedWeapons) {
-            droppedWeapon.update(deltaTime);
-        }
-
-        for(Entity entity : entities) {
-            entity.update(deltaTime);
-        }
-
-        for(GameObject gameObject : addGameObjects) {
-            if(gameObject instanceof Switch) {
-                switches.add((Switch) gameObject);
-            } else if(gameObject instanceof Mechanism) {
-                mechanisms.add((Mechanism) gameObject);
-            } else if(gameObject instanceof Projectile) {
-                projectiles.add((Projectile) gameObject);
-            } else if(gameObject instanceof Weapon) {
-                droppedWeapons.add((Weapon) gameObject);
-            } else if(gameObject instanceof Entity) {
-                entities.add((Entity) gameObject);
-            } else {
-                gameObjects.add(gameObject);
+            for (Switch switcher : switches) {
+                switcher.update(deltaTime);
             }
-        }
-        addGameObjects.clear();
 
-        for(GameObject gameObject : removeGameObjects) {
-            if(gameObject instanceof Switch) {
-                switches.remove((Switch) gameObject);
-            } else if(gameObject instanceof Mechanism) {
-                mechanisms.remove((Mechanism) gameObject);
-            } else if(gameObject instanceof Projectile) {
-                projectiles.remove((Projectile) gameObject);
-            } else if(gameObject instanceof Weapon) {
-                droppedWeapons.remove((Weapon) gameObject);
-            } else if(gameObject instanceof Entity) {
-                entities.remove((Entity) gameObject);
-            } else {
-                gameObjects.remove(gameObject);
+            for (Mechanism mechanism : mechanisms) {
+                mechanism.update(deltaTime);
             }
+
+            for (GameObject gameObject : gameObjects) {
+                gameObject.update(deltaTime);
+            }
+
+            for (Projectile projectile : projectiles) {
+                projectile.update(deltaTime);
+            }
+
+            for (Weapon droppedWeapon : droppedWeapons) {
+                droppedWeapon.update(deltaTime);
+            }
+
+            for (Entity entity : entities) {
+                entity.update(deltaTime);
+            }
+
+        try {
+            for (GameObject gameObject : addGameObjects) {
+                if (gameObject instanceof Switch) {
+                    switches.add((Switch) gameObject);
+                } else if (gameObject instanceof Mechanism) {
+                    mechanisms.add((Mechanism) gameObject);
+                } else if (gameObject instanceof Projectile) {
+                    projectiles.add((Projectile) gameObject);
+                } else if (gameObject instanceof Weapon) {
+                    droppedWeapons.add((Weapon) gameObject);
+                } else if (gameObject instanceof Entity) {
+                    entities.add((Entity) gameObject);
+                } else {
+                    gameObjects.add(gameObject);
+                }
+            }
+            addGameObjects.clear();
+        } catch (Exception e) {
+            System.out.println("There was an error updating something!!");
+            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
-        removeGameObjects.clear();
+
+            for (GameObject gameObject : removeGameObjects) {
+                if (gameObject instanceof Switch) {
+                    switches.remove((Switch) gameObject);
+                } else if (gameObject instanceof Mechanism) {
+                    mechanisms.remove((Mechanism) gameObject);
+                } else if (gameObject instanceof Projectile) {
+                    projectiles.remove((Projectile) gameObject);
+                } else if (gameObject instanceof Weapon) {
+                    droppedWeapons.remove((Weapon) gameObject);
+                } else if (gameObject instanceof Entity) {
+                    entities.remove((Entity) gameObject);
+                } else {
+                    gameObjects.remove(gameObject);
+                }
+            }
+            removeGameObjects.clear();
+
     }
 
     public void addGameObject(GameObject gameObject) {
