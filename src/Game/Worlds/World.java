@@ -175,8 +175,8 @@ public abstract class World implements KeyListener {
         for(Entity entity : entities) {
             entity.draw(graphics2D);
 
-            graphics2D.setColor(Color.RED);
-            graphics2D.draw(entity.getBounds());
+//            graphics2D.setColor(Color.RED);
+//            graphics2D.draw(entity.getBounds());
         }
     }
 

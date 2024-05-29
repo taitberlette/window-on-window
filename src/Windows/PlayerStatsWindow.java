@@ -107,7 +107,7 @@ public class PlayerStatsWindow extends Panel {
 
         Inventory inventory = player.getInventory();
 
-        Font font = WindowOnWindow.getStatFont();
+         Font font = WindowOnWindow.getStatFont();
         graphics2D.setColor(Color.BLACK);
         graphics2D.setFont(font);
         int yPosition = (int) ((((132 + 28) * scale)));

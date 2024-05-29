@@ -3,7 +3,9 @@ package Game.GameObjects.Entities;
 import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
 import Game.GameObjects.Weapons.Shooter.BoneShooter;
+import Game.GameObjects.Weapons.Shooter.Shooter;
 import Game.GameObjects.Weapons.Weapon;
+import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
 import Game.Utilities.Inventory;
 import Game.Utilities.Skill;
@@ -30,6 +32,9 @@ public class Player extends Entity implements KeyListener {
     private BufferedImage terraImage;
     private BufferedImage etherImage;
 
+    private BufferedImage aimTerraImage;
+    private BufferedImage aimEtherImage;
+
     private PlayerStatsWindow playerStatsWindow;
 
     private String name;
@@ -47,6 +52,14 @@ public class Player extends Entity implements KeyListener {
     private Skill fastLegsSkill;
     private Skill tunnelVisionSkill;
 
+    private boolean leftKey = false;
+    private boolean rightKey = false;
+
+    private boolean aimingLeftKey = false;
+    private boolean aimingRightKey = false;
+    private double angle = Math.PI / 2;
+    private double angleSpeed = Math.PI;
+
     public Player(String name, Game game) {
         super(new Dimension(52, 128));
 
@@ -58,6 +71,7 @@ public class Player extends Entity implements KeyListener {
         this.inventory = new Inventory();
 
         this.pocketKnife = new PocketKnife();
+        this.boneShooter = new BoneShooter();
 
         this.photosynthesisSkill = new Skill();
         this.fastLegsSkill = new Skill();
@@ -73,6 +87,8 @@ public class Player extends Entity implements KeyListener {
         try{
             terraImage = ImageIO.read(new File("res\\Player\\TerraPlayerIdol.png"));
             etherImage = ImageIO.read(new File("res\\Player\\EtherPlayerIdol.png"));
+            aimTerraImage = ImageIO.read(new File("res\\Player\\Terra Arm.png"));
+            aimEtherImage = ImageIO.read(new File("res\\Player\\Ether Arm.png"));
         } catch (Exception e) {
             System.out.println("Failed to load images for the player!");
         }
@@ -81,12 +97,30 @@ public class Player extends Entity implements KeyListener {
     }
 
     public void update(long deltaTime) {
+        if(leftKey && !rightKey) {
+            velocityX = -maxSpeed;
+            lastDirection = HorizontalDirection.LEFT;
+        } else if(!leftKey && rightKey) {
+            velocityX = maxSpeed;
+            lastDirection = HorizontalDirection.RIGHT;
+        } else {
+            velocityX = 0;
+        }
+
+        if(aimingLeftKey && !aimingRightKey) {
+            angle += angleSpeed * ((double) deltaTime / 1000000000);
+        } else if(!aimingLeftKey && aimingRightKey) {
+            angle -= angleSpeed * ((double) deltaTime / 1000000000);
+        }
+
         super.update(deltaTime);
 
         if(pocketKnife != null) {
             pocketKnife.setLocation(position);
             pocketKnife.update(deltaTime);
         }
+
+        boneShooter.update(deltaTime);
 
         if(playerStatsWindow != null){
             playerStatsWindow.update(deltaTime);
@@ -107,6 +141,22 @@ public class Player extends Entity implements KeyListener {
         if(pocketKnife != null)  {
             pocketKnife.draw(graphics2D);
         }
+
+
+        BufferedImage aimImage = world instanceof TerraWorld ? aimTerraImage : aimEtherImage;
+
+        if(inventory.hasItem(Ammunition.BONE)) {
+            int verticalOffset = 10;
+            graphics2D.rotate(-angle, position.getX(), position.getY() - verticalOffset);
+            graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+            graphics2D.rotate(angle, position.getX(), position.getY() - verticalOffset);
+        } else {
+            int verticalOffset = 20;
+            double knifeAngle = lastDirection == HorizontalDirection.LEFT ? (9 * Math.PI) / 8 : (15 * Math.PI) / 8;
+            graphics2D.rotate(-knifeAngle, position.getX(), position.getY() - verticalOffset);
+            graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+            graphics2D.rotate(knifeAngle, position.getX(), position.getY() - verticalOffset);
+        }
     }
 
     public void kill() {
@@ -123,32 +173,45 @@ public class Player extends Entity implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_UP && onGround) {
             velocityY = 400;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_Q && pocketKnife != null && pocketKnife.checkCooldown()) {
+        } else if(e.getKeyCode() == KeyEvent.VK_Q && pocketKnife != null && pocketKnife.checkCooldown()) {
             pocketKnife.attack(lastDirection);
-        }
-        if(e.getKeyCode() == KeyEvent.VK_LEFT) {
+        } else if(e.getKeyCode() == KeyEvent.VK_W) {
+
+            Shooter shooter = boneShooter;
+
+            if(carryingWeapon != null && carryingWeapon instanceof Shooter carryingShooter) {
+                shooter = carryingShooter;
+            }
+
+            if(shooter.checkCooldown() && shooter.checkAmmunition(inventory)) {
+                shooter.attack(world, angle, position, inventory);
+            }
+        } else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
             if(lastDirection == HorizontalDirection.RIGHT && !pocketKnife.checkCooldown()) {
                 pocketKnife.cancel();
             }
-            lastDirection = HorizontalDirection.LEFT;
-            velocityX = -maxSpeed;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            leftKey = true;
+        } else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
             if(lastDirection == HorizontalDirection.LEFT && !pocketKnife.checkCooldown()) {
                 pocketKnife.cancel();
             }
-            lastDirection = HorizontalDirection.RIGHT;
-            velocityX = maxSpeed;
+            rightKey = true;
+        } else if(e.getKeyCode() == KeyEvent.VK_A) {
+            aimingLeftKey = true;
+        } else if(e.getKeyCode() == KeyEvent.VK_D) {
+            aimingRightKey = true;
         }
     }
 
     public void keyReleased(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-            velocityX = 0;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            velocityX = 0;
+            leftKey = false;
+        } else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
+            rightKey = false;
+        } else if(e.getKeyCode() == KeyEvent.VK_A) {
+            aimingLeftKey = false;
+        } else if(e.getKeyCode() == KeyEvent.VK_D) {
+            aimingRightKey = false;
         }
     }
 
