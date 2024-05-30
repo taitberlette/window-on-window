@@ -152,10 +152,11 @@ public class Player extends Entity implements KeyListener {
             graphics2D.rotate(angle, position.getX(), position.getY() - verticalOffset);
         } else {
             int verticalOffset = 20;
-            double knifeAngle = lastDirection == HorizontalDirection.LEFT ? (9 * Math.PI) / 8 : (15 * Math.PI) / 8;
+            double knifeAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
             graphics2D.rotate(-knifeAngle, position.getX(), position.getY() - verticalOffset);
             graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
             graphics2D.rotate(knifeAngle, position.getX(), position.getY() - verticalOffset);
+
         }
     }
 
@@ -183,8 +184,15 @@ public class Player extends Entity implements KeyListener {
                 shooter = carryingShooter;
             }
 
+            int verticalOffset = 10;
+
+            int x = (int) (position.getX() + (Math.cos(angle) * (aimTerraImage.getWidth() + 10)));
+            int y = (int) (position.getY() - (verticalOffset / 2) - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getWidth() + 10)));
+
+            Point hand = new Point(x, y);
+
             if(shooter.checkCooldown() && shooter.checkAmmunition(inventory)) {
-                shooter.attack(world, angle, position, inventory);
+                shooter.attack(world, angle, hand, inventory);
             }
         } else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
             if(lastDirection == HorizontalDirection.RIGHT && !pocketKnife.checkCooldown()) {
