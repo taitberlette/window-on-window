@@ -29,6 +29,14 @@ public class Inventory {
     }
 
     public void addItems(Ammunition ammunition, int count) {
-        items.put(ammunition, items.get(ammunition) + count);
+        if (items.get(ammunition) + count <=999){
+            items.put(ammunition, items.get(ammunition) + count);
+        } else {
+            while(items.get(ammunition)!=999) {
+                items.put(ammunition, items.get(ammunition) + 1);
+            }
+        }
+
+
     }
 }
