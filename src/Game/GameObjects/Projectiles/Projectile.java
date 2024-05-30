@@ -2,6 +2,7 @@ package Game.GameObjects.Projectiles;
 
 import Game.GameObjects.Entities.Enemies.Enemy;
 import Game.GameObjects.Entities.Entity;
+import Game.GameObjects.Gadgets.Switch;
 import Game.Worlds.CollisionType;
 import Game.Worlds.World;
 import Game.GameObjects.GameObject;
@@ -116,6 +117,13 @@ public abstract class Projectile extends GameObject {
                 world.removeGameObject(this);
                 return;
             }
+        }
+
+        ArrayList<Switch> hitSwitches = world.findSwitches(position);
+        for(Switch switcher : hitSwitches) {
+            switcher.toggle();
+            world.removeGameObject(this);
+            return;
         }
     }
 

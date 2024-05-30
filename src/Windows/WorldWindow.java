@@ -17,7 +17,7 @@ public class WorldWindow extends Panel {
     private GameObject target;
     private Point lastPoint;
 
-    private Dimension defaultDimension = new Dimension((1080 / 4), (1080 / 4) + TITLE_BAR_HEIGHT);
+    private Dimension defaultDimension = new Dimension((1080 ), (1080 ) + TITLE_BAR_HEIGHT);
 
     public WorldWindow(World world) {
         super(world instanceof TerraWorld ? "Terra" : "Ether");
