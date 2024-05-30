@@ -146,18 +146,34 @@ public class Player extends Entity implements KeyListener {
         BufferedImage aimImage = world instanceof TerraWorld ? aimTerraImage : aimEtherImage;
 
         if(inventory.hasItem(Ammunition.BONE)) {
-            int verticalOffset = 10;
-            graphics2D.rotate(-angle, position.getX(), position.getY() - verticalOffset);
-            graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
-            graphics2D.rotate(angle, position.getX(), position.getY() - verticalOffset);
+            int verticalOffset = 12;
+            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
+            graphics2D.rotate(-angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
+            graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+            graphics2D.rotate(angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
         } else {
-            int verticalOffset = 20;
-            double knifeAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
-            graphics2D.rotate(-knifeAngle, position.getX(), position.getY() - verticalOffset);
-            graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
-            graphics2D.rotate(knifeAngle, position.getX(), position.getY() - verticalOffset);
-
+            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 20 : 18;
+            int verticalOffset = 19;
+            graphics2D.rotate(Math.PI / 2 , position.getX() + horizontalOffset, position.getY() - verticalOffset);
+            graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+            graphics2D.rotate(-Math.PI / 2 , position.getX()+ horizontalOffset, position.getY() - verticalOffset);
         }
+            int verticalOffsetOffhand = 20;
+            double knifeAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
+            graphics2D.rotate(-knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
+            graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffsetOffhand, null);
+            graphics2D.rotate(knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
+
+
+
+        int verticalOffset = 12;
+        int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
+        int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
+        int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
+
+        graphics2D.setColor(Color.YELLOW);
+        graphics2D.fillRect(x - 1, y - 1, 3, 3);
+
     }
 
     public void kill() {
@@ -184,10 +200,11 @@ public class Player extends Entity implements KeyListener {
                 shooter = carryingShooter;
             }
 
-            int verticalOffset = 10;
+            int verticalOffset = 12;
+            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
 
-            int x = (int) (position.getX() + (Math.cos(angle) * (aimTerraImage.getWidth() + 10)));
-            int y = (int) (position.getY() - (verticalOffset / 2) - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getWidth() + 10)));
+            int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
+            int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
 
             Point hand = new Point(x, y);
 
