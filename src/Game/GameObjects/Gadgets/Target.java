@@ -10,7 +10,7 @@ public class Target extends Switch {
     private final int IMAGE_SCALE = 4;
 
     public Target(Point position) {
-        super(position, new Dimension(64, 64));
+        super(position, new Dimension(40, 64));
 
         try{
             targetImage = ImageIO.read(new File("res\\Objects\\TargetLeft.png"));
