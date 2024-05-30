@@ -64,6 +64,7 @@ public class ResetState extends State {
             yesButton.resetClicked();
 
             stateManager.clearStates();
+            stateManager.pushState(StateName.STATE_HOME);
         }
 
         blurredWindow.update(deltaTime);
