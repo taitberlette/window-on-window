@@ -2,9 +2,12 @@ package Game.Utilities;
 
 public class Skill {
     private boolean unlocked = false;
-    private int cooldownLength = 0;
-    private int cooldown = 0;
+    private int cooldownLength;
+    private int cooldown;
     private boolean isActivated = false;
+    public Skill(int cooldown){
+        this.cooldown = cooldown;
+    }
 
     public void update(long deltaTime) {
 
@@ -25,7 +28,7 @@ public class Skill {
     public void deactivate() {
         isActivated = false;
     }
-
+    public boolean getActiveStatus(){return isActivated;}
     public int getCooldown() {
         return cooldown;
     }
@@ -33,4 +36,9 @@ public class Skill {
     public int getCooldownLength() {
         return cooldownLength;
     }
+
+
+
+
+
 }

@@ -80,30 +80,32 @@ public class PlayerStatsWindow extends Panel {
         graphics2D.drawImage(heartType, (int)(347 * scale), (int)(53 * scale), (int)(16 * scale), (int)(16 * scale), null);
 
 
+        if(fastLegsSkill.wasUnlocked()) {
+            // draw fast legs bar
+            graphics2D.setColor(fastLegsBarBackground);
+            graphics2D.fillRect((int) (18 * scale), (int) (84 * scale), (int) (172 * scale), (int) (27 * scale));
 
-        // draw fast legs bar
-        graphics2D.setColor(fastLegsBarBackground);
-        graphics2D.fillRect((int)(18 * scale), (int)(84 * scale), (int)(172 * scale), (int)(27 * scale));
+            double percentFastLegsCooldown = (double) fastLegsSkill.getCooldown() / fastLegsSkill.getCooldownLength();
 
-        double percentFastLegsCooldown = (double) fastLegsSkill.getCooldown() / fastLegsSkill.getCooldownLength();
+            graphics2D.setColor(fastLegsBar);
+            graphics2D.fillRect((int) (18 * scale), (int) (84 * scale), (int) (172 * percentFastLegsCooldown * scale), (int) (27 * scale));
 
-        graphics2D.setColor(fastLegsBar);
-        graphics2D.fillRect((int)(18 * scale), (int)(84 * scale), (int) (172 * percentFastLegsCooldown * scale), (int)(27 * scale));
-
-        graphics2D.drawImage(fastLegsImage, (int)(170 * scale), (int)(90 * scale), (int)(16 * scale), (int)(16 * scale), null);
+            graphics2D.drawImage(fastLegsImage, (int) (170 * scale), (int) (90 * scale), (int) (16 * scale), (int) (16 * scale), null);
+        }
 
 
-        // draw tunnel vision bar
-        graphics2D.setColor(tunnelVisionBarBackground);
-        graphics2D.fillRect((int)(198 * scale), (int)(84 * scale), (int)(172 * scale), (int)(27 * scale));
+        if(tunnelVisionSkill.wasUnlocked()) {
+            // draw tunnel vision bar
+            graphics2D.setColor(tunnelVisionBarBackground);
+            graphics2D.fillRect((int) (198 * scale), (int) (84 * scale), (int) (172 * scale), (int) (27 * scale));
 
-        double percentTunnelVisionCooldown = (double) tunnelVisionSkill.getCooldown() / tunnelVisionSkill.getCooldownLength();
+            double percentTunnelVisionCooldown = (double) tunnelVisionSkill.getCooldown() / tunnelVisionSkill.getCooldownLength();
 
-        graphics2D.setColor(tunnelVisionBar);
-        graphics2D.fillRect((int)(198 * scale), (int)(84 * scale), (int) (172 * percentTunnelVisionCooldown * scale), (int)(27 * scale));
+            graphics2D.setColor(tunnelVisionBar);
+            graphics2D.fillRect((int) (198 * scale), (int) (84 * scale), (int) (172 * percentTunnelVisionCooldown * scale), (int) (27 * scale));
 
-        graphics2D.drawImage(tunnelVisionImage, (int)(350 * scale), (int)(90 * scale), (int)(16 * scale), (int)(16 * scale), null);
-
+            graphics2D.drawImage(tunnelVisionImage, (int) (350 * scale), (int) (90 * scale), (int) (16 * scale), (int) (16 * scale), null);
+        }
 
         Inventory inventory = player.getInventory();
 

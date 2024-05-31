@@ -73,9 +73,9 @@ public class Player extends Entity implements KeyListener {
         this.pocketKnife = new PocketKnife();
         this.boneShooter = new BoneShooter();
 
-        this.photosynthesisSkill = new Skill();
-        this.fastLegsSkill = new Skill();
-        this.tunnelVisionSkill = new Skill();
+        this.photosynthesisSkill = new Skill(1);
+        this.fastLegsSkill = new Skill(10);
+        this.tunnelVisionSkill = new Skill(20);
 
         this.maxHealth = 250;
         this.health = 250;
@@ -124,6 +124,16 @@ public class Player extends Entity implements KeyListener {
 
         if(playerStatsWindow != null){
             playerStatsWindow.update(deltaTime);
+        }
+
+        if(fastLegsSkill.getActiveStatus()){
+            maxSpeed = 500;
+        } else {
+            maxSpeed = 300;
+        }
+
+        if (photosynthesisSkill.wasUnlocked() && world instanceof TerraWorld){
+            health++;
         }
     }
 
@@ -226,6 +236,11 @@ public class Player extends Entity implements KeyListener {
         } else if(e.getKeyCode() == KeyEvent.VK_D) {
             aimingRightKey = true;
         }
+
+
+        if(e.getKeyCode() == KeyEvent.VK_S && fastLegsSkill.getCooldownLength() > 3){
+            fastLegsSkill.activate();
+        }
     }
 
     public void keyReleased(KeyEvent e) {
@@ -237,6 +252,9 @@ public class Player extends Entity implements KeyListener {
             aimingLeftKey = false;
         } else if(e.getKeyCode() == KeyEvent.VK_D) {
             aimingRightKey = false;
+        }
+        if(e.getKeyCode() == KeyEvent.VK_S ){
+            fastLegsSkill.deactivate();
         }
     }
 
