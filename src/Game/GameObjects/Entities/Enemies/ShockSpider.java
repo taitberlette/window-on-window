@@ -18,9 +18,9 @@ public class ShockSpider extends Enemy {
     private final double ATTACK_IMAGE_SCALE = 2;
 
     private static final long ATTACK_IMAGE_LENGTH = 250;
-    private static final long SLOW_LENGTH = 1500;
+    private static final long SLOW_LENGTH = 2000;
     private static final int REGULAR_SPEED = 200;
-    private static final int SLOW_SPEED = 150;
+    private static final int SLOW_SPEED = 100;
     public ShockSpider() {
 
         super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150);
