@@ -23,7 +23,7 @@ public class ShockSpider extends Enemy {
     private static final int SLOW_SPEED = 150;
     public ShockSpider() {
 
-        super(new Dimension(128, 64), 5, 30, REGULAR_SPEED, 256, 150);
+        super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150);
 
         try{
             shockSpiderImage = ImageIO.read(new File("res\\Enemies\\Spider.png"));
@@ -56,7 +56,6 @@ public class ShockSpider extends Enemy {
     }
 
     public void kill(){
-
     }
 
     public void hurt(int damage) {
