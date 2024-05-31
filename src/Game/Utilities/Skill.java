@@ -7,6 +7,7 @@ public class Skill {
     private boolean isActivated = false;
     public Skill(int cooldown){
         this.cooldown = cooldown;
+        this.cooldownLength = cooldown;
     }
 
     public void update(long deltaTime) {
@@ -28,7 +29,15 @@ public class Skill {
     }
 
     public void deactivate() {
-        isActivated = false; 
+        isActivated = false;
+    }
+
+    public void changeCooldown(){
+        if(isActivated && cooldownLength > 0){
+            cooldownLength --;
+        } else if(!isActivated && cooldownLength < cooldown) {
+            cooldownLength++;
+        }
     }
     public boolean getActiveStatus(){return isActivated;}
     public int getCooldown() {
