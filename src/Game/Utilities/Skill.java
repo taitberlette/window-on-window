@@ -1,7 +1,7 @@
 package Game.Utilities;
 
 public class Skill {
-    private boolean unlocked = false;
+    private boolean unlocked = true;
     private int cooldownLength;
     private int cooldown;
     private boolean isActivated = false;
@@ -23,10 +23,12 @@ public class Skill {
 
     public void activate() {
         isActivated = true;
+
+
     }
 
     public void deactivate() {
-        isActivated = false;
+        isActivated = false; 
     }
     public boolean getActiveStatus(){return isActivated;}
     public int getCooldown() {

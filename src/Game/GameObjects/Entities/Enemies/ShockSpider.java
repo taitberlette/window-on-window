@@ -1,5 +1,7 @@
 package Game.GameObjects.Entities.Enemies;
 
+import Game.Levels.Level;
+import Game.Levels.LevelZero;
 import Game.Utilities.HorizontalDirection;
 
 import javax.imageio.ImageIO;
@@ -58,6 +60,12 @@ public class ShockSpider extends Enemy {
     public void kill(){
 
     }
+
+   /* public void unlockSkill(){
+        if(Level instanceof LevelZero){
+
+        }
+    }*/
 
     public void hurt(int damage) {
         super.hurt(damage);

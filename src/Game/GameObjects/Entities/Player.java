@@ -133,7 +133,7 @@ public class Player extends Entity implements KeyListener {
         }
 
         if (photosynthesisSkill.wasUnlocked() && world instanceof TerraWorld){
-            health++;
+            if (health < maxHealth){health++;}
         }
     }
 
