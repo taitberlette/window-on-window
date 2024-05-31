@@ -128,10 +128,15 @@ public abstract class World implements KeyListener {
     }
 
     public CollisionType checkCollision(Point position) {
-
         if(position.getX() < 0 || position.getX() >= collision.getWidth() || position.getY() < 0 || position.getY() >= collision.getHeight()) {
             return CollisionType.GROUND;
         }
+
+        ArrayList<Mechanism> collidingMechanisms = findMechanisms(position);
+        if(!collidingMechanisms.isEmpty()) {
+            return CollisionType.PLATFORM;
+        }
+
 
         int colour = collision.getRGB((int) position.getX(), (int) position.getY());
 
@@ -221,6 +226,62 @@ public abstract class World implements KeyListener {
         }
 
         return collidingEntities;
+    }
+
+    public ArrayList<Switch> findSwitches(Point point) {
+        ArrayList<Switch> collidingSwitches = new ArrayList<>();
+
+        for(Switch switcher : switches) {
+            Rectangle bounds = switcher.getBounds();
+
+            if(bounds.contains(point)) {
+                collidingSwitches.add(switcher);
+            }
+        }
+
+        return collidingSwitches;
+    }
+
+    public ArrayList<Switch> findSwitches(Rectangle originalBounds) {
+        ArrayList<Switch> collidingSwitches = new ArrayList<>();
+
+        for(Switch switcher : switches) {
+            Rectangle bounds = switcher.getBounds();
+
+            if(bounds.intersects(originalBounds)) {
+                collidingSwitches.add(switcher);
+            }
+        }
+
+        return collidingSwitches;
+    }
+
+    public ArrayList<Mechanism> findMechanisms(Point point) {
+        ArrayList<Mechanism> collidingMechanisms = new ArrayList<>();
+
+        for(Mechanism mechanism : mechanisms) {
+            Rectangle bounds = mechanism.getBounds();
+
+            if(bounds.contains(point)) {
+                collidingMechanisms.add(mechanism);
+            }
+        }
+
+        return collidingMechanisms;
+    }
+
+    public ArrayList<Mechanism> findMechanisms(Rectangle originalBounds) {
+        ArrayList<Mechanism> collidingMechanisms = new ArrayList<>();
+
+        for(Mechanism mechanism : mechanisms) {
+            Rectangle bounds = mechanism.getBounds();
+
+            if(bounds.intersects(originalBounds)) {
+                collidingMechanisms.add(mechanism);
+            }
+        }
+
+        return collidingMechanisms;
     }
 
     public void kill() {

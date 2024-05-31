@@ -23,8 +23,8 @@ public class Bone extends Projectile {
 
         double angle = Math.atan2(velocityY, velocityX) - Math.PI / 4;
 
-        graphics2D.rotate(-angle, (int) (position.getX() - (size.getWidth() / 2)), (int) (position.getY() - (size.getHeight() / 2)));
+        graphics2D.rotate(-angle, (int) (position.getX()), (int) (position.getY()));
         graphics2D.drawImage(boneImage, (int) (position.getX() - (size.getWidth() / 2)), (int) (position.getY() - (size.getHeight() / 2)), null);
-        graphics2D.rotate(angle, (int) (position.getX() - (size.getWidth() / 2)), (int) (position.getY() - (size.getHeight() / 2)));
+        graphics2D.rotate(angle, (int) (position.getX()), (int) (position.getY()));
     }
 }

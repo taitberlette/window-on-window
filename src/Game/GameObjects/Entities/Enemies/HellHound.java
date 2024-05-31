@@ -31,7 +31,7 @@ public class HellHound extends Enemy {
             hellHoundImage = ImageIO.read(new File("res\\Enemies\\HellHound.png"));
             hellHoundAttackImage = ImageIO.read(new File("res\\Enemies\\HellHoundAttack.png"));
         } catch (Exception e) {
-            System.out.println("Failed to load images for the player!");
+            System.out.println("Failed to load images for the hellhound!");
         }
     }
 
@@ -57,7 +57,7 @@ public class HellHound extends Enemy {
     }
 
     public void kill() {
-        player.getInventory().addItems(Ammunition.BONE, random.nextInt(5, 11));
+        player.getInventory().addItems(Ammunition.BONE, random.nextInt(5, 16));
         player.getInventory().addItems(Ammunition.FIRE_CHARGE, random.nextInt(10, 51));
     }
 

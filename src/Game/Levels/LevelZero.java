@@ -2,7 +2,11 @@ package Game.Levels;
 
 import Game.Game;
 import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.ShockSpider;
 import Game.GameObjects.Entities.Player;
+import Game.GameObjects.Gadgets.MovingPlatform;
+import Game.GameObjects.Gadgets.MovingWall;
+import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Door;
 import Windows.NumberCodeWindow;
 import Windows.WorldWindow;
@@ -26,6 +30,18 @@ public class LevelZero extends Level {
         Door door = new Door(new Point(1789, 255), player, terraWorld, game, "Level_Tutorial", combination);
         terraWorld.addGameObject(door);
 
+        Target target = new Target(new Point(890, 700));
+        etherWorld.addGameObject(target);
+
+        MovingPlatform platform = new MovingPlatform(new Point(1078, 932), new Point(1078, 424), target);
+        etherWorld.addGameObject(platform);
+
+        Target target1 = new Target(new Point(840, 192));
+        etherWorld.addGameObject(target1);
+
+        MovingWall wall = new MovingWall(new Point(1432, 288), new Point(1432, 480), target1);
+        etherWorld.addGameObject(wall);
+
         WorldWindow terraWorldWindow = new WorldWindow(terraWorld);
         terraWorldWindow.setTarget(player);
         terraWorldWindow.setFocusable(true);
@@ -46,6 +62,12 @@ public class LevelZero extends Level {
 //        hellHound.setLocation(new Point(362, 764));
         hellHound.setLocation(new Point(562, 764));
         etherWorld.addGameObject(hellHound);
+
+        ShockSpider shockSpider = new ShockSpider();
+        shockSpider.setWorld(etherWorld);
+        shockSpider.setPlayer(player);
+        shockSpider.setLocation(new Point(70, 305));
+        etherWorld.addGameObject(shockSpider);
 
     }
 

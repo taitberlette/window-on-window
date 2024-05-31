@@ -72,13 +72,13 @@ public abstract class Entity extends GameObject {
             if(height != testHeight) {
                 realPosition.setLocation(position);
             }
-        } else if (collisionType == CollisionType.STAIRS && velocityY <= 0) {
+        } else if ((collisionType == CollisionType.STAIRS || collisionType == CollisionType.PLATFORM) && velocityY <= 0) {
             Point feet = new Point(this.position);
             feet.translate(0, ((int) size.getHeight() / 2));
 
             int verticalMovement = 0;
 
-            while(world.checkCollision(feet) == CollisionType.STAIRS) {
+            while(world.checkCollision(feet) == CollisionType.STAIRS || world.checkCollision(feet) == CollisionType.PLATFORM) {
                 feet.translate(0, -1);
                 verticalMovement++;
             }
@@ -107,7 +107,7 @@ public abstract class Entity extends GameObject {
             for (verticalDistance = 0; verticalDistance < Math.abs(maxVerticalDistance); verticalDistance++) {
                 verticalCollider.translate(0, verticalMultiplier);
                 CollisionType testPoint = world.checkCollision(verticalCollider);
-                if (testPoint == CollisionType.GROUND) {
+                if (testPoint != CollisionType.NONE) {
                     break;
                 }
             }
@@ -144,7 +144,7 @@ public abstract class Entity extends GameObject {
         for (horizontalDistance = 0; horizontalDistance < Math.abs(maxHorizontalDistance); horizontalDistance++) {
             horizontalCollider.translate(horizontalMultiplier, 0);
             CollisionType testPoint = world.checkCollision(horizontalCollider);
-            if (testPoint == CollisionType.GROUND) {
+            if (testPoint == CollisionType.GROUND || testPoint == CollisionType.PLATFORM) {
                 break;
             }
         }
