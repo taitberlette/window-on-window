@@ -2,6 +2,7 @@ package Game.Levels;
 
 import Game.Game;
 import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.ShockSpider;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.MovingPlatform;
 import Game.GameObjects.Gadgets.MovingWall;
@@ -61,6 +62,12 @@ public class LevelZero extends Level {
 //        hellHound.setLocation(new Point(362, 764));
         hellHound.setLocation(new Point(562, 764));
         etherWorld.addGameObject(hellHound);
+
+        ShockSpider shockSpider = new ShockSpider();
+        shockSpider.setWorld(etherWorld);
+        shockSpider.setPlayer(player);
+        shockSpider.setLocation(new Point(70, 305));
+        etherWorld.addGameObject(shockSpider);
 
     }
 
