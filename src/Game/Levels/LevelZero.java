@@ -29,7 +29,7 @@ public class LevelZero extends Level {
         Door door = new Door(new Point(1789, 255), player, terraWorld, game, "Level_Tutorial", combination);
         terraWorld.addGameObject(door);
 
-        Target target = new Target(new Point(840, 700));
+        Target target = new Target(new Point(890, 700));
         etherWorld.addGameObject(target);
 
         MovingPlatform platform = new MovingPlatform(new Point(1078, 932), new Point(1078, 424), target);
