@@ -1,6 +1,7 @@
 package Game.GameObjects.Entities;
 
 import Game.GameObjects.Objects.Box;
+import Game.GameObjects.Projectiles.TunnelVision;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
 import Game.GameObjects.Weapons.Shooter.BoneShooter;
 import Game.GameObjects.Weapons.Shooter.Shooter;
@@ -159,7 +160,7 @@ public class Player extends Entity implements KeyListener {
 
         BufferedImage aimImage = world instanceof TerraWorld ? aimTerraImage : aimEtherImage;
 
-        if(inventory.hasItem(Ammunition.BONE)) {
+        if(inventory.hasItem(Ammunition.BONE) || tunnelVisionSkill.wasUnlocked()) {
             int verticalOffset = 12;
             int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
             graphics2D.rotate(-angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
@@ -225,6 +226,21 @@ public class Player extends Entity implements KeyListener {
             if(shooter.checkCooldown() && shooter.checkAmmunition(inventory)) {
                 shooter.attack(world, angle, hand, inventory);
             }
+        } else if(e.getKeyCode() == KeyEvent.VK_E && tunnelVisionSkill.wasUnlocked() && tunnelVisionSkill.isFull()) {
+            int verticalOffset = 12;
+            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
+
+            int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
+            int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
+
+            Point hand = new Point(x, y);
+
+            TunnelVision tunnelVision = new TunnelVision();
+            tunnelVision.setLocation(hand);
+            tunnelVision.launch(world, angle, 750, 0);
+            world.addGameObject(tunnelVision);
+
+            tunnelVisionSkill.useFull();
         } else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
             if(lastDirection == HorizontalDirection.RIGHT && !pocketKnife.checkCooldown()) {
                 pocketKnife.cancel();

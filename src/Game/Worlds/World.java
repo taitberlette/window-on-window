@@ -284,6 +284,10 @@ public abstract class World implements KeyListener {
         return collidingMechanisms;
     }
 
+    public Level getLevel() {
+        return level;
+    }
+
     public void kill() {
         for(Switch switcher : switches) {
             switcher.kill();

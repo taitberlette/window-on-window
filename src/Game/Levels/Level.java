@@ -11,6 +11,7 @@ import Windows.WorldWindow;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public abstract class Level implements KeyListener {
@@ -21,7 +22,9 @@ public abstract class Level implements KeyListener {
 
     protected String levelPath;
 
-    protected LinkedList<WorldWindow> worldWindows = new LinkedList<>();
+    protected ArrayList<WorldWindow> worldWindows = new ArrayList<>();
+    protected ArrayList<WorldWindow> worldWindowsToAdd = new ArrayList<>();
+    protected ArrayList<WorldWindow> worldWindowsToRemove = new ArrayList<>();
 
     public Level(Game game, Player player, String levelPath) {
         this.game = game;
@@ -39,6 +42,9 @@ public abstract class Level implements KeyListener {
         for(WorldWindow worldWindow : worldWindows) {
             worldWindow.update(deltaTime);
         }
+
+        worldWindows.addAll(worldWindowsToAdd);
+        worldWindows.removeAll(worldWindowsToRemove);
     }
 
     public void open() {
@@ -57,6 +63,18 @@ public abstract class Level implements KeyListener {
         for(WorldWindow worldWindow : worldWindows) {
             worldWindow.setVisible(false);
         }
+    }
+
+    public void addWorldWindow(WorldWindow worldWindow) {
+        worldWindow.setFocusable(true);
+        worldWindow.requestFocus();
+        worldWindow.setKeyListener(game);
+
+        worldWindowsToAdd.add(worldWindow);
+    }
+
+    public void removeWorldWindow(WorldWindow worldWindow) {
+        worldWindowsToRemove.add(worldWindow);
     }
 
     public void kill() {

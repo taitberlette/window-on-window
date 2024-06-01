@@ -72,6 +72,7 @@ public abstract class Projectile extends GameObject {
             realPosition.setLocation(position);
 
             world.removeGameObject(this);
+            kill();
             return;
         }
 
@@ -107,6 +108,7 @@ public abstract class Projectile extends GameObject {
         if(Math.abs(maxHorizontalDistance) != horizontalDistance) {
             realPosition.setLocation(position);
             world.removeGameObject(this);
+            kill();
             return;
         }
 
@@ -115,6 +117,7 @@ public abstract class Projectile extends GameObject {
             if(entity instanceof Enemy enemy) {
                 enemy.hurt(damage);
                 world.removeGameObject(this);
+                kill();
                 return;
             }
         }
@@ -123,6 +126,7 @@ public abstract class Projectile extends GameObject {
         for(Switch switcher : hitSwitches) {
             switcher.toggle();
             world.removeGameObject(this);
+            kill();
             return;
         }
     }

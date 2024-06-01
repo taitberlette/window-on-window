@@ -36,6 +36,14 @@ public class Skill {
 
     }
 
+    public boolean isFull() {
+        return cooldown == cooldownLength;
+    }
+
+    public void useFull() {
+        cooldown = 0;
+    }
+
     public void deactivate() {
         isActivated = false;
     }
