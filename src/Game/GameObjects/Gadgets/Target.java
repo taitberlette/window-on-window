@@ -1,5 +1,7 @@
 package Game.GameObjects.Gadgets;
 
+import Assets.AssetManager;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,11 +14,7 @@ public class Target extends Switch {
     public Target(Point position) {
         super(position, new Dimension(40, 64));
 
-        try{
-            targetImage = ImageIO.read(new File("res\\Objects\\TargetLeft.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the player!");
-        }
+        targetImage = AssetManager.getImage("res\\Objects\\TargetLeft.png");
     }
 
     public void draw(Graphics2D graphics2D) {

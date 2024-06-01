@@ -1,5 +1,6 @@
 package Game.Worlds;
 
+import Assets.AssetManager;
 import Game.Game;
 import Game.Levels.Level;
 import Windows.WorldWindow;
@@ -15,11 +16,7 @@ public class EtherWorld extends World {
     public EtherWorld(Game game, Level level, String levelPath) {
         super(game, level, levelPath);
 
-        try{
-            this.image = ImageIO.read(new File("res\\" + levelPath + "\\Ether.png"));
-            this.collision = ImageIO.read(new File("res\\" + levelPath + "\\EtherCollision.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load Ether image or collider for " + levelPath);
-        }
+        this.image = AssetManager.getImage("res\\" + levelPath + "\\Ether.png");
+        this.collision = AssetManager.getImage("res\\" + levelPath + "\\EtherCollision.png");
     }
 }

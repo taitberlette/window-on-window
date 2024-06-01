@@ -1,6 +1,8 @@
 package Windows;
 
 import java.awt.*;
+
+import Assets.AssetManager;
 import WindowOnWindow.WindowOnWindow;
 
 public class TextboxWindow extends Panel {
@@ -20,7 +22,7 @@ public class TextboxWindow extends Panel {
     public void draw(Graphics2D graphics2D, Dimension size) {
         double scale = WindowOnWindow.getScale();
 
-        Font font = WindowOnWindow.getTextFont();
+        Font font = AssetManager.getTextFont();
 
         graphics2D.setColor(Color.BLACK);
         graphics2D.setFont(font);

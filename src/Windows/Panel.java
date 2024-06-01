@@ -1,5 +1,6 @@
 package Windows;
 
+import Assets.AssetManager;
 import WindowOnWindow.WindowOnWindow;
 
 import javax.swing.*;
@@ -45,7 +46,7 @@ public abstract class Panel extends JPanel {
             graphics2D.setColor(Color.LIGHT_GRAY);
             graphics2D.fillRect(0, 0, (int) ((int) size.getWidth()), (int) (TITLE_BAR_HEIGHT * scale));
 
-            Font font = WindowOnWindow.getTitleFont();
+            Font font = AssetManager.getTitleFont();
 
             graphics2D.setColor(Color.BLACK);
             graphics2D.setFont(font);

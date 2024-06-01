@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import Assets.AssetManager;
 import Game.Game;
 import Game.GameObjects.Entities.Player;
 import Game.Utilities.Ammunition;
@@ -47,17 +48,13 @@ public class PlayerStatsWindow extends Panel {
         this.fastLegsSkill = fastLegsSkill;
         this.tunnelVisionSkill = tunnelVisionSkill;
 
-        try {
-            heartImage = ImageIO.read(new File("res\\Ammunition and Skills\\RedHeart.png"));
-            photosynthesisHeartImage = ImageIO.read(new File("res\\Ammunition and Skills\\GoldenHeart.png"));
-            fastLegsImage = ImageIO.read(new File("res\\Ammunition and Skills\\Wind.png"));
-            tunnelVisionImage = ImageIO.read(new File("res\\Ammunition and Skills\\Tunnel Vision Icon.png"));
-            boneImage = ImageIO.read(new File("res\\Ammunition and Skills\\Bone1.png"));
-            fireChargeImage = ImageIO.read(new File("res\\Ammunition and Skills\\FlameIcon.png"));
-            lightningImage = ImageIO.read(new File("res\\Ammunition and Skills\\Lightning.png"));
-        } catch (IOException e) {
-            System.out.println("Failed to load assests for the player stats window!");
-        }
+        heartImage = AssetManager.getImage("res\\Ammunition and Skills\\RedHeart.png");
+        photosynthesisHeartImage = AssetManager.getImage("res\\Ammunition and Skills\\GoldenHeart.png");
+        fastLegsImage = AssetManager.getImage("res\\Ammunition and Skills\\Wind.png");
+        tunnelVisionImage = AssetManager.getImage("res\\Ammunition and Skills\\Tunnel Vision Icon.png");
+        boneImage = AssetManager.getImage("res\\Ammunition and Skills\\Bone1.png");
+        fireChargeImage = AssetManager.getImage("res\\Ammunition and Skills\\FlameIcon.png");
+        lightningImage = AssetManager.getImage("res\\Ammunition and Skills\\Lightning.png");
 
         this.view = new View(defaultDimension, this);
 
@@ -109,7 +106,7 @@ public class PlayerStatsWindow extends Panel {
 
         Inventory inventory = player.getInventory();
 
-         Font font = WindowOnWindow.getStatFont();
+         Font font = AssetManager.getStatFont();
         graphics2D.setColor(Color.BLACK);
         graphics2D.setFont(font);
         int yPosition = (int) ((((132 + 28) * scale)));

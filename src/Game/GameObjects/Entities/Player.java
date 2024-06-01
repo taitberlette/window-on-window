@@ -1,5 +1,6 @@
 package Game.GameObjects.Entities;
 
+import Assets.AssetManager;
 import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Projectiles.TunnelVision;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
@@ -87,14 +88,10 @@ public class Player extends Entity implements KeyListener {
 
         position.setLocation(500, 500);
 
-        try{
-            terraImage = ImageIO.read(new File("res\\Player\\TerraPlayerIdol.png"));
-            etherImage = ImageIO.read(new File("res\\Player\\EtherPlayerIdol.png"));
-            aimTerraImage = ImageIO.read(new File("res\\Player\\Terra Arm.png"));
-            aimEtherImage = ImageIO.read(new File("res\\Player\\Ether Arm.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the player!");
-        }
+        terraImage = AssetManager.getImage("res\\Player\\TerraPlayerIdol.png");
+        etherImage = AssetManager.getImage("res\\Player\\EtherPlayerIdol.png");
+        aimTerraImage = AssetManager.getImage("res\\Player\\Terra Arm.png");
+        aimEtherImage = AssetManager.getImage("res\\Player\\Ether Arm.png");
 
         playerStatsWindow.setVisible(true);
     }

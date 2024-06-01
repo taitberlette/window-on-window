@@ -1,5 +1,6 @@
 package Game.GameObjects.Gadgets;
 
+import Assets.AssetManager;
 import Game.Worlds.CollisionType;
 
 import javax.imageio.ImageIO;
@@ -26,12 +27,8 @@ public class MovingPlatform extends Mechanism {
 
         this.speed = 150;
 
-        try{
-            platformOnImage = ImageIO.read(new File("res\\Objects\\Moving Platform(on).png"));
-            platformOffImage = ImageIO.read(new File("res\\Objects\\Moving Platform(off).png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the platform!");
-        }
+        platformOnImage = AssetManager.getImage("res\\Objects\\Moving Platform(on).png");
+        platformOffImage = AssetManager.getImage("res\\Objects\\Moving Platform(off).png");
     }
 
     public void update(long deltaTime) {

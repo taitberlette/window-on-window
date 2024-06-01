@@ -1,5 +1,6 @@
 package Game.GameObjects.Weapons.Melee;
 
+import Assets.AssetManager;
 import Game.GameObjects.Entities.Enemies.Enemy;
 import Game.GameObjects.Entities.Entity;
 import Game.Utilities.HorizontalDirection;
@@ -27,11 +28,7 @@ public class PocketKnife extends Melee {
     public PocketKnife() {
         super(20, 2, 0,52);
 
-        try{
-            pocketKnifeImage = ImageIO.read(new File("res\\Weapons and Attacks\\PocketKnife.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the pocket knife!");
-        }
+        pocketKnifeImage = AssetManager.getImage("res\\Weapons and Attacks\\PocketKnife.png");
     }
 
     public void update(long deltaTime) {

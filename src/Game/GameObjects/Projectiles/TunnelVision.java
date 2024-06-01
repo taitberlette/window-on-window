@@ -1,5 +1,6 @@
 package Game.GameObjects.Projectiles;
 
+import Assets.AssetManager;
 import Game.Worlds.World;
 import Windows.WorldWindow;
 
@@ -15,11 +16,7 @@ public class TunnelVision extends Projectile {
     public TunnelVision() {
         super(new Dimension(16, 16));
 
-        try{
-            tunnelVisionImage = ImageIO.read(new File("res\\Ammunition and Skills\\TunnelVisionProjectile.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for tunnel vision!");
-        }
+        tunnelVisionImage = AssetManager.getImage("res\\Ammunition and Skills\\TunnelVisionProjectile.png");
     }
 
     public void launch(World world, double angle, double velocity, int damage) {

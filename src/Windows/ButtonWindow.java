@@ -1,5 +1,6 @@
 package Windows;
 
+import Assets.AssetManager;
 import WindowOnWindow.WindowOnWindow;
 
 import java.awt.*;
@@ -23,7 +24,7 @@ public class ButtonWindow extends Panel implements MouseListener {
     public void draw(Graphics2D graphics2D, Dimension size) {
         double scale = WindowOnWindow.getScale();
 
-        Font font = WindowOnWindow.getTextFont();
+        Font font = AssetManager.getTextFont();
 
         graphics2D.setColor(Color.BLACK);
         graphics2D.setFont(font);

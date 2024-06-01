@@ -1,5 +1,6 @@
 package Game.GameObjects.Objects;
 
+import Assets.AssetManager;
 import Game.Game;
 import Game.GameObjects.GameObject;
 import Game.GameObjects.Entities.Player;
@@ -32,11 +33,7 @@ public class Door extends GameObject {
         numberCodeWindow.setCombination(this.combination);
         numberCodeWindow.setKeyListener(game);
 
-        try{
-            doorImage = ImageIO.read(new File("res\\" + path + "\\Door.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the door!");
-        }
+        doorImage = AssetManager.getImage("res\\" + path + "\\Door.png");
     }
 
     public void update(long deltaTime) {

@@ -1,5 +1,6 @@
 package Game.GameObjects.Entities.Enemies;
 
+import Assets.AssetManager;
 import Game.Levels.Level;
 import Game.Levels.LevelZero;
 import Game.Utilities.HorizontalDirection;
@@ -27,12 +28,8 @@ public class ShockSpider extends Enemy {
 
         super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150);
 
-        try{
-            shockSpiderImage = ImageIO.read(new File("res\\Enemies\\Spider.png"));
-            shockSpiderAttackImage = ImageIO.read(new File("res\\Enemies\\SpiderAttack.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the spider!");
-        }
+        shockSpiderImage = AssetManager.getImage("res\\Enemies\\Spider.png");
+        shockSpiderAttackImage = AssetManager.getImage("res\\Enemies\\SpiderAttack.png");
     }
 
     public void update(long deltaTime) {

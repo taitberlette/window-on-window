@@ -1,5 +1,7 @@
 package Game.GameObjects.Projectiles;
 
+import Assets.AssetManager;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,11 +13,7 @@ public class Bone extends Projectile {
     public Bone() {
         super(new Dimension(16, 16));
 
-        try{
-            boneImage = ImageIO.read(new File("res\\Ammunition and Skills\\Bone1.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the bone!");
-        }
+        boneImage = AssetManager.getImage("res\\Ammunition and Skills\\Bone1.png");
     }
 
     public void draw(Graphics2D graphics2D) {

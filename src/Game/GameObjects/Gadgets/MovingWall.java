@@ -1,5 +1,7 @@
 package Game.GameObjects.Gadgets;
 
+import Assets.AssetManager;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,11 +25,7 @@ public class MovingWall extends Mechanism {
 
         this.speed = 150;
 
-        try{
-            wallImage = ImageIO.read(new File("res\\Objects\\Wall.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the wall!");
-        }
+        wallImage = AssetManager.getImage("res\\Objects\\Wall.png");
     }
 
     public void update(long deltaTime) {

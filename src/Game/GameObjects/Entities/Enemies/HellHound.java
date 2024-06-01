@@ -1,5 +1,6 @@
 package Game.GameObjects.Entities.Enemies;
 
+import Assets.AssetManager;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
 
@@ -27,12 +28,8 @@ public class HellHound extends Enemy {
     public HellHound() {
         super(new Dimension(128, 64), 5, 15, REGULAR_SPEED, 256, 100);
 
-        try{
-            hellHoundImage = ImageIO.read(new File("res\\Enemies\\HellHound.png"));
-            hellHoundAttackImage = ImageIO.read(new File("res\\Enemies\\HellHoundAttack.png"));
-        } catch (Exception e) {
-            System.out.println("Failed to load images for the hellhound!");
-        }
+        hellHoundImage = AssetManager.getImage("res\\Enemies\\HellHound.png");
+        hellHoundAttackImage = AssetManager.getImage("res\\Enemies\\HellHoundAttack.png");
     }
 
     public void update(long deltaTime) {
