@@ -260,7 +260,7 @@ public class Player extends Entity implements KeyListener {
         }
 
 
-        if(e.getKeyCode() == KeyEvent.VK_S && fastLegsSkill.getCooldownLength() > 3){
+        if(e.getKeyCode() == KeyEvent.VK_S && fastLegsSkill.getCooldown() > 3){
             fastLegsSkill.activate();
         }
     }
