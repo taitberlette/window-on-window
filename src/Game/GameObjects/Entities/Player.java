@@ -126,6 +126,10 @@ public class Player extends Entity implements KeyListener {
             playerStatsWindow.update(deltaTime);
         }
 
+        photosynthesisSkill.update(deltaTime);
+        fastLegsSkill.update(deltaTime);
+        tunnelVisionSkill.update(deltaTime);
+
         if(fastLegsSkill.getActiveStatus()){
             maxSpeed = 500;
         } else {

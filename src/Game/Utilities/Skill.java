@@ -2,8 +2,8 @@ package Game.Utilities;
 
 public class Skill {
     private boolean unlocked = true;
-    private int cooldownLength;
-    private int cooldown;
+    private double cooldownLength;
+    private double cooldown;
     private boolean isActivated = false;
     public Skill(int cooldown){
         this.cooldown = cooldown;
@@ -11,7 +11,15 @@ public class Skill {
     }
 
     public void update(long deltaTime) {
+        if(isActivated && cooldown > 0){
+            cooldown = Math.max(cooldown - ((double) deltaTime / 1000000000), 0);
+        } else if(!isActivated && cooldown < cooldownLength) {
+            cooldown = Math.min(cooldown + ((double) deltaTime / 1000000000), cooldownLength);
+        }
 
+        if(cooldown == 0) {
+            isActivated = false;
+        }
     }
 
     public boolean wasUnlocked() {
@@ -32,24 +40,12 @@ public class Skill {
         isActivated = false;
     }
 
-    public void changeCooldown(){
-        if(isActivated && cooldownLength > 0){
-            cooldownLength --;
-        } else if(!isActivated && cooldownLength < cooldown) {
-            cooldownLength++;
-        }
-    }
     public boolean getActiveStatus(){return isActivated;}
-    public int getCooldown() {
+    public double getCooldown() {
         return cooldown;
     }
 
-    public int getCooldownLength() {
+    public double getCooldownLength() {
         return cooldownLength;
     }
-
-
-
-
-
 }
