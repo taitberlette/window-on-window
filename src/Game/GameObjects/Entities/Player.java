@@ -61,6 +61,8 @@ public class Player extends Entity implements KeyListener {
     private double angle = Math.PI / 2;
     private double angleSpeed = Math.PI;
 
+    private final int HEAL_SPEED = 25;
+
     public Player(String name, Game game) {
         super(new Dimension(52, 128));
 
@@ -138,7 +140,7 @@ public class Player extends Entity implements KeyListener {
         }
 
         if (photosynthesisSkill.wasUnlocked() && world instanceof TerraWorld){
-            if (health < maxHealth){health++;}
+            if (health < maxHealth){health+=((double) deltaTime / 1000000000) * HEAL_SPEED;}
         }
     }
 

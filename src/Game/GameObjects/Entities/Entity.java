@@ -12,8 +12,8 @@ import java.awt.*;
 public abstract class Entity extends GameObject {
 
     protected Point realPosition = new Point(0, 0);
-    protected int health;
-    protected int maxHealth;
+    protected double health;
+    protected double maxHealth;
     protected int maxSpeed;
     protected HorizontalDirection lastDirection;
     protected double velocityX;
@@ -29,11 +29,11 @@ public abstract class Entity extends GameObject {
         this.size = size;
     }
 
-    public int getHealth() {
+    public double getHealth() {
         return health;
     }
 
-    public int getMaxHealth() {
+    public double getMaxHealth() {
         return maxHealth;
     }
 
