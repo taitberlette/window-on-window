@@ -8,11 +8,10 @@ import Game.GameObjects.Gadgets.MovingPlatform;
 import Game.GameObjects.Gadgets.MovingWall;
 import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Door;
-import Windows.NumberCodeWindow;
+import Game.GameObjects.Objects.HiddenNumber;
 import Windows.WorldWindow;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.Random;
 
 public class LevelZero extends Level {
@@ -25,7 +24,10 @@ public class LevelZero extends Level {
 
         Random random = new Random();
 
-        int[] combination = {random.nextInt(0, 10)};
+        int[] combination = {random.nextInt(1, 10)};
+
+        HiddenNumber firstNumber = new HiddenNumber(new Point(1750, 280), combination[0], Color.RED);
+        etherWorld.addGameObject(firstNumber);
 
         Door door = new Door(new Point(1789, 255), player, terraWorld, game, "Level_Tutorial", combination);
         terraWorld.addGameObject(door);
