@@ -9,6 +9,9 @@ import States.StateName;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 import static Game.Levels.ActiveLevel.*;
 
@@ -23,6 +26,12 @@ public class Game implements KeyListener {
     private boolean shouldSave;
     private String[] paths = {"Alpha", "Beta", "Gamma"};
     private String savePath;
+
+    private final int QUEUE_LENGTH = 5;
+
+    private ArrayBlockingQueue<KeyEvent> typedEvents = new ArrayBlockingQueue<>(QUEUE_LENGTH);
+    private ArrayBlockingQueue<KeyEvent> pressedEvents = new ArrayBlockingQueue<>(QUEUE_LENGTH);
+    private ArrayBlockingQueue<KeyEvent> releasedEvents = new ArrayBlockingQueue<>(QUEUE_LENGTH);
 
     public Game(StateManager stateManager, int slot) {
         this.stateManager = stateManager;
@@ -47,6 +56,31 @@ public class Game implements KeyListener {
         if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
             levels[index].update(deltaTime);
         }
+
+        for(KeyEvent typed : typedEvents) {
+            if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
+                levels[index].keyTyped(typed);
+            }
+        }
+        typedEvents.clear();
+
+        for(KeyEvent pressed : pressedEvents) {
+            if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
+                levels[index].keyPressed(pressed);
+            }
+
+            if(pressed.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                stateManager.pushState(StateName.STATE_PAUSE);
+            }
+        }
+        pressedEvents.clear();
+
+        for(KeyEvent released : releasedEvents) {
+            if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
+                levels[index].keyReleased(released);
+            }
+        }
+        releasedEvents.clear();
     }
 
     public void loadLevel(ActiveLevel level) {
@@ -89,30 +123,14 @@ public class Game implements KeyListener {
 
 
     public void keyTyped(KeyEvent e) {
-        int index = activeLevel.ordinal();
-
-        if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
-            levels[index].keyTyped(e);
-        }
+        typedEvents.add(e);
     }
 
     public void keyPressed(KeyEvent e) {
-        int index = activeLevel.ordinal();
-
-        if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
-            levels[index].keyPressed(e);
-        }
-
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            stateManager.pushState(StateName.STATE_PAUSE);
-        }
+        pressedEvents.add(e);
     }
 
     public void keyReleased(KeyEvent e) {
-        int index = activeLevel.ordinal();
-
-        if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
-            levels[index].keyReleased(e);
-        }
+        releasedEvents.add(e);
     }
 }
