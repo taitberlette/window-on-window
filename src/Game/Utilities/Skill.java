@@ -1,7 +1,7 @@
 package Game.Utilities;
 
 public class Skill {
-    private boolean unlocked = true;
+    private boolean unlocked = false;
     private double cooldownLength;
     private double cooldown;
     private boolean isActivated = false;

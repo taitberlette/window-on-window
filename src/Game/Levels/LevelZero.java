@@ -15,6 +15,10 @@ import java.awt.*;
 import java.util.Random;
 
 public class LevelZero extends Level {
+
+    private ShockSpider shockSpider;
+    private boolean unlocked = false;
+
     public LevelZero(Game game, Player player) {
         super(game, player, "Level_Tutorial");
 
@@ -65,7 +69,7 @@ public class LevelZero extends Level {
         hellHound.setLocation(new Point(562, 764));
         etherWorld.addGameObject(hellHound);
 
-        ShockSpider shockSpider = new ShockSpider();
+        shockSpider = new ShockSpider();
         shockSpider.setWorld(etherWorld);
         shockSpider.setPlayer(player);
         shockSpider.setLocation(new Point(70, 305));
@@ -75,5 +79,12 @@ public class LevelZero extends Level {
 
     public void update(long deltaTime) {
         super.update(deltaTime);
+
+        if(shockSpider.getHealth() <= 0 && !unlocked) {
+            player.unlockFastLegs();
+            player.unlockPhotosynthesis();
+            player.unlockTunnelVision();
+            unlocked = true;
+        }
     }
 }

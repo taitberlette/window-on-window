@@ -197,6 +197,18 @@ public class Player extends Entity implements KeyListener {
         }
     }
 
+    public void unlockPhotosynthesis() {
+        photosynthesisSkill.unlock();
+    }
+
+    public void unlockFastLegs() {
+        fastLegsSkill.unlock();
+    }
+
+    public void unlockTunnelVision() {
+        tunnelVisionSkill.unlock();
+    }
+
     public void keyTyped(KeyEvent e) {
 
     }
@@ -257,7 +269,7 @@ public class Player extends Entity implements KeyListener {
         }
 
 
-        if(e.getKeyCode() == KeyEvent.VK_S && fastLegsSkill.getCooldown() > 3){
+        if(fastLegsSkill.wasUnlocked() && e.getKeyCode() == KeyEvent.VK_S && fastLegsSkill.getCooldown() > 3){
             fastLegsSkill.activate();
         }
     }
