@@ -28,7 +28,7 @@ public class AssetManager {
             System.out.println(e.getMessage());
         }
 
-        return null;
+        return new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
     }
 
     public static Font getFont(String path, double size) {
