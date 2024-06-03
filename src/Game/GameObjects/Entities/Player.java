@@ -167,34 +167,25 @@ public class Player extends Entity implements KeyListener {
 
         BufferedImage aimImage = world instanceof TerraWorld ? aimTerraImage : aimEtherImage;
 
-        if(inventory.hasItem(Ammunition.BONE) || tunnelVisionSkill.wasUnlocked()) {
+        if(inventory.hasItem(Ammunition.BONE) || carryingWeapon != null || tunnelVisionSkill.wasUnlocked()) {
             int verticalOffset = 12;
             int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
             graphics2D.rotate(-angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
             graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
             graphics2D.rotate(angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
         } else {
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 20 : 18;
+            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
             int verticalOffset = 19;
             graphics2D.rotate(Math.PI / 2 , position.getX() + horizontalOffset, position.getY() - verticalOffset);
             graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
             graphics2D.rotate(-Math.PI / 2 , position.getX()+ horizontalOffset, position.getY() - verticalOffset);
         }
-            int verticalOffsetOffhand = 20;
-            double knifeAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
-            graphics2D.rotate(-knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
-            graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffsetOffhand, null);
-            graphics2D.rotate(knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
 
-
-
-        int verticalOffset = 12;
-        int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
-        int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
-        int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
-
-        graphics2D.setColor(Color.YELLOW);
-        graphics2D.fillRect(x - 1, y - 1, 3, 3);
+        int verticalOffsetOffhand = 20;
+        double knifeAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
+        graphics2D.rotate(-knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
+        graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffsetOffhand, null);
+        graphics2D.rotate(knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
 
     }
 
@@ -222,6 +213,16 @@ public class Player extends Entity implements KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
+
+        int verticalOffset = 6;
+        int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
+        int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
+        int y = (int) ((position.getY() - aimTerraImage.getHeight() / 2) - verticalOffset - (Math.sin(angle) * (aimTerraImage.getWidth() )));
+
+        Point hand = new Point(x, y);
+
+
+
         if(e.getKeyCode() == KeyEvent.VK_UP && onGround) {
             velocityY = 400;
         } else if(carryingBox == null && e.getKeyCode() == KeyEvent.VK_Q && pocketKnife != null && pocketKnife.checkCooldown()) {
@@ -233,25 +234,10 @@ public class Player extends Entity implements KeyListener {
                 shooter = carryingShooter;
             }
 
-            int verticalOffset = 12;
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
-
-            int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
-            int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
-
-            Point hand = new Point(x, y);
-
             if(shooter.checkCooldown() && shooter.checkAmmunition(inventory)) {
                 shooter.attack(world, angle, hand, inventory);
             }
         } else if(e.getKeyCode() == KeyEvent.VK_E && tunnelVisionSkill.wasUnlocked() && tunnelVisionSkill.isFull()) {
-            int verticalOffset = 12;
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
-
-            int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
-            int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
-
-            Point hand = new Point(x, y);
 
             TunnelVision tunnelVision = new TunnelVision();
             tunnelVision.setLocation(hand);
