@@ -284,6 +284,34 @@ public abstract class World implements KeyListener {
         return collidingMechanisms;
     }
 
+    public ArrayList<GameObject> findGameObject(Point point) {
+        ArrayList<GameObject> collidingGameObject = new ArrayList<>();
+
+        for(GameObject gameObject : gameObjects) {
+            Rectangle bounds = gameObject.getBounds();
+
+            if(bounds.contains(point)) {
+                collidingGameObject.add(gameObject);
+            }
+        }
+
+        return collidingGameObject;
+    }
+
+    public ArrayList<GameObject> findGameObject(Rectangle originalBounds) {
+        ArrayList<GameObject> collidingGameObject = new ArrayList<>();
+
+        for(GameObject gameObject : gameObjects) {
+            Rectangle bounds = gameObject.getBounds();
+
+            if(bounds.intersects(originalBounds)) {
+                collidingGameObject.add(gameObject);
+            }
+        }
+
+        return collidingGameObject;
+    }
+
     public Level getLevel() {
         return level;
     }

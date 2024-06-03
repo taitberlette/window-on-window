@@ -1,6 +1,7 @@
 package Game.GameObjects.Entities;
 
 import Assets.AssetManager;
+import Game.GameObjects.GameObject;
 import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Projectiles.TunnelVision;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
@@ -22,6 +23,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Player extends Entity implements KeyListener {
 //    private BufferedImage[] playerWalkingTerraImages = new BufferedImage[2];
@@ -139,6 +141,12 @@ public class Player extends Entity implements KeyListener {
         if (photosynthesisSkill.wasUnlocked() && world instanceof TerraWorld){
             if (health < maxHealth){health+=((double) deltaTime / 1000000000) * HEAL_SPEED;}
         }
+
+        if(carryingBox != null) {
+            Point boxPosition = new Point(position);
+            boxPosition.translate(0, -88);
+            carryingBox.setLocation(boxPosition);
+        }
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -216,10 +224,9 @@ public class Player extends Entity implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_UP && onGround) {
             velocityY = 400;
-        } else if(e.getKeyCode() == KeyEvent.VK_Q && pocketKnife != null && pocketKnife.checkCooldown()) {
+        } else if(carryingBox == null && e.getKeyCode() == KeyEvent.VK_Q && pocketKnife != null && pocketKnife.checkCooldown()) {
             pocketKnife.attack(lastDirection);
-        } else if(e.getKeyCode() == KeyEvent.VK_W) {
-
+        } else if(carryingBox == null && e.getKeyCode() == KeyEvent.VK_W) {
             Shooter shooter = boneShooter;
 
             if(carryingWeapon != null && carryingWeapon instanceof Shooter carryingShooter) {
@@ -266,8 +273,24 @@ public class Player extends Entity implements KeyListener {
             aimingLeftKey = true;
         } else if(e.getKeyCode() == KeyEvent.VK_D) {
             aimingRightKey = true;
-        }
+        } else if(e.getKeyCode() == KeyEvent.VK_F) {
+            if(carryingBox == null) {
+                // pickup box
+                ArrayList<GameObject> gameObjects = world.findGameObject(getBounds());
 
+                for(GameObject gameObject : gameObjects) {
+                    if(gameObject instanceof Box box) {
+                        box.setGrabbed(true);
+                        carryingBox = box;
+                        break;
+                    }
+                }
+            } else {
+                // drop box
+                carryingBox.setGrabbed(false);
+                carryingBox = null;
+            }
+        }
 
         if(fastLegsSkill.wasUnlocked() && e.getKeyCode() == KeyEvent.VK_S && fastLegsSkill.getCooldown() > 3){
             fastLegsSkill.activate();
@@ -294,6 +317,13 @@ public class Player extends Entity implements KeyListener {
     }
 
     public void setWorld(World world) {
+        if(world != this.world) {
+            if(carryingBox != null) {
+                carryingBox.setGrabbed(false);
+                carryingBox = null;
+            }
+        }
+
         this.world = world;
 
         if(this.pocketKnife != null) {

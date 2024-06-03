@@ -4,9 +4,11 @@ import Game.Game;
 import Game.GameObjects.Entities.Enemies.HellHound;
 import Game.GameObjects.Entities.Enemies.ShockSpider;
 import Game.GameObjects.Entities.Player;
+import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
 import Game.GameObjects.Gadgets.MovingWall;
 import Game.GameObjects.Gadgets.Target;
+import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
 import Windows.WorldWindow;
@@ -42,11 +44,16 @@ public class LevelZero extends Level {
         MovingPlatform platform = new MovingPlatform(new Point(1078, 932), new Point(1078, 424), target);
         etherWorld.addGameObject(platform);
 
-        Target target1 = new Target(new Point(840, 192));
-        etherWorld.addGameObject(target1);
+        BoxButton button = new BoxButton(new Point(1324, 352));
+        button.setWorld(etherWorld);
+        etherWorld.addGameObject(button);
 
-        MovingWall wall = new MovingWall(new Point(1432, 288), new Point(1432, 480), target1);
+        MovingWall wall = new MovingWall(new Point(1432, 288), new Point(1432, 480), button);
         etherWorld.addGameObject(wall);
+
+        Box box = new Box(new Point(250, 352));
+        box.setWorld(etherWorld);
+        etherWorld.addGameObject(box);
 
         WorldWindow terraWorldWindow = new WorldWindow(terraWorld);
         terraWorldWindow.setTarget(player);
