@@ -25,16 +25,6 @@ public class WorldWindow extends Panel {
         this.view = new View(defaultDimension, this);
 
         this.world = world;
-
-        this.view.getFrame().addComponentListener(new ComponentAdapter()
-        {
-
-            @Override
-            public void componentMoved(ComponentEvent e)
-            {
-                view.update(0);
-            }
-        });
     }
 
     protected void draw(Graphics2D graphics2D, Dimension size) {
@@ -63,14 +53,10 @@ public class WorldWindow extends Panel {
         if(target != null) {
             Point targetPosition = target.getLocation();
             Point position = new Point((int) (targetPosition.getX() - (defaultDimension.getWidth() / 2)), (int) (targetPosition.getY() - (defaultDimension.getHeight() / 2)));
-            if(position.equals(view.getLocation())) {
-                view.update(deltaTime);
-            } else {
-                view.setLocation(position);
-            }
-        } else {
-            view.update(deltaTime);
+
+            view.setLocation(position);
         }
+        view.update(deltaTime);
     }
 
     public void setTarget(GameObject target) {
