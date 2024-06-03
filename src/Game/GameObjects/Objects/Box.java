@@ -54,7 +54,7 @@ public class Box extends GameObject {
         for (verticalDistance = 0; verticalDistance < Math.abs(maxVerticalDistance); verticalDistance++) {
             verticalCollider.translate(0, verticalMultiplier);
             CollisionType testPoint = world.checkCollision(verticalCollider);
-            if (testPoint == CollisionType.GROUND) {
+            if (testPoint != CollisionType.NONE) {
                 break;
             }
         }
