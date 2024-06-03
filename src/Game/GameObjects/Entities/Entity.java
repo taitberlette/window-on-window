@@ -107,7 +107,7 @@ public abstract class Entity extends GameObject {
             for (verticalDistance = 0; verticalDistance < Math.abs(maxVerticalDistance); verticalDistance++) {
                 verticalCollider.translate(0, verticalMultiplier);
                 CollisionType testPoint = world.checkCollision(verticalCollider);
-                if (testPoint != CollisionType.NONE) {
+                if (testPoint == CollisionType.GROUND || testPoint == CollisionType.PLATFORM) {
                     break;
                 }
             }
