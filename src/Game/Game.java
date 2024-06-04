@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import static Game.Levels.ActiveLevel.*;
+import Game.Levels.ActiveLevel;
 
 public class Game implements KeyListener {
     private Level[] levels = new Level[ActiveLevel.COUNT_LEVEL.ordinal()];
@@ -44,10 +44,10 @@ public class Game implements KeyListener {
 
         player = new Player(slot >= 0 ? savePath : "Player", this);
 
-        levels[LEVEL_ONE.ordinal()] = new LevelOne(this, player);
-        levels[LEVEL_TWO.ordinal()] = new LevelTwo(this, player);
-        levels[LEVEL_THREE.ordinal()] = new LevelThree(this, player);
-        levels[LEVEL_TUTORIAL.ordinal()] = new LevelZero(this, player);
+        levels[ActiveLevel.LEVEL_ONE.ordinal()] = new LevelOne(this, player);
+        levels[ActiveLevel.LEVEL_TWO.ordinal()] = new LevelTwo(this, player);
+        levels[ActiveLevel.LEVEL_THREE.ordinal()] = new LevelThree(this, player);
+        levels[ActiveLevel.LEVEL_TUTORIAL.ordinal()] = new LevelZero(this, player);
     }
 
     public void update(long deltaTime) {
@@ -99,18 +99,8 @@ public class Game implements KeyListener {
 
         if(newLevel < ActiveLevel.COUNT_LEVEL.ordinal()) {
             levels[newLevel].open();
+            player.setWorld(levels[newLevel].getTerra());
         }
-    }
-
-    public String getPath(ActiveLevel level) {
-        return switch (level) {
-            case LEVEL_ONE -> "Level One";
-            case LEVEL_TWO -> "Level Two";
-            case LEVEL_THREE -> "Level Three";
-            case LEVEL_TUTORIAL -> "Level Tutorial";
-            case COUNT_LEVEL -> null;
-            case NONE -> null;
-        };
     }
 
     public void kill() {
@@ -122,7 +112,7 @@ public class Game implements KeyListener {
     }
 
     public void levelCompleted() {
-        if(activeLevel == LEVEL_TUTORIAL) {
+        if(activeLevel == ActiveLevel.LEVEL_TUTORIAL) {
             stateManager.clearStates();
             stateManager.pushState(StateName.STATE_HOME);
             return;
@@ -130,7 +120,7 @@ public class Game implements KeyListener {
 
         activeLevel = ActiveLevel.values()[(activeLevel.ordinal() + 1)];
 
-        if(activeLevel == COUNT_LEVEL) {
+        if(activeLevel == ActiveLevel.COUNT_LEVEL) {
             System.out.println("WON THE GAME 😁");
         }
     }

@@ -35,6 +35,14 @@ public abstract class Level implements KeyListener {
         etherWorld = new EtherWorld(game, this, levelPath);
     }
 
+    public World getTerra() {
+        return terraWorld;
+    }
+
+    public World getEther() {
+        return etherWorld;
+    }
+
     public void update(long deltaTime) {
         terraWorld.update(deltaTime);
         etherWorld.update(deltaTime);
