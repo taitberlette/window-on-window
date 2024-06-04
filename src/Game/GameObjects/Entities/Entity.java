@@ -8,6 +8,7 @@ import Game.Worlds.World;
 import org.w3c.dom.css.Rect;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Entity extends GameObject {
 
@@ -137,15 +138,32 @@ public abstract class Entity extends GameObject {
         int horizontalMultiplier = maxHorizontalDistance < 0 ? -1 : 1;
 
         // find the collision point we test with
-        Point horizontalCollider = new Point(this.position);
-        horizontalCollider.translate((int) (size.getWidth() / 2) * horizontalMultiplier, 0);
+
+        Point[] sidePoint = new Point[5];
+
+        sidePoint[0] = new Point(this.position);
+        sidePoint[0].translate((int) (size.getWidth() / 2) * horizontalMultiplier, 0);
+
+        sidePoint[1] = new Point(this.position);
+        sidePoint[1].translate((int) (size.getWidth() / 2) * horizontalMultiplier, (int) -((size.getHeight()) / 3));
+
+        sidePoint[2] = new Point(this.position);
+        sidePoint[2].translate((int) (size.getWidth() / 2) * horizontalMultiplier, (int) ((size.getHeight()) / 3));
+        
+        sidePoint[3] = new Point(this.position);
+        sidePoint[3].translate((int) (size.getWidth() / 2) * horizontalMultiplier, (int) -((size.getHeight()) / 4));
+
+        sidePoint[4] = new Point(this.position);
+        sidePoint[4].translate((int) (size.getWidth() / 2) * horizontalMultiplier, (int) ((size.getHeight()) / 4));
 
         // traverse each step to check for collisions along the way
-        for (horizontalDistance = 0; horizontalDistance < Math.abs(maxHorizontalDistance); horizontalDistance++) {
-            horizontalCollider.translate(horizontalMultiplier, 0);
-            CollisionType testPoint = world.checkCollision(horizontalCollider);
-            if (testPoint == CollisionType.GROUND || testPoint == CollisionType.PLATFORM) {
-                break;
+        loop: for (horizontalDistance = 0; horizontalDistance < Math.abs(maxHorizontalDistance); horizontalDistance++) {
+            for(Point point : sidePoint) {
+                point.translate(horizontalMultiplier, 0);
+                CollisionType testPoint = world.checkCollision(point);
+                if (testPoint == CollisionType.GROUND || testPoint == CollisionType.PLATFORM) {
+                    break loop;
+                }
             }
         }
 
