@@ -173,7 +173,7 @@ public class Player extends Entity implements KeyListener {
             backArmAngle = Math.PI / 2;
         } else {
             frontArmAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
-            if(inventory.hasItem(Ammunition.BONE) || carryingBox != null || tunnelVisionSkill.wasUnlocked()) {
+            if(inventory.hasItem(Ammunition.BONE) || carryingWeapon != null || tunnelVisionSkill.wasUnlocked()) {
                 backArmAngle = aimAngle;
             } else {
                 backArmAngle = (12 * Math.PI) / 8;
