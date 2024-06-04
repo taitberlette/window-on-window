@@ -13,7 +13,7 @@ public class RailGun extends Shooter {
     private final int IMAGE_SCALE = 1;
     private Dimension size = new Dimension(48, 27);
     public RailGun() {
-        super((Class) Lightning.class, 5, 10, 1500);
+        super((Class) Lightning.class, 5, 20, 750);
         railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
     }
 

@@ -17,7 +17,7 @@ public class FlameThrower extends Shooter {
     private Dimension size = new Dimension(48, 27);
 
     public FlameThrower() {
-        super((Class) Flame.class, 10, 100, 750);
+        super((Class) Flame.class, 10, 100, 400);
         flameThrowerImage = AssetManager.getImage("res\\Weapons and Attacks\\FlameThrower.png");
     }
 

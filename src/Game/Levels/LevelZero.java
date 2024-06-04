@@ -12,6 +12,8 @@ import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
+import Game.GameObjects.Weapons.Shooter.FlameThrower;
+import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.Utilities.Ammunition;
 import Game.Utilities.Inventory;
 import Game.Worlds.CollisionType;
@@ -33,6 +35,8 @@ public class LevelZero extends Level {
     private Box box;
     private HellHound hellHound;
     private ShockSpider shockSpider;
+    private FlameThrower flameThrower;
+    private RailGun railGun;
     private WorldWindow terraWorldWindow;
     private WorldWindow etherWorldWindow;
     private ImageWindow introTutorialWindow;
@@ -51,7 +55,9 @@ public class LevelZero extends Level {
         TUTORIAL_PAUSE_PLATFORM,
         BOX,
         TUTORIAL_PAUSE_WALL,
-        CODE
+        WEAPON,
+        HELD_WEAPON,
+        COMPLETE
     }
 
     private IntroTutorialState tutorialState = IntroTutorialState.MOVEMENT;
@@ -89,6 +95,16 @@ public class LevelZero extends Level {
         box = new Box(new Point(250, 352));
         box.setWorld(etherWorld);
         etherWorld.addGameObject(box);
+
+        flameThrower = new FlameThrower();
+        flameThrower.setLocation(new Point(1547, 320));
+        flameThrower.setWorld(etherWorld);
+        etherWorld.addGameObject(flameThrower);
+
+        railGun = new RailGun();
+        railGun.setLocation(new Point(1654, 320));
+        railGun.setWorld(etherWorld);
+        etherWorld.addGameObject(railGun);
 
         hellHound = new HellHound();
         hellHound.setWorld(etherWorld);
@@ -156,6 +172,15 @@ public class LevelZero extends Level {
             introTutorialWindow.setVisible(true);
         } else if(tutorialState == IntroTutorialState.BOX && button.isActivated()) {
             tutorialState = IntroTutorialState.TUTORIAL_PAUSE_WALL;
+            introTutorialWindow.setVisible(false);
+        } else if(tutorialState == IntroTutorialState.TUTORIAL_PAUSE_WALL && (player.getBounds().intersects(railGun.getBounds()) || player.getBounds().intersects(flameThrower.getBounds()))) {
+            tutorialState = IntroTutorialState.WEAPON;
+            introTutorialWindow.changeImage(AssetManager.getImage("res\\Tutorial\\Weapons.png"));
+            introTutorialWindow.setVisible(true);
+        } else if(tutorialState == IntroTutorialState.WEAPON && player.getCarryingWeapon() != null) {
+            tutorialState = IntroTutorialState.HELD_WEAPON;
+        } else if(tutorialState == IntroTutorialState.HELD_WEAPON && player.getCarryingWeapon() == null) {
+            tutorialState = IntroTutorialState.COMPLETE;
             introTutorialWindow.setVisible(false);
         }
 

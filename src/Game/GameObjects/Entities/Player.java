@@ -6,6 +6,7 @@ import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Projectiles.TunnelVision;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
 import Game.GameObjects.Weapons.Shooter.BoneShooter;
+import Game.GameObjects.Weapons.Shooter.FlameThrower;
 import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.GameObjects.Weapons.Shooter.Shooter;
 import Game.GameObjects.Weapons.Weapon;
@@ -80,7 +81,6 @@ public class Player extends Entity implements KeyListener {
 
         this.boneShooter = new BoneShooter();
         this.boneShooter.setHeld(true);
-
 
         this.photosynthesisSkill = new Skill(1);
         this.fastLegsSkill = new Skill(10);
@@ -219,6 +219,10 @@ public class Player extends Entity implements KeyListener {
             playerStatsWindow.setVisible(false);
             playerStatsWindow = null;
         }
+    }
+
+    public Weapon getCarryingWeapon() {
+        return carryingWeapon;
     }
 
     public void unlockPhotosynthesis() {
