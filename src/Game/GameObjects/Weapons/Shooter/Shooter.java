@@ -15,8 +15,6 @@ public abstract class Shooter extends Weapon {
     protected Class<Projectile> projectile;
     protected long startAttack = 0;
     protected boolean doneCooldown;
-
-    private Dimension size = new Dimension(64, 64);
     private Point realPosition = new Point(0, 0);
 
     protected double velocityY;
@@ -33,7 +31,7 @@ public abstract class Shooter extends Weapon {
 
         if(!held) {
             Point base = new Point(this.position);
-            base.translate(0, ((int) size.getHeight() / 2) + 1);
+            base.translate(0, ((int) getBounds().getHeight() / 2) + 1);
             CollisionType collisionType = world.checkCollision(base);
 
             // update velocity and "real" position using delta time
@@ -51,7 +49,7 @@ public abstract class Shooter extends Weapon {
 
             // find the collision point we test with
             Point verticalCollider = new Point(this.position);
-            verticalCollider.translate(0, (int) (size.getHeight() / 2) * verticalMultiplier);
+            verticalCollider.translate(0, (int) (getBounds().getHeight() / 2) * verticalMultiplier);
 
             // traverse each step to check for collisions along the way
             for (verticalDistance = 0; verticalDistance < Math.abs(maxVerticalDistance); verticalDistance++) {

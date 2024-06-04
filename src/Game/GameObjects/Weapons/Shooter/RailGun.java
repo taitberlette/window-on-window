@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 public class RailGun extends Shooter {
     private BufferedImage railGunImage;
     private final int IMAGE_SCALE = 1;
+    private Dimension size = new Dimension(48, 27);
     public RailGun() {
         super((Class) Lightning.class, 5, 10, 1500);
         railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
@@ -34,6 +35,6 @@ public class RailGun extends Shooter {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle((int) (position.getX() - (railGunImage.getWidth() * IMAGE_SCALE) / 2), (int) (position.getY() - (railGunImage.getHeight() * IMAGE_SCALE) / 2), railGunImage.getWidth() * IMAGE_SCALE, (railGunImage.getHeight() * IMAGE_SCALE));
+        return new Rectangle((int) (position.getX() - (size.getWidth()) / 2), (int) (position.getY() - (size.getHeight()) / 2), (int) (size.getWidth()), (int) (size.getHeight()));
     }
 }

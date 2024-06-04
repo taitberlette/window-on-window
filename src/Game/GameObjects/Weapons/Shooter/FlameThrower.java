@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 public class FlameThrower extends Shooter {
     private BufferedImage flameThrowerImage;
     private final int IMAGE_SCALE = 1;
+    private Dimension size = new Dimension(48, 27);
 
     public FlameThrower() {
         super((Class) Flame.class, 10, 100, 750);
@@ -38,6 +39,6 @@ public class FlameThrower extends Shooter {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle((int) (position.getX() - (flameThrowerImage.getWidth() * IMAGE_SCALE) / 2), (int) (position.getY() - (flameThrowerImage.getHeight() * IMAGE_SCALE) / 2), flameThrowerImage.getWidth() * IMAGE_SCALE, (flameThrowerImage.getHeight() * IMAGE_SCALE));
+        return new Rectangle((int) (position.getX() - (size.getWidth()) / 2), (int) (position.getY() - (size.getHeight()) / 2), (int) (size.getWidth()), (int) (size.getHeight()));
     }
 }
