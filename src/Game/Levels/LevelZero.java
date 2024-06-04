@@ -65,8 +65,6 @@ public class LevelZero extends Level {
     public LevelZero(Game game, Player player) {
         super(game, player, "Level_Tutorial");
 
-        player.setLocation(new Point(246, 674));
-        player.setWorld(terraWorld);
         terraWorld.addGameObject(player);
 
         Random random = new Random();
@@ -134,10 +132,24 @@ public class LevelZero extends Level {
 
         introTutorialWindow = new ImageWindow("Tutorial", AssetManager.getImage("res\\Tutorial\\Movement.png"), new Point(110, 320));
         introTutorialWindow.setKeyListener(game);
-        introTutorialWindow.setVisible(true);
 
         skillsTutorialWindow = new ImageWindow("Skills", AssetManager.getImage("res\\Tutorial\\Skills.png"), new Point(81, 670));
         skillsTutorialWindow.setKeyListener(game);
+    }
+
+    public void open() {
+        super.open();
+
+        player.setLocation(new Point(246, 800));
+        player.setWorld(terraWorld);
+
+        introTutorialWindow.setVisible(true);
+    }
+
+    public void close() {
+        super.close();
+
+        introTutorialWindow.setVisible(false);
     }
 
     public void update(long deltaTime) {
