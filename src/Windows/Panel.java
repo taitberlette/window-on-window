@@ -63,6 +63,14 @@ public abstract class Panel extends JPanel {
 
     }
 
+    public void setSize(Dimension size) {
+        view.setSize(size);
+    }
+
+    public void setSize(int width, int height) {
+        view.setSize(new Dimension(width, height));
+    }
+
     public void setLocation(Point point) {
         view.setLocation(point);
     }

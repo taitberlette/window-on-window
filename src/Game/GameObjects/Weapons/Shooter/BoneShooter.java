@@ -15,9 +15,9 @@ public class BoneShooter extends Shooter {
         super((Class) Bone.class, 20, 500, 500);
     }
 
-    public void attack(World world, double angle, Point position, Inventory inventory) {
+    public void attack(double angle, Point position, Inventory inventory) {
         inventory.removeItem(Ammunition.BONE);
-        super.attack(world, angle, position, inventory);
+        super.attack(angle, position, inventory);
     }
 
     public boolean checkAmmunition(Inventory inventory) {

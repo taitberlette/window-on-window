@@ -1,10 +1,12 @@
 package Game.GameObjects.Entities;
 
 import Assets.AssetManager;
+import Game.GameObjects.GameObject;
 import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Projectiles.TunnelVision;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
 import Game.GameObjects.Weapons.Shooter.BoneShooter;
+import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.GameObjects.Weapons.Shooter.Shooter;
 import Game.GameObjects.Weapons.Weapon;
 import Game.Utilities.Ammunition;
@@ -16,12 +18,11 @@ import Game.Worlds.World;
 import Game.Game;
 import Windows.PlayerStatsWindow;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.util.ArrayList;
 
 public class Player extends Entity implements KeyListener {
 //    private BufferedImage[] playerWalkingTerraImages = new BufferedImage[2];
@@ -59,7 +60,7 @@ public class Player extends Entity implements KeyListener {
 
     private boolean aimingLeftKey = false;
     private boolean aimingRightKey = false;
-    private double angle = Math.PI / 2;
+    private double aimAngle = Math.PI / 2;
     private double angleSpeed = Math.PI;
 
     private final int HEAL_SPEED = 25;
@@ -75,7 +76,11 @@ public class Player extends Entity implements KeyListener {
         this.inventory = new Inventory();
 
         this.pocketKnife = new PocketKnife();
+        this.pocketKnife.setHeld(true);
+
         this.boneShooter = new BoneShooter();
+        this.boneShooter.setHeld(true);
+
 
         this.photosynthesisSkill = new Skill(1);
         this.fastLegsSkill = new Skill(10);
@@ -108,9 +113,9 @@ public class Player extends Entity implements KeyListener {
         }
 
         if(aimingLeftKey && !aimingRightKey) {
-            angle += angleSpeed * ((double) deltaTime / 1000000000);
+            aimAngle += angleSpeed * ((double) deltaTime / 1000000000);
         } else if(!aimingLeftKey && aimingRightKey) {
-            angle -= angleSpeed * ((double) deltaTime / 1000000000);
+            aimAngle -= angleSpeed * ((double) deltaTime / 1000000000);
         }
 
         super.update(deltaTime);
@@ -121,6 +126,10 @@ public class Player extends Entity implements KeyListener {
         }
 
         boneShooter.update(deltaTime);
+
+        if(carryingWeapon != null) {
+            carryingWeapon.update(deltaTime);
+        }
 
         if(playerStatsWindow != null){
             playerStatsWindow.update(deltaTime);
@@ -138,6 +147,12 @@ public class Player extends Entity implements KeyListener {
 
         if (photosynthesisSkill.wasUnlocked() && world instanceof TerraWorld){
             if (health < maxHealth){health+=((double) deltaTime / 1000000000) * HEAL_SPEED;}
+        }
+
+        if(carryingBox != null) {
+            Point boxPosition = new Point(position);
+            boxPosition.translate(0, -88);
+            carryingBox.setLocation(boxPosition);
         }
     }
 
@@ -159,35 +174,44 @@ public class Player extends Entity implements KeyListener {
 
         BufferedImage aimImage = world instanceof TerraWorld ? aimTerraImage : aimEtherImage;
 
-        if(inventory.hasItem(Ammunition.BONE) || tunnelVisionSkill.wasUnlocked()) {
-            int verticalOffset = 12;
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
-            graphics2D.rotate(-angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
-            graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
-            graphics2D.rotate(angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
+        double frontArmAngle = 0;
+        double backArmAngle = Math.PI;
+
+        if(carryingBox != null) {
+            frontArmAngle = Math.PI / 2;
+            backArmAngle = Math.PI / 2;
         } else {
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 20 : 18;
-            int verticalOffset = 19;
-            graphics2D.rotate(Math.PI / 2 , position.getX() + horizontalOffset, position.getY() - verticalOffset);
-            graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
-            graphics2D.rotate(-Math.PI / 2 , position.getX()+ horizontalOffset, position.getY() - verticalOffset);
+            frontArmAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
+            if(inventory.hasItem(Ammunition.BONE) || carryingWeapon != null || tunnelVisionSkill.wasUnlocked()) {
+                backArmAngle = aimAngle;
+            } else {
+                backArmAngle = (12 * Math.PI) / 8;
+            }
         }
-            int verticalOffsetOffhand = 20;
-            double knifeAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
-            graphics2D.rotate(-knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
-            graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffsetOffhand, null);
-            graphics2D.rotate(knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
-
-
 
         int verticalOffset = 12;
-        int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
-        int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
-        int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
 
-        graphics2D.setColor(Color.YELLOW);
-        graphics2D.fillRect(x - 1, y - 1, 3, 3);
+        int horizontalFrontOffset = lastDirection == HorizontalDirection.RIGHT ? 24 : - 24;
+        graphics2D.rotate(-frontArmAngle, position.getX() + horizontalFrontOffset, position.getY() - verticalOffset);
+        graphics2D.drawImage(aimImage, (int) position.getX() + horizontalFrontOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+        graphics2D.rotate(frontArmAngle, position.getX() + horizontalFrontOffset, position.getY() - verticalOffset);
 
+        int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
+        graphics2D.rotate(-backArmAngle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
+        graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+
+        if(carryingWeapon != null && carryingBox == null) {
+
+            boolean flipImage = (((backArmAngle + Math.PI / 2) % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2) > Math.PI;
+
+            BufferedImage weapon = carryingWeapon.getImage();
+
+            if(weapon != null) {
+                graphics2D.drawImage(weapon, (int) position.getX() + horizontalOffset + 20, (int) (position.getY() - weapon.getHeight() / 2) - verticalOffset + (flipImage ? weapon.getHeight() : 0), weapon.getWidth(), (flipImage ? -1 : 1) * weapon.getHeight(), null);
+            }
+        }
+
+        graphics2D.rotate(backArmAngle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
     }
 
     public void kill() {
@@ -214,41 +238,35 @@ public class Player extends Entity implements KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
+
+        int verticalOffset = 6;
+        int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
+        int x = (int) (position.getX() + horizontalOffset + (Math.cos(aimAngle) * (aimTerraImage.getWidth() )));
+        int y = (int) ((position.getY() - aimTerraImage.getHeight() / 2) - verticalOffset - (Math.sin(aimAngle) * (aimTerraImage.getWidth() )));
+
+        Point hand = new Point(x, y);
+
+
+
         if(e.getKeyCode() == KeyEvent.VK_UP && onGround) {
             velocityY = 400;
-        } else if(e.getKeyCode() == KeyEvent.VK_Q && pocketKnife != null && pocketKnife.checkCooldown()) {
+        } else if(carryingBox == null && e.getKeyCode() == KeyEvent.VK_Q && pocketKnife != null && pocketKnife.checkCooldown()) {
             pocketKnife.attack(lastDirection);
-        } else if(e.getKeyCode() == KeyEvent.VK_W) {
-
+        } else if(carryingBox == null && e.getKeyCode() == KeyEvent.VK_W) {
             Shooter shooter = boneShooter;
 
             if(carryingWeapon != null && carryingWeapon instanceof Shooter carryingShooter) {
                 shooter = carryingShooter;
             }
 
-            int verticalOffset = 12;
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
-
-            int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
-            int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
-
-            Point hand = new Point(x, y);
-
             if(shooter.checkCooldown() && shooter.checkAmmunition(inventory)) {
-                shooter.attack(world, angle, hand, inventory);
+                shooter.attack(aimAngle, hand, inventory);
             }
         } else if(e.getKeyCode() == KeyEvent.VK_E && tunnelVisionSkill.wasUnlocked() && tunnelVisionSkill.isFull()) {
-            int verticalOffset = 12;
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
-
-            int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
-            int y = (int) (position.getY() - verticalOffset  - (aimTerraImage.getHeight() / 2) - (Math.sin(angle) * (aimTerraImage.getHeight() )));
-
-            Point hand = new Point(x, y);
 
             TunnelVision tunnelVision = new TunnelVision();
             tunnelVision.setLocation(hand);
-            tunnelVision.launch(world, angle, 750, 0);
+            tunnelVision.launch(world, aimAngle, 750, 0);
             world.addGameObject(tunnelVision);
 
             tunnelVisionSkill.useFull();
@@ -266,8 +284,42 @@ public class Player extends Entity implements KeyListener {
             aimingLeftKey = true;
         } else if(e.getKeyCode() == KeyEvent.VK_D) {
             aimingRightKey = true;
-        }
+        } else if(e.getKeyCode() == KeyEvent.VK_F) {
+            if(carryingBox == null) {
+                // pickup box
+                ArrayList<GameObject> gameObjects = world.findGameObjects(getBounds());
 
+                for(GameObject gameObject : gameObjects) {
+                    if(gameObject instanceof Box box) {
+                        box.setGrabbed(true);
+                        carryingBox = box;
+                        break;
+                    }
+                }
+            } else {
+                // drop box
+                carryingBox.setGrabbed(false);
+                carryingBox = null;
+            }
+        }  else if(e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            if(carryingWeapon == null) {
+                // pickup weapon
+                ArrayList<Weapon> droppedWeapons = world.findWeapons(getBounds());
+
+                for(Weapon weapon : droppedWeapons) {
+                    weapon.setHeld(false);
+                    carryingWeapon = weapon;
+                    world.removeGameObject(carryingWeapon);
+                    break;
+                }
+            } else {
+                // drop weapon
+                world.addGameObject(carryingWeapon);
+                carryingWeapon.setLocation(hand);
+                carryingWeapon.setHeld(false);
+                carryingWeapon = null;
+            }
+        }
 
         if(fastLegsSkill.wasUnlocked() && e.getKeyCode() == KeyEvent.VK_S && fastLegsSkill.getCooldown() > 3){
             fastLegsSkill.activate();
@@ -294,10 +346,25 @@ public class Player extends Entity implements KeyListener {
     }
 
     public void setWorld(World world) {
+        if(world != this.world) {
+            if(carryingBox != null) {
+                carryingBox.setGrabbed(false);
+                carryingBox = null;
+            }
+        }
+
         this.world = world;
 
         if(this.pocketKnife != null) {
             this.pocketKnife.setWorld(world);
+        }
+
+        if(this.boneShooter != null) {
+            this.boneShooter.setWorld(world);
+        }
+
+        if(this.carryingWeapon != null) {
+            this.carryingWeapon.setWorld(world);
         }
     }
 

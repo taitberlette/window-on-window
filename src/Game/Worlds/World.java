@@ -9,14 +9,11 @@ import Game.GameObjects.GameObject;
 import Game.GameObjects.Projectiles.Projectile;
 import Game.GameObjects.Weapons.Weapon;
 import Game.Levels.Level;
-import Windows.WorldWindow;
-import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.ArrayList;
 
 public abstract class World implements KeyListener {
@@ -282,6 +279,63 @@ public abstract class World implements KeyListener {
         }
 
         return collidingMechanisms;
+    }
+
+
+    public ArrayList<Weapon> findWeapons(Point point) {
+        ArrayList<Weapon> collidingWeapons = new ArrayList<>();
+
+        for(Weapon weapon : droppedWeapons) {
+            Rectangle bounds = weapon.getBounds();
+
+            if(bounds.contains(point)) {
+                collidingWeapons.add(weapon);
+            }
+        }
+
+        return collidingWeapons;
+    }
+
+    public ArrayList<Weapon> findWeapons(Rectangle originalBounds) {
+        ArrayList<Weapon> collidingWeapons = new ArrayList<>();
+
+        for(Weapon weapon : droppedWeapons) {
+            Rectangle bounds = weapon.getBounds();
+
+            if(bounds.intersects(originalBounds)) {
+                collidingWeapons.add(weapon);
+            }
+        }
+
+        return collidingWeapons;
+    }
+
+    public ArrayList<GameObject> findGameObjects(Point point) {
+        ArrayList<GameObject> collidingGameObject = new ArrayList<>();
+
+        for(GameObject gameObject : gameObjects) {
+            Rectangle bounds = gameObject.getBounds();
+
+            if(bounds.contains(point)) {
+                collidingGameObject.add(gameObject);
+            }
+        }
+
+        return collidingGameObject;
+    }
+
+    public ArrayList<GameObject> findGameObjects(Rectangle originalBounds) {
+        ArrayList<GameObject> collidingGameObject = new ArrayList<>();
+
+        for(GameObject gameObject : gameObjects) {
+            Rectangle bounds = gameObject.getBounds();
+
+            if(bounds.intersects(originalBounds)) {
+                collidingGameObject.add(gameObject);
+            }
+        }
+
+        return collidingGameObject;
     }
 
     public Level getLevel() {

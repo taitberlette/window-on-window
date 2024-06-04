@@ -48,7 +48,7 @@ public class PocketKnife extends Melee {
             }
 
             if(!hitSomething) {
-                int endOfKnife = (int) (position.getX() + offset.getX() + (attackDirection == HorizontalDirection.RIGHT ? 48 : - 48) - 1);
+                int endOfKnife = (int) (position.getX() + offset.getX() + (attackDirection == HorizontalDirection.RIGHT ? 76 : - 76) - 1);
                 Point knife = new Point(endOfKnife, (int) position.getY());
 
                 ArrayList<Entity> entities = world.findEntities(knife);
@@ -70,16 +70,16 @@ public class PocketKnife extends Melee {
         int xOffset = attackDirection == HorizontalDirection.RIGHT ? 32 : 0;
 
         if(attackDirection == HorizontalDirection.RIGHT) {
-            xOffset += 52 / 2;
+            xOffset += 96 / 2;
         } else {
-            xOffset -= (32 + (52 / 2));
+            xOffset -= (32 + (96 / 2));
         }
 
 
         graphics2D.drawImage(pocketKnifeImage, (int) (position.getX() + offset.getX() + xOffset), (int) position.getY() - 16, 32 * (attackDirection == HorizontalDirection.RIGHT ? -1 : 1), 32, null);
 
 //        graphics2D.setColor(Color.BLUE);
-//        graphics2D.fillRect((int) (position.getX() + offset.getX() + (attackDirection == HorizontalDirection.RIGHT ? 48 : - 48) - 1), (int) (position.getY() - 1), 3, 3);
+//        graphics2D.fillRect((int) (position.getX() + offset.getX() + (attackDirection == HorizontalDirection.RIGHT ? 76 : - 76) - 1), (int) (position.getY() - 1), 3, 3);
     }
 
     public void attack(HorizontalDirection attackDirection) {

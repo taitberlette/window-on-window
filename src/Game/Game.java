@@ -121,6 +121,20 @@ public class Game implements KeyListener {
         player.kill();
     }
 
+    public void levelCompleted() {
+        if(activeLevel == LEVEL_TUTORIAL) {
+            stateManager.clearStates();
+            stateManager.pushState(StateName.STATE_HOME);
+            return;
+        }
+
+        activeLevel = ActiveLevel.values()[(activeLevel.ordinal() + 1)];
+
+        if(activeLevel == COUNT_LEVEL) {
+            System.out.println("WON THE GAME 😁");
+        }
+    }
+
 
     public void keyTyped(KeyEvent e) {
         typedEvents.add(e);

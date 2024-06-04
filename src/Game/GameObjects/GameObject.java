@@ -18,7 +18,7 @@ public class GameObject implements KeyListener {
     }
 
     public void setLocation(Point position) {
-        this.position = position;
+        this.position.setLocation(position);
     }
 
     public Point getLocation() {
@@ -43,5 +43,9 @@ public class GameObject implements KeyListener {
 
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle(0, 0, 0, 0);
     }
 }

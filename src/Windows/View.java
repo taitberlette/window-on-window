@@ -63,6 +63,8 @@ public class View {
         frame.setFocusable(true);
 
         if(listener != null) {
+            // remove it if already on
+            frame.removeKeyListener(listener);
             frame.addKeyListener(listener);
         }
     }
@@ -73,6 +75,9 @@ public class View {
 
     public void setListener(KeyListener listener) {
         this.listener = listener;
+        // remove it if already on
+        frame.removeKeyListener(listener);
+        frame.addKeyListener(listener);
     }
 
     public JFrame getFrame() {
