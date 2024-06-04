@@ -2,6 +2,8 @@ package Game.Levels;
 
 import Game.Game;
 import Game.GameObjects.Entities.Player;
+import Game.GameObjects.Gadgets.MovingPlatform;
+import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
 import Windows.WorldWindow;
@@ -33,6 +35,12 @@ public class LevelOne extends Level {
 
         Door door = new Door(new Point(1774, 332), player, terraWorld, game, "Level_One", combination);
         terraWorld.addGameObject(door);
+
+        Target target = new Target(new Point(362, 725));
+        etherWorld.addGameObject(target);
+
+        MovingPlatform platform = new MovingPlatform(new Point(224, 922), new Point(224, 579), target);
+        etherWorld.addGameObject(platform);
 
         WorldWindow terraWorldWindow = new WorldWindow(terraWorld);
         terraWorldWindow.setTarget(player);
