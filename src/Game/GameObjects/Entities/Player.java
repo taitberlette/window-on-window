@@ -6,7 +6,6 @@ import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Projectiles.TunnelVision;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
 import Game.GameObjects.Weapons.Shooter.BoneShooter;
-import Game.GameObjects.Weapons.Shooter.FlameThrower;
 import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.GameObjects.Weapons.Shooter.Shooter;
 import Game.GameObjects.Weapons.Weapon;
@@ -77,7 +76,11 @@ public class Player extends Entity implements KeyListener {
         this.inventory = new Inventory();
 
         this.pocketKnife = new PocketKnife();
+        this.pocketKnife.setHeld(true);
+
         this.boneShooter = new BoneShooter();
+        this.boneShooter.setHeld(true);
+
 
         this.photosynthesisSkill = new Skill(1);
         this.fastLegsSkill = new Skill(10);
@@ -284,7 +287,7 @@ public class Player extends Entity implements KeyListener {
         } else if(e.getKeyCode() == KeyEvent.VK_F) {
             if(carryingBox == null) {
                 // pickup box
-                ArrayList<GameObject> gameObjects = world.findGameObject(getBounds());
+                ArrayList<GameObject> gameObjects = world.findGameObjects(getBounds());
 
                 for(GameObject gameObject : gameObjects) {
                     if(gameObject instanceof Box box) {
@@ -297,6 +300,24 @@ public class Player extends Entity implements KeyListener {
                 // drop box
                 carryingBox.setGrabbed(false);
                 carryingBox = null;
+            }
+        }  else if(e.getKeyCode() == KeyEvent.VK_SHIFT) {
+            if(carryingWeapon == null) {
+                // pickup weapon
+                ArrayList<Weapon> droppedWeapons = world.findWeapons(getBounds());
+
+                for(Weapon weapon : droppedWeapons) {
+                    weapon.setHeld(false);
+                    carryingWeapon = weapon;
+                    world.removeGameObject(carryingWeapon);
+                    break;
+                }
+            } else {
+                // drop weapon
+                world.addGameObject(carryingWeapon);
+                carryingWeapon.setLocation(hand);
+                carryingWeapon.setHeld(false);
+                carryingWeapon = null;
             }
         }
 

@@ -12,8 +12,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class FlameThrower extends Shooter {
+    private BufferedImage flameThrowerImage;
+    private final int IMAGE_SCALE = 1;
+
     public FlameThrower() {
         super((Class) Flame.class, 10, 100, 750);
+        flameThrowerImage = AssetManager.getImage("res\\Weapons and Attacks\\FlameThrower.png");
+    }
+
+    public void draw(Graphics2D graphics2D) {
+        graphics2D.drawImage((Image) flameThrowerImage, (int) (position.getX() - (flameThrowerImage.getWidth() * IMAGE_SCALE) / 2), (int) (position.getY() - (flameThrowerImage.getHeight() * IMAGE_SCALE) / 2), flameThrowerImage.getWidth() * IMAGE_SCALE, (flameThrowerImage.getHeight() * IMAGE_SCALE), null);
     }
 
     public void attack(double angle, Point position, Inventory inventory) {
@@ -27,5 +35,9 @@ public class FlameThrower extends Shooter {
 
     public BufferedImage getImage() {
         return AssetManager.getImage("res\\Weapons and Attacks\\FlameThrower.png");
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle((int) (position.getX() - (flameThrowerImage.getWidth() * IMAGE_SCALE) / 2), (int) (position.getY() - (flameThrowerImage.getHeight() * IMAGE_SCALE) / 2), flameThrowerImage.getWidth() * IMAGE_SCALE, (flameThrowerImage.getHeight() * IMAGE_SCALE));
     }
 }

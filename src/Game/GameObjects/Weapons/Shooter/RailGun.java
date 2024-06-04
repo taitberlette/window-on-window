@@ -1,19 +1,23 @@
 package Game.GameObjects.Weapons.Shooter;
 
 import Assets.AssetManager;
-import Game.GameObjects.Projectiles.Flame;
 import Game.GameObjects.Projectiles.Lightning;
-import Game.GameObjects.Projectiles.Projectile;
 import Game.Utilities.Ammunition;
 import Game.Utilities.Inventory;
-import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class RailGun extends Shooter {
+    private BufferedImage railGunImage;
+    private final int IMAGE_SCALE = 1;
     public RailGun() {
         super((Class) Lightning.class, 5, 10, 1500);
+        railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
+    }
+
+    public void draw(Graphics2D graphics2D) {
+        graphics2D.drawImage((Image) railGunImage, (int) (position.getX() - (railGunImage.getWidth() * IMAGE_SCALE) / 2), (int) (position.getY() - (railGunImage.getHeight() * IMAGE_SCALE) / 2), railGunImage.getWidth() * IMAGE_SCALE, (railGunImage.getHeight() * IMAGE_SCALE), null);
     }
 
     public void attack(double angle, Point position, Inventory inventory) {
@@ -27,5 +31,9 @@ public class RailGun extends Shooter {
 
     public BufferedImage getImage() {
         return AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
+    }
+
+    public Rectangle getBounds() {
+        return new Rectangle((int) (position.getX() - (railGunImage.getWidth() * IMAGE_SCALE) / 2), (int) (position.getY() - (railGunImage.getHeight() * IMAGE_SCALE) / 2), railGunImage.getWidth() * IMAGE_SCALE, (railGunImage.getHeight() * IMAGE_SCALE));
     }
 }

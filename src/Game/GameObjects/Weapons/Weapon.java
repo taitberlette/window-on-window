@@ -11,6 +11,7 @@ public abstract class Weapon extends GameObject {
     protected int cooldown;
     protected World world;
     protected int speed;
+    protected boolean held;
 
     public Weapon(int damage, int cooldown, int speed) {
         this.damage = damage;
@@ -24,5 +25,13 @@ public abstract class Weapon extends GameObject {
 
     public BufferedImage getImage() {
         return null;
+    }
+
+    public void setHeld(boolean held) {
+        this.held = held;
+    }
+
+    public boolean isHeld() {
+        return held;
     }
 }

@@ -27,7 +27,7 @@ public class BoxButton extends Switch {
     public void update(long deltaTime) {
         activated = false;
 
-        ArrayList<GameObject> gameObjects = world.findGameObject(getBounds());
+        ArrayList<GameObject> gameObjects = world.findGameObjects(getBounds());
 
         for(GameObject gameObject : gameObjects) {
             if(gameObject instanceof Box) {
