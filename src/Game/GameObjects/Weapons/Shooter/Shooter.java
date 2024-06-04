@@ -29,7 +29,7 @@ public abstract class Shooter extends Weapon {
         doneCooldown = progress > cooldown;
     }
 
-    public void attack(World world, double angle, Point position, Inventory inventory) {
+    public void attack(double angle, Point position, Inventory inventory) {
         startAttack = System.currentTimeMillis();
         doneCooldown = false;
 

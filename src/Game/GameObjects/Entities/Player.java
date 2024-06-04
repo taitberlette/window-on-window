@@ -6,6 +6,8 @@ import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Projectiles.TunnelVision;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
 import Game.GameObjects.Weapons.Shooter.BoneShooter;
+import Game.GameObjects.Weapons.Shooter.FlameThrower;
+import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.GameObjects.Weapons.Shooter.Shooter;
 import Game.GameObjects.Weapons.Weapon;
 import Game.Utilities.Ammunition;
@@ -122,6 +124,10 @@ public class Player extends Entity implements KeyListener {
 
         boneShooter.update(deltaTime);
 
+        if(carryingWeapon != null) {
+            carryingWeapon.update(deltaTime);
+        }
+
         if(playerStatsWindow != null){
             playerStatsWindow.update(deltaTime);
         }
@@ -190,6 +196,18 @@ public class Player extends Entity implements KeyListener {
         int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
         graphics2D.rotate(-backArmAngle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
         graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+
+        if(carryingWeapon != null && carryingBox == null) {
+
+            boolean flipImage = (((backArmAngle + Math.PI / 2) % (Math.PI * 2)) + (Math.PI * 2)) % (Math.PI * 2) > Math.PI;
+
+            BufferedImage weapon = carryingWeapon.getImage();
+
+            if(weapon != null) {
+                graphics2D.drawImage(weapon, (int) position.getX() + horizontalOffset + 20, (int) (position.getY() - weapon.getHeight() / 2) - verticalOffset + (flipImage ? weapon.getHeight() : 0), weapon.getWidth(), (flipImage ? -1 : 1) * weapon.getHeight(), null);
+            }
+        }
+
         graphics2D.rotate(backArmAngle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
     }
 
@@ -239,7 +257,7 @@ public class Player extends Entity implements KeyListener {
             }
 
             if(shooter.checkCooldown() && shooter.checkAmmunition(inventory)) {
-                shooter.attack(world, aimAngle, hand, inventory);
+                shooter.attack(aimAngle, hand, inventory);
             }
         } else if(e.getKeyCode() == KeyEvent.VK_E && tunnelVisionSkill.wasUnlocked() && tunnelVisionSkill.isFull()) {
 
@@ -318,6 +336,14 @@ public class Player extends Entity implements KeyListener {
 
         if(this.pocketKnife != null) {
             this.pocketKnife.setWorld(world);
+        }
+
+        if(this.boneShooter != null) {
+            this.boneShooter.setWorld(world);
+        }
+
+        if(this.carryingWeapon != null) {
+            this.carryingWeapon.setWorld(world);
         }
     }
 

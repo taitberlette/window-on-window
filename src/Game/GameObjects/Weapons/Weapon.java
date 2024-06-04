@@ -4,6 +4,7 @@ import Game.GameObjects.GameObject;
 import Game.Worlds.World;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class Weapon extends GameObject {
     protected int damage;
@@ -19,5 +20,9 @@ public abstract class Weapon extends GameObject {
 
     public void setWorld(World world) {
         this.world = world;
+    }
+
+    public BufferedImage getImage() {
+        return null;
     }
 }
