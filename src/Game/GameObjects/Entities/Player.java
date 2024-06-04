@@ -17,12 +17,10 @@ import Game.Worlds.World;
 import Game.Game;
 import Windows.PlayerStatsWindow;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
 public class Player extends Entity implements KeyListener {
@@ -61,7 +59,7 @@ public class Player extends Entity implements KeyListener {
 
     private boolean aimingLeftKey = false;
     private boolean aimingRightKey = false;
-    private double angle = Math.PI / 2;
+    private double aimAngle = Math.PI / 2;
     private double angleSpeed = Math.PI;
 
     private final int HEAL_SPEED = 25;
@@ -110,9 +108,9 @@ public class Player extends Entity implements KeyListener {
         }
 
         if(aimingLeftKey && !aimingRightKey) {
-            angle += angleSpeed * ((double) deltaTime / 1000000000);
+            aimAngle += angleSpeed * ((double) deltaTime / 1000000000);
         } else if(!aimingLeftKey && aimingRightKey) {
-            angle -= angleSpeed * ((double) deltaTime / 1000000000);
+            aimAngle -= angleSpeed * ((double) deltaTime / 1000000000);
         }
 
         super.update(deltaTime);
@@ -167,26 +165,32 @@ public class Player extends Entity implements KeyListener {
 
         BufferedImage aimImage = world instanceof TerraWorld ? aimTerraImage : aimEtherImage;
 
-        if(inventory.hasItem(Ammunition.BONE) || carryingWeapon != null || tunnelVisionSkill.wasUnlocked()) {
-            int verticalOffset = 12;
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
-            graphics2D.rotate(-angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
-            graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
-            graphics2D.rotate(angle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
+        double frontArmAngle = 0;
+        double backArmAngle = Math.PI;
+
+        if(carryingBox != null) {
+            frontArmAngle = Math.PI / 2;
+            backArmAngle = Math.PI / 2;
         } else {
-            int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
-            int verticalOffset = 19;
-            graphics2D.rotate(Math.PI / 2 , position.getX() + horizontalOffset, position.getY() - verticalOffset);
-            graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
-            graphics2D.rotate(-Math.PI / 2 , position.getX()+ horizontalOffset, position.getY() - verticalOffset);
+            frontArmAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
+            if(inventory.hasItem(Ammunition.BONE) || carryingBox != null || tunnelVisionSkill.wasUnlocked()) {
+                backArmAngle = aimAngle;
+            } else {
+                backArmAngle = (12 * Math.PI) / 8;
+            }
         }
 
-        int verticalOffsetOffhand = 20;
-        double knifeAngle = lastDirection == HorizontalDirection.RIGHT ? (15 * Math.PI) / 8 : (9 * Math.PI) / 8;
-        graphics2D.rotate(-knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
-        graphics2D.drawImage(aimImage, (int) position.getX() + 10, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffsetOffhand, null);
-        graphics2D.rotate(knifeAngle, position.getX(), position.getY() - verticalOffsetOffhand);
+        int verticalOffset = 12;
 
+        int horizontalFrontOffset = lastDirection == HorizontalDirection.RIGHT ? 24 : - 24;
+        graphics2D.rotate(-frontArmAngle, position.getX() + horizontalFrontOffset, position.getY() - verticalOffset);
+        graphics2D.drawImage(aimImage, (int) position.getX() + horizontalFrontOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+        graphics2D.rotate(frontArmAngle, position.getX() + horizontalFrontOffset, position.getY() - verticalOffset);
+
+        int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ? - 12 : 12;
+        graphics2D.rotate(-backArmAngle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
+        graphics2D.drawImage(aimImage, (int) position.getX() + horizontalOffset, (int) (position.getY() - aimImage.getHeight() / 2) - verticalOffset, null);
+        graphics2D.rotate(backArmAngle, position.getX() + horizontalOffset, position.getY() - verticalOffset);
     }
 
     public void kill() {
@@ -216,8 +220,8 @@ public class Player extends Entity implements KeyListener {
 
         int verticalOffset = 6;
         int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
-        int x = (int) (position.getX() + horizontalOffset + (Math.cos(angle) * (aimTerraImage.getWidth() )));
-        int y = (int) ((position.getY() - aimTerraImage.getHeight() / 2) - verticalOffset - (Math.sin(angle) * (aimTerraImage.getWidth() )));
+        int x = (int) (position.getX() + horizontalOffset + (Math.cos(aimAngle) * (aimTerraImage.getWidth() )));
+        int y = (int) ((position.getY() - aimTerraImage.getHeight() / 2) - verticalOffset - (Math.sin(aimAngle) * (aimTerraImage.getWidth() )));
 
         Point hand = new Point(x, y);
 
@@ -235,13 +239,13 @@ public class Player extends Entity implements KeyListener {
             }
 
             if(shooter.checkCooldown() && shooter.checkAmmunition(inventory)) {
-                shooter.attack(world, angle, hand, inventory);
+                shooter.attack(world, aimAngle, hand, inventory);
             }
         } else if(e.getKeyCode() == KeyEvent.VK_E && tunnelVisionSkill.wasUnlocked() && tunnelVisionSkill.isFull()) {
 
             TunnelVision tunnelVision = new TunnelVision();
             tunnelVision.setLocation(hand);
-            tunnelVision.launch(world, angle, 750, 0);
+            tunnelVision.launch(world, aimAngle, 750, 0);
             world.addGameObject(tunnelVision);
 
             tunnelVisionSkill.useFull();
