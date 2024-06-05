@@ -6,6 +6,7 @@ import Game.GameObjects.Gadgets.MovingPlatform;
 import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
+import Game.GameObjects.Objects.Tree;
 import Windows.WorldWindow;
 
 import java.awt.*;
@@ -35,6 +36,8 @@ public class LevelOne extends Level {
 
         Door door = new Door(new Point(1774, 332), player, terraWorld, game, "Level_One", combination);
         terraWorld.addGameObject(door);
+
+
 
         Target target = new Target(new Point(362, 725));
         etherWorld.addGameObject(target);

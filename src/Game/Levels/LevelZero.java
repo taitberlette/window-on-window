@@ -12,6 +12,7 @@ import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Box;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
+import Game.GameObjects.Objects.Tree;
 import Game.GameObjects.Weapons.Shooter.FlameThrower;
 import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.Utilities.Ammunition;
@@ -76,6 +77,9 @@ public class LevelZero extends Level {
 
         door = new Door(new Point(1789, 255), player, terraWorld, game, "Level_Tutorial", combination);
         terraWorld.addGameObject(door);
+
+        Tree tree = new Tree(new Point (180, 828));
+        terraWorld.addGameObject(tree);
 
         target = new Target(new Point(890, 700));
         etherWorld.addGameObject(target);

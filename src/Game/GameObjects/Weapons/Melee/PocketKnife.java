@@ -1,8 +1,11 @@
 package Game.GameObjects.Weapons.Melee;
 
 import Assets.AssetManager;
+import Game.Game;
 import Game.GameObjects.Entities.Enemies.Enemy;
 import Game.GameObjects.Entities.Entity;
+import Game.GameObjects.GameObject;
+import Game.GameObjects.Objects.Tree;
 import Game.Utilities.HorizontalDirection;
 import Game.Worlds.World;
 
@@ -57,6 +60,14 @@ public class PocketKnife extends Melee {
                     if(entity instanceof Enemy enemy) {
                         enemy.hurt(damage);
                         hitSomething = true;
+                        break;
+                    }
+                }
+
+                ArrayList<GameObject> gameObjects = world.findGameObjects(knife);
+                for(GameObject gameObject : gameObjects) {
+                    if(gameObject instanceof Tree tree) {
+                        tree.dropApple();
                         break;
                     }
                 }
