@@ -66,8 +66,6 @@ public class LevelZero extends Level {
     public LevelZero(Game game, Player player) {
         super(game, player, "Level_Tutorial");
 
-        terraWorld.addGameObject(player);
-
         Random random = new Random();
 
         int[] combination = {random.nextInt(1, 10)};
@@ -142,6 +140,7 @@ public class LevelZero extends Level {
 
         player.setLocation(new Point(246, 800));
         player.setWorld(terraWorld);
+        terraWorld.addGameObject(player);
 
         introTutorialWindow.setVisible(true);
     }

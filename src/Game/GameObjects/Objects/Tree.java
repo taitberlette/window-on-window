@@ -17,7 +17,6 @@ public class Tree extends GameObject {
     private int maxApples = 5;
     private final int IMAGE_SCALE = 3;
     private Dimension size = new Dimension(128, 128);
-    private Point position;
 
     public Tree(Point position){
         super(position);

@@ -63,7 +63,7 @@ public class ValkyrieDrone extends Enemy{
 
     public void kill() {
         player.getInventory().addItems(Ammunition.LIGHTNING_CHARGE, random.nextInt(5, 16));
-        RailGun railGun = new RailGun();
+        RailGun railGun = new RailGun(world);
         railGun.setLocation(position);
         world.addGameObject(railGun);
     }

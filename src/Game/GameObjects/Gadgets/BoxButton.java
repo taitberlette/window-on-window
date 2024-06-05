@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class BoxButton extends Switch {
     private BufferedImage buttonImage;
     private final int IMAGE_SCALE = 4;
-    private World world;
 
     public BoxButton(Point position, int switcherId, World world) {
         super(position, new Dimension(40, 64), switcherId, world);
