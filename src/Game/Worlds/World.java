@@ -53,6 +53,9 @@ public abstract class World implements KeyListener {
     }
 
     public World(ArrayList<String> lines, Game game, Level level, Player player, String levelPath) {
+        this.game = game;
+        this.level = level;
+
         for(int i = 0; i < lines.size(); i++){
             String packet = lines.get(i);
 

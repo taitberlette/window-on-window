@@ -31,6 +31,10 @@ public class Switch extends GameObject {
                 switcherId = Integer.parseInt(line.replace("ID=", ""));
             }
         }
+
+        this.world = world;
+
+        world.setSwitcher(switcherId, activated);
     }
 
     public Dimension getSize() {

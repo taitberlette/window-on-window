@@ -73,7 +73,7 @@ public class GameObject implements KeyListener {
         String result = "";
 
         result += "X=" + position.getX() + "\n";
-        result += "Y=" + position.getX() + "\n";
+        result += "Y=" + position.getY() + "\n";
 
         return result;
     }

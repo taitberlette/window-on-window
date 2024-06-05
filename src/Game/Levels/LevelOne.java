@@ -62,28 +62,28 @@ public class LevelOne extends Level {
 
     public LevelOne(ArrayList<String> lines, Game game, Player player) {
         super(lines, game, player, "Level_One");
-        terraWorld.addGameObject(player);
 
-        WorldWindow terraWorldWindow = new WorldWindow(terraWorld);
-        terraWorldWindow.setTarget(player);
-        terraWorldWindow.setFocusable(true);
-        terraWorldWindow.requestFocus();
-        terraWorldWindow.setKeyListener(game);
-        worldWindows.add(terraWorldWindow);
-
-        WorldWindow etherWorldWindow = new WorldWindow(etherWorld);
-        etherWorldWindow.setFocusable(true);
-        etherWorldWindow.requestFocus();
-        etherWorldWindow.setKeyListener(game);
-        etherWorldWindow.setLocation(new Point(1544, 500));
-        worldWindows.add(etherWorldWindow);
+        if(inTerra) {
+            terraWorld.addGameObject(player);
+        } else {
+            etherWorld.addGameObject(player);
+        }
     }
 
     public void open() {
         super.open();
 
-        player.setLocation(new Point(124, 800));
+        if(!levelPlayed) {
+            levelPlayed = true;
+            inTerra = true;
+            playerPosition = new Point(124, 800);
 
-        player.setWorld(terraWorld);
+            player.setLocation(playerPosition);
+            player.setWorld(terraWorld);
+        } else {
+            System.out.println("LEVEL WAS PLAYED BEFORE, PUT THE PLAYER IN TERRA? " + inTerra);
+            player.setLocation(playerPosition);
+            player.setWorld(inTerra ? terraWorld : etherWorld);
+        }
     }
 }

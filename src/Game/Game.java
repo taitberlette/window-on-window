@@ -169,7 +169,6 @@ public class Game implements KeyListener {
 
         if(newLevel < ActiveLevel.COUNT_LEVEL.ordinal()) {
             levels[newLevel].open();
-            player.setWorld(levels[newLevel].getTerra());
         }
     }
 

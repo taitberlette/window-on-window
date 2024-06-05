@@ -34,7 +34,7 @@ public class MovingPlatform extends Mechanism {
     }
 
     public MovingPlatform(ArrayList<String> lines, World world) {
-        super(lines, new Dimension(64, 192), world);
+        super(lines, new Dimension(128, 80), world);
 
         double startX = 0;
         double startY = 0;
