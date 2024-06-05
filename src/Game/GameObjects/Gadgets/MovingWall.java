@@ -1,6 +1,7 @@
 package Game.GameObjects.Gadgets;
 
 import Assets.AssetManager;
+import Game.Worlds.World;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,8 +18,8 @@ public class MovingWall extends Mechanism {
     private Point endPoint;
     private int speed;
 
-    public MovingWall(Point position, Point end, Switch switcher) {
-        super(position, new Dimension(64, 192), switcher);
+    public MovingWall(Point position, Point end, int switcherId, World world) {
+        super(position, new Dimension(64, 192), switcherId, world);
 
         this.realPosition = new Point(position);
         this.startPoint = new Point(position);
@@ -29,8 +30,8 @@ public class MovingWall extends Mechanism {
         wallImage = AssetManager.getImage("res\\Objects\\Wall.png");
     }
 
-    public MovingWall(ArrayList<String> lines) {
-        super(lines, new Dimension(64, 192), switcher);
+    public MovingWall(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(64, 192), world);
 
         int startX = 0;
         int startY = 0;
@@ -46,6 +47,8 @@ public class MovingWall extends Mechanism {
                 endX = Integer.parseInt(line.replace("ENDX=", ""));
             } else if(line.startsWith("ENDY=")) {
                 endY = Integer.parseInt(line.replace("ENDY=", ""));
+            } else if(line.startsWith("ID=")) {
+                switcherId = Integer.parseInt(line.replace("ID=", ""));
             }
         }
 
@@ -61,10 +64,10 @@ public class MovingWall extends Mechanism {
     public void update(long deltaTime) {
         double verticalMovement = (speed * ((double) deltaTime / 1000000000));
 
-        Point target = switcher.isActivated() ? endPoint : startPoint;
+        Point target = world.getSwitcher(switcherId) ? endPoint : startPoint;
 
         boolean moveUpWhenActivated = startPoint.getY() > endPoint.getY();
-        if(!switcher.isActivated()) {
+        if(!world.getSwitcher(switcherId)) {
             moveUpWhenActivated = !moveUpWhenActivated;
         }
 
@@ -90,6 +93,7 @@ public class MovingWall extends Mechanism {
         result += "STARTY=" + startPoint.getY() + "\n";
         result += "ENDX=" + endPoint.getX() + "\n";
         result += "ENDY=" + endPoint.getY() + "\n";
+        result += "ID=" + switcherId + "\n";
 
         return result;
     }

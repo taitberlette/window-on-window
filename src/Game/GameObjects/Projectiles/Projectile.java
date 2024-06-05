@@ -31,9 +31,9 @@ public abstract class Projectile extends GameObject {
 
         for(String line : lines) {
             if(line.startsWith("VX=")) {
-                velocityX = Integer.parseInt(line.replace("X=", ""));
+                velocityX = Double.parseDouble(line.replace("VX=", ""));
             } else if(line.startsWith("VY=")) {
-                velocityY = Integer.parseInt(line.replace("Y=", ""));
+                velocityY = Double.parseDouble(line.replace("VY=", ""));
             }  else if(line.startsWith("DAMAGE=")) {
                 damage = Integer.parseInt(line.replace("DAMAGE=", ""));
             }

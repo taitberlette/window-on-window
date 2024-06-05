@@ -1,22 +1,27 @@
 package Game.GameObjects.Gadgets;
 
 import Game.GameObjects.GameObject;
+import Game.Worlds.World;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class Mechanism extends GameObject {
-    protected Switch switcher;
+    protected int switcherId;
     protected Dimension size;
+    protected World world;
 
-    public Mechanism(Point position, Dimension size, Switch switcher) {
+    public Mechanism(Point position, Dimension size, int switcherId, World world) {
         super(position);
         this.size = size;
-        this.switcher = switcher;
+        this.switcherId = switcherId;
+        this.world = world;
     }
 
-    public Mechanism(ArrayList<String> data, Dimension size) {
+    public Mechanism(ArrayList<String> data, Dimension size, World world) {
         super(data);
+        this.size = size;
+        this.world = world;
     }
 
     public Dimension getSize() {

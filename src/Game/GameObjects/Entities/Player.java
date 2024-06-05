@@ -80,7 +80,7 @@ public class Player extends Entity implements KeyListener {
         this.pocketKnife = new PocketKnife();
         this.pocketKnife.setHeld(true);
 
-        this.boneShooter = new BoneShooter();
+        this.boneShooter = new BoneShooter(world);
         this.boneShooter.setHeld(true);
 
         this.photosynthesisSkill = new Skill(1);
@@ -115,7 +115,7 @@ public class Player extends Entity implements KeyListener {
         this.pocketKnife = new PocketKnife();
         this.pocketKnife.setHeld(true);
 
-        this.boneShooter = new BoneShooter();
+        this.boneShooter = new BoneShooter(world);
         this.boneShooter.setHeld(true);
 
         this.photosynthesisSkill = new Skill(1);
@@ -128,20 +128,20 @@ public class Player extends Entity implements KeyListener {
             if(packet.startsWith("BOX=")) {
                 boolean box = Boolean.parseBoolean(packet.replace("BOX=", "").trim());
                 if(box) {
-                    carryingBox = new MovableBox(position);
+                    carryingBox = new MovableBox(position, world);
                 }
             }if(packet.startsWith("WEAPON=")) {
                 String weapon = (packet.replace("WEAPON=", "").trim());
                 if(weapon.equals("FLAME THROWER")) {
-                    carryingWeapon = new FlameThrower();
+                    carryingWeapon = new FlameThrower(world);
                 } else if(weapon.equals("RAIL GUN")) {
-                    carryingWeapon = new RailGun();
+                    carryingWeapon = new RailGun(world);
                 }
             } else if(packet.startsWith("INVENTORY")) {
                 ArrayList<String> data = new ArrayList<>();
 
                 i++;
-                for(; i < lines.size() && lines.get(i).equals("END INVENTORY"); i++) {
+                for(; i < lines.size() && !lines.get(i).equals("END INVENTORY"); i++) {
                     data.add(lines.get(i));
                 }
 
@@ -150,7 +150,7 @@ public class Player extends Entity implements KeyListener {
                 ArrayList<String> data = new ArrayList<>();
 
                 i++;
-                for(; i < lines.size() && lines.get(i).equals("END PHOTOSYNTHESIS SKILL"); i++) {
+                for(; i < lines.size() && !lines.get(i).equals("END PHOTOSYNTHESIS SKILL"); i++) {
                     data.add(lines.get(i));
                 }
 
@@ -159,7 +159,7 @@ public class Player extends Entity implements KeyListener {
                 ArrayList<String> data = new ArrayList<>();
 
                 i++;
-                for(; i < lines.size() && lines.get(i).equals("END FAST LEGS SKILL"); i++) {
+                for(; i < lines.size() && !lines.get(i).equals("END FAST LEGS SKILL"); i++) {
                     data.add(lines.get(i));
                 }
 
@@ -168,7 +168,7 @@ public class Player extends Entity implements KeyListener {
                 ArrayList<String> data = new ArrayList<>();
 
                 i++;
-                for(; i < lines.size() && lines.get(i).equals("END TUNNEL VISION SKILL"); i++) {
+                for(; i < lines.size() && !lines.get(i).equals("END TUNNEL VISION SKILL"); i++) {
                     data.add(lines.get(i));
                 }
 

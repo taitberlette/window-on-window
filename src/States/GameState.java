@@ -3,8 +3,16 @@ package States;
 import Game.Game;
 import Game.Levels.ActiveLevel;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
 public class GameState extends State {
     private Game game;
+    private String[] paths = {"Alpha", "Beta", "Gamma"};
+    private final static String FILE_PATH_TEMPLATE = "saves\\%s.wow";
+    private int slot;
 
     public GameState(StateManager stateManager) {
         super(stateManager);
@@ -15,7 +23,27 @@ public class GameState extends State {
     }
 
     public void close() {
-        game.save();
+
+        if(game.savingEnabled()) {
+            String path = String.format(FILE_PATH_TEMPLATE, paths[slot]);
+
+            FileWriter fileWriter;
+
+            try {
+                Files.createDirectories(Paths.get("saves\\"));
+                fileWriter = new FileWriter(path);
+            } catch (IOException e) {
+                System.out.println("FAILED TO OPEN \"" + path + "\" TO SAVE THE GAME");
+                return;
+            }
+
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+
+            printWriter.println(game.encode());
+
+            printWriter.close();
+        }
+
         game.kill();
         game = null;
     }
@@ -27,10 +55,36 @@ public class GameState extends State {
     }
 
     public void loadGame(int slot) {
-        game = new Game(stateManager, slot);
+        this.slot = slot;
 
-//        game.load();
-        game.loadLevel(ActiveLevel.LEVEL_ONE);
+        if(slot >= 0) {
+            String path = String.format(FILE_PATH_TEMPLATE, paths[slot]);
+
+            FileReader fileReader;
+
+            try {
+                fileReader = new FileReader(path);
+            } catch (IOException e) {
+                System.out.println("FAILED TO OPEN \"" + path + "\" TO LOAD THE GAME");
+                game = new Game(stateManager, slot);
+                return;
+            }
+
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            ArrayList<String> lines = new ArrayList<>();
+
+            try {
+                String line;
+                while((line = bufferedReader.readLine()) != null) {
+                    lines.add(line);
+                }
+
+                game = new Game(lines, stateManager, slot);
+            } catch (IOException e) {
+                game = new Game(stateManager, slot);
+                return;
+            }
+        }
     }
 
     public void loadTutorial() {

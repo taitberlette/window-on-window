@@ -22,6 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class World implements KeyListener {
     protected Game game;
@@ -30,6 +31,8 @@ public abstract class World implements KeyListener {
 
     protected BufferedImage image;
     protected BufferedImage collision;
+
+    private HashMap<Integer, Boolean> switchers = new HashMap<>();
 
     protected ArrayList<Switch> switches = new ArrayList<>();
     protected ArrayList<Mechanism> mechanisms = new ArrayList<>();
@@ -56,16 +59,16 @@ public abstract class World implements KeyListener {
             ArrayList<String> data = new ArrayList<>();
 
             i++;
-            for(; i < lines.size() && lines.get(i).equals("END " + packet); i++) {
+            for(; i < lines.size() && !lines.get(i).equals("END " + packet); i++) {
                 data.add(lines.get(i));
             }
 
             switch (packet) {
-                case "TARGET" -> addGameObject(new Target(data));
-                case "BOX BUTTON" -> addGameObject(new BoxButton(data));
-                case "MOVING PLATFORM" -> addGameObject(new MovingPlatform(data));
-                case "MOVING WALL" -> addGameObject(new MovingWall(data));
-                case "BOX" -> addGameObject(new MovableBox(data));
+                case "TARGET" -> addGameObject(new Target(data, this));
+                case "BOX BUTTON" -> addGameObject(new BoxButton(data, this));
+                case "MOVING PLATFORM" -> addGameObject(new MovingPlatform(data, this));
+                case "MOVING WALL" -> addGameObject(new MovingWall(data, this));
+                case "BOX" -> addGameObject(new MovableBox(data, this));
                 case "HIDDEN NUMBER" -> addGameObject(new HiddenNumber(data));
                 case "DOOR" -> addGameObject(new Door(data, player, this, game, levelPath));
                 case "TREE" -> addGameObject(new Tree(data));
@@ -73,17 +76,28 @@ public abstract class World implements KeyListener {
                 case "FLAME" -> addGameObject(new Flame(data, this));
                 case "LIGHTNING" -> addGameObject(new Lightning(data, this));
                 case "TUNNEL VISION" -> addGameObject(new TunnelVision(data, this));
-                case "Web" -> addGameObject(new Web(data, this));
-                case "FLAME THROWER" -> addGameObject(new FlameThrower(data));
-                case "RAIL GUN" -> addGameObject(new RailGun(data));
-                case "HELL HOUND" -> addGameObject(new HellHound(data, this));
-                case "PANZER" -> addGameObject(new Panzer(data, this));
-                case "SHOCK SPIDER" -> addGameObject(new ShockSpider(data, this));
-                case "SILVER BACK" -> addGameObject(new SilverBack(data, this));
-                case "THRASHER" -> addGameObject(new Thrasher(data, this));
-                case "VALKYRIE DRONE" -> addGameObject(new ValkyrieDrone(data, this));
+                case "WEB" -> addGameObject(new Web(data, this));
+                case "FLAME THROWER" -> addGameObject(new FlameThrower(data, this));
+                case "RAIL GUN" -> addGameObject(new RailGun(data, this));
+                case "HELL HOUND" -> addGameObject(new HellHound(data, player, this));
+                case "PANZER" -> addGameObject(new Panzer(data, player, this));
+                case "SHOCK SPIDER" -> addGameObject(new ShockSpider(data, player, this));
+                case "SILVER BACK" -> addGameObject(new SilverBack(data, player, this));
+                case "THRASHER" -> addGameObject(new Thrasher(data, player, this));
+                case "VALKYRIE DRONE" -> addGameObject(new ValkyrieDrone(data, player, this));
             }
         }
+    }
+
+    public void setSwitcher(int id, boolean activated) {
+        switchers.put(id, activated);
+    }
+
+    public boolean getSwitcher(int id) {
+        if(!switchers.containsKey(id)) {
+            return false;
+        }
+        return switchers.get(id);
     }
 
     public void update(long deltaTime) {

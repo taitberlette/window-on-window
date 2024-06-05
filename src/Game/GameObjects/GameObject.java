@@ -18,18 +18,19 @@ public class GameObject implements KeyListener {
     }
 
     public GameObject(ArrayList<String> lines) {
-        int x = 0;
-        int y = 0;
+        double x = 0;
+        double y = 0;
 
         for(String line : lines) {
             if(line.startsWith("X=")) {
-                x = Integer.parseInt(line.replace("X=", ""));
+                x = Double.parseDouble(line.replace("X=", ""));
             } else if(line.startsWith("Y=")) {
-                y = Integer.parseInt(line.replace("Y=", ""));
+                y = Double.parseDouble(line.replace("Y=", ""));
             }
         }
 
-        position = new Point(x, y);
+        position = new Point(0, 0);
+        position.setLocation(x, y);
     }
 
     public void update(long deltaTime) {

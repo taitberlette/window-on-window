@@ -36,6 +36,10 @@ public abstract class Level implements KeyListener {
     }
 
     public Level(ArrayList<String> lines, Game game, Player player, String levelPath) {
+        this.game = game;
+        this.player = player;
+        this.levelPath = levelPath;
+
         for(int i = 0; i < lines.size(); i++){
             String packet = lines.get(i);
 
@@ -43,7 +47,7 @@ public abstract class Level implements KeyListener {
                 ArrayList<String> data = new ArrayList<>();
 
                 i++;
-                for(; i < lines.size() && lines.get(i).equals("END TERRA"); i++) {
+                for(; i < lines.size() && !lines.get(i).equals("END TERRA"); i++) {
                     data.add(lines.get(i));
                 }
 
@@ -52,7 +56,7 @@ public abstract class Level implements KeyListener {
                 ArrayList<String> data = new ArrayList<>();
 
                 i++;
-                for(; i < lines.size() && lines.get(i).equals("END ETHER"); i++) {
+                for(; i < lines.size() && !lines.get(i).equals("END ETHER"); i++) {
                     data.add(lines.get(i));
                 }
 

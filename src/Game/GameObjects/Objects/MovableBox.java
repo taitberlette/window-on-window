@@ -20,13 +20,15 @@ public class MovableBox extends GameObject {
     protected double velocityY;
     protected double gravityAcceleration = -9.81 * 64;
 
-    public MovableBox(Point position) {
+    public MovableBox(Point position, World world) {
         super(position);
         boxImage = AssetManager.getImage("res\\Objects\\Box.png");
+        this.world = world;
     }
 
-    public MovableBox(ArrayList<String> lines) {
+    public MovableBox(ArrayList<String> lines, World world) {
         super(lines);
+        this.world = world;
     }
 
     public void update(long deltaTime) {

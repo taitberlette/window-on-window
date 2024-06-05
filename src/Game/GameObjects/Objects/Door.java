@@ -51,7 +51,7 @@ public class Door extends GameObject {
 
         for(String line : lines) {
             if(line.startsWith("NUMBERS=")) {
-                String[] numbers = (line.replace("NUMBER=", "")).split(",");
+                String[] numbers = (line.replace("NUMBERS=", "")).split(",");
                 combination = new int[numbers.length];
 
                 for(int i = 0; i < numbers.length; i++) {

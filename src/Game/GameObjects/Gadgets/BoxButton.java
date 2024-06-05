@@ -14,14 +14,14 @@ public class BoxButton extends Switch {
     private final int IMAGE_SCALE = 4;
     private World world;
 
-    public BoxButton(Point position) {
-        super(position, new Dimension(40, 64));
+    public BoxButton(Point position, int switcherId, World world) {
+        super(position, new Dimension(40, 64), switcherId, world);
 
         buttonImage = AssetManager.getImage("res\\Objects\\Button.png");
     }
 
-    public BoxButton(ArrayList<String> lines) {
-        super(lines, new Dimension(40, 64));
+    public BoxButton(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(40, 64), world);
 
         buttonImage = AssetManager.getImage("res\\Objects\\Button.png");
     }
@@ -41,6 +41,8 @@ public class BoxButton extends Switch {
                 break;
             }
         }
+
+        world.setSwitcher(switcherId, activated);
     }
 
     public void setWorld(World world) {

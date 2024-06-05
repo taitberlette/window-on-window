@@ -1,6 +1,7 @@
 package Game.GameObjects.Entities.Enemies;
 
 import Assets.AssetManager;
+import Game.GameObjects.Entities.Player;
 import Game.Levels.Level;
 import Game.Levels.LevelZero;
 import Game.Utilities.HorizontalDirection;
@@ -26,16 +27,16 @@ public class ShockSpider extends Enemy {
     private static final long SLOW_LENGTH = 2000;
     private static final int REGULAR_SPEED = 200;
     private static final int SLOW_SPEED = 100;
-    public ShockSpider() {
+    public ShockSpider(Player player, World world) {
 
-        super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150);
+        super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150, player, world);
 
         shockSpiderImage = AssetManager.getImage("res\\Enemies\\Spider.png");
         shockSpiderAttackImage = AssetManager.getImage("res\\Enemies\\SpiderAttack.png");
     }
 
-    public ShockSpider(ArrayList<String> lines, World world) {
-        super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150, lines, world);
+    public ShockSpider(ArrayList<String> lines, Player player, World world) {
+        super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150, lines, player, world);
 
         shockSpiderImage = AssetManager.getImage("res\\Enemies\\Spider.png");
         shockSpiderAttackImage = AssetManager.getImage("res\\Enemies\\SpiderAttack.png");

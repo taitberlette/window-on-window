@@ -77,42 +77,38 @@ public class LevelZero extends Level {
         door = new Door(new Point(1789, 255), player, terraWorld, game, "Level_Tutorial", combination);
         terraWorld.addGameObject(door);
 
-        target = new Target(new Point(890, 700));
+        int idPlatform = 1;
+
+        target = new Target(new Point(890, 700), idPlatform, etherWorld);
         etherWorld.addGameObject(target);
 
-        platform = new MovingPlatform(new Point(1078, 932), new Point(1078, 424), target);
+        platform = new MovingPlatform(new Point(1078, 932), new Point(1078, 424), idPlatform, etherWorld);
         etherWorld.addGameObject(platform);
 
-        button = new BoxButton(new Point(1324, 352));
-        button.setWorld(etherWorld);
+        int idWall = 2;
+
+        button = new BoxButton(new Point(1324, 352), idWall, etherWorld);
         etherWorld.addGameObject(button);
 
-        wall = new MovingWall(new Point(1432, 288), new Point(1432, 480), button);
+        wall = new MovingWall(new Point(1432, 288), new Point(1432, 480), idWall, etherWorld);
         etherWorld.addGameObject(wall);
 
-        movableBox = new MovableBox(new Point(250, 352));
-        movableBox.setWorld(etherWorld);
+        movableBox = new MovableBox(new Point(250, 352), etherWorld);
         etherWorld.addGameObject(movableBox);
 
-        flameThrower = new FlameThrower();
+        flameThrower = new FlameThrower(etherWorld);
         flameThrower.setLocation(new Point(1547, 320));
-        flameThrower.setWorld(etherWorld);
         etherWorld.addGameObject(flameThrower);
 
-        railGun = new RailGun();
+        railGun = new RailGun(etherWorld);
         railGun.setLocation(new Point(1654, 320));
-        railGun.setWorld(etherWorld);
         etherWorld.addGameObject(railGun);
 
-        hellHound = new HellHound();
-        hellHound.setWorld(etherWorld);
-        hellHound.setPlayer(player);
+        hellHound = new HellHound(player, etherWorld);
         hellHound.setLocation(new Point(562, 764));
         etherWorld.addGameObject(hellHound);
 
-        shockSpider = new ShockSpider();
-        shockSpider.setWorld(etherWorld);
-        shockSpider.setPlayer(player);
+        shockSpider = new ShockSpider(player, etherWorld);
         shockSpider.setLocation(new Point(70, 305));
         etherWorld.addGameObject(shockSpider);
 

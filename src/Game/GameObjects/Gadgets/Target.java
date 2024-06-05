@@ -1,6 +1,7 @@
 package Game.GameObjects.Gadgets;
 
 import Assets.AssetManager;
+import Game.Worlds.World;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,14 +13,15 @@ public class Target extends Switch {
     private BufferedImage targetImage;
     private final int IMAGE_SCALE = 4;
 
-    public Target(Point position) {
-        super(position, new Dimension(40, 64));
+    public Target(Point position, int switcherId, World world) {
+        super(position, new Dimension(40, 64), switcherId, world);
 
         targetImage = AssetManager.getImage("res\\Objects\\TargetLeft.png");
     }
 
-    public Target(ArrayList<String> lines) {
-        super(lines, new Dimension(40, 64));
+    public Target(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(40, 64), world);
+
 
         targetImage = AssetManager.getImage("res\\Objects\\TargetLeft.png");
     }

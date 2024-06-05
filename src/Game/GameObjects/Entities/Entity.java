@@ -32,6 +32,15 @@ public abstract class Entity extends GameObject {
 
     public Entity(ArrayList<String> lines, Dimension size) {
         super(lines);
+
+        for(String line : lines) {
+            if(line.startsWith("HEALTH=")) {
+                health = Double.parseDouble(line.replace("HEALTH=", "").trim());
+            } else if(line.startsWith("VY=")) {
+                velocityY = Double.parseDouble(line.replace("VY=", "").trim());
+            }
+        }
+
         this.size = size;
     }
 

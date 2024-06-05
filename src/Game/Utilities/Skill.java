@@ -17,9 +17,9 @@ public class Skill {
             if(line.startsWith("UNLOCKED=")) {
                 unlocked = Boolean.parseBoolean(line.replace("UNLOCKED=", "").trim());
             } else if(line.startsWith("COOLDOWN=")) {
-                cooldown = Integer.parseInt(line.replace("COOLDOWN=", "").trim());
+                cooldown = Double.parseDouble(line.replace("COOLDOWN=", "").trim());
             } else if(line.startsWith("MAX COOLDOWN=")) {
-                cooldownLength = Integer.parseInt(line.replace("MAX COOLDOWN=", "").trim());
+                cooldownLength = Double.parseDouble(line.replace("MAX COOLDOWN=", "").trim());
             }
         }
     }
