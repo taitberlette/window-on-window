@@ -4,11 +4,13 @@ import Assets.AssetManager;
 import Game.Levels.Level;
 import Game.Levels.LevelZero;
 import Game.Utilities.HorizontalDirection;
+import Game.Worlds.World;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class ShockSpider extends Enemy {
     private BufferedImage shockSpiderImage;
@@ -27,6 +29,13 @@ public class ShockSpider extends Enemy {
     public ShockSpider() {
 
         super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150);
+
+        shockSpiderImage = AssetManager.getImage("res\\Enemies\\Spider.png");
+        shockSpiderAttackImage = AssetManager.getImage("res\\Enemies\\SpiderAttack.png");
+    }
+
+    public ShockSpider(ArrayList<String> lines, World world) {
+        super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150, lines, world);
 
         shockSpiderImage = AssetManager.getImage("res\\Enemies\\Spider.png");
         shockSpiderAttackImage = AssetManager.getImage("res\\Enemies\\SpiderAttack.png");

@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Target extends Switch {
     private BufferedImage targetImage;
@@ -13,6 +14,12 @@ public class Target extends Switch {
 
     public Target(Point position) {
         super(position, new Dimension(40, 64));
+
+        targetImage = AssetManager.getImage("res\\Objects\\TargetLeft.png");
+    }
+
+    public Target(ArrayList<String> lines) {
+        super(lines, new Dimension(40, 64));
 
         targetImage = AssetManager.getImage("res\\Objects\\TargetLeft.png");
     }

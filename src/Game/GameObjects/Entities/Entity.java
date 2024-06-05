@@ -30,6 +30,11 @@ public abstract class Entity extends GameObject {
         this.size = size;
     }
 
+    public Entity(ArrayList<String> lines, Dimension size) {
+        super(lines);
+        this.size = size;
+    }
+
     public double getHealth() {
         return health;
     }
@@ -204,5 +209,14 @@ public abstract class Entity extends GameObject {
             world.removeGameObject(this);
             this.kill();
         }
+    }
+
+    public String encode() {
+        String result = super.encode();
+
+        result += "VY=" + velocityY + "\n";
+        result += "HEALTH=" + health + "\n";
+
+        return result;
     }
 }

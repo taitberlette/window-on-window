@@ -1,5 +1,7 @@
 package Game.Utilities;
 
+import java.util.ArrayList;
+
 public class Skill {
     private boolean unlocked = false;
     private double cooldownLength;
@@ -8,6 +10,18 @@ public class Skill {
     public Skill(int cooldown){
         this.cooldown = cooldown;
         this.cooldownLength = cooldown;
+    }
+
+    public Skill(ArrayList<String> lines) {
+        for(String line : lines) {
+            if(line.startsWith("UNLOCKED=")) {
+                unlocked = Boolean.parseBoolean(line.replace("UNLOCKED=", "").trim());
+            } else if(line.startsWith("COOLDOWN=")) {
+                cooldown = Integer.parseInt(line.replace("COOLDOWN=", "").trim());
+            } else if(line.startsWith("MAX COOLDOWN=")) {
+                cooldownLength = Integer.parseInt(line.replace("MAX COOLDOWN=", "").trim());
+            }
+        }
     }
 
     public void update(long deltaTime) {
@@ -55,5 +69,15 @@ public class Skill {
 
     public double getCooldownLength() {
         return cooldownLength;
+    }
+
+    public String encode() {
+        String result = "";
+
+        result += "UNLOCKED=" + unlocked + "\n";
+        result += "COOLDOWN=" + cooldown + "\n";
+        result += "MAX COOLDOWN=" + cooldownLength + "\n";
+
+        return result;
     }
 }

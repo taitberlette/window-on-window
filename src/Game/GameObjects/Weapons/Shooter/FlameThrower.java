@@ -10,6 +10,7 @@ import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class FlameThrower extends Shooter {
     private BufferedImage flameThrowerImage;
@@ -18,6 +19,11 @@ public class FlameThrower extends Shooter {
 
     public FlameThrower() {
         super((Class) Flame.class, 10, 100, 400);
+        flameThrowerImage = AssetManager.getImage("res\\Weapons and Attacks\\FlameThrower.png");
+    }
+
+    public FlameThrower(ArrayList<String> lines) {
+        super((Class) Flame.class, 10, 100, 400, lines);
         flameThrowerImage = AssetManager.getImage("res\\Weapons and Attacks\\FlameThrower.png");
     }
 

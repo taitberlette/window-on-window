@@ -2,7 +2,7 @@ package Game.GameObjects.Gadgets;
 
 import Assets.AssetManager;
 import Game.GameObjects.GameObject;
-import Game.GameObjects.Objects.Box;
+import Game.GameObjects.Objects.MovableBox;
 import Game.Worlds.World;
 
 import java.awt.*;
@@ -20,6 +20,12 @@ public class BoxButton extends Switch {
         buttonImage = AssetManager.getImage("res\\Objects\\Button.png");
     }
 
+    public BoxButton(ArrayList<String> lines) {
+        super(lines, new Dimension(40, 64));
+
+        buttonImage = AssetManager.getImage("res\\Objects\\Button.png");
+    }
+
     public void draw(Graphics2D graphics2D) {
         graphics2D.drawImage((Image) buttonImage, (int) position.getX() - ((buttonImage.getWidth() * IMAGE_SCALE) / 2), (int) position.getY() - ((buttonImage.getHeight() * IMAGE_SCALE) / 2), buttonImage.getWidth() * IMAGE_SCALE, buttonImage.getHeight() * IMAGE_SCALE, null);
     }
@@ -30,7 +36,7 @@ public class BoxButton extends Switch {
         ArrayList<GameObject> gameObjects = world.findGameObjects(getBounds());
 
         for(GameObject gameObject : gameObjects) {
-            if(gameObject instanceof Box) {
+            if(gameObject instanceof MovableBox) {
                 activated = true;
                 break;
             }

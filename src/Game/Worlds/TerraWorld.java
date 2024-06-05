@@ -9,6 +9,7 @@ import Windows.WorldWindow;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
+import java.util.ArrayList;
 
 public class TerraWorld extends World {
 
@@ -17,5 +18,13 @@ public class TerraWorld extends World {
 
         this.image = AssetManager.getImage("res\\" + levelPath + "\\Terra.png");
         this.collision = AssetManager.getImage("res\\" + levelPath + "\\TerraCollision.png");
+    }
+
+    public TerraWorld(ArrayList<String> lines, Game game, Level level, Player player, String levelPath) {
+        super(lines, game, level, player, levelPath);
+
+        this.image = AssetManager.getImage("res\\" + levelPath + "\\Terra.png");
+        this.collision = AssetManager.getImage("res\\" + levelPath + "\\TerraCollision.png");
+
     }
 }

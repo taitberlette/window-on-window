@@ -9,6 +9,7 @@ import Game.GameObjects.Objects.HiddenNumber;
 import Windows.WorldWindow;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class LevelOne extends Level {
@@ -41,6 +42,25 @@ public class LevelOne extends Level {
 
         MovingPlatform platform = new MovingPlatform(new Point(224, 922), new Point(224, 579), target);
         etherWorld.addGameObject(platform);
+
+        WorldWindow terraWorldWindow = new WorldWindow(terraWorld);
+        terraWorldWindow.setTarget(player);
+        terraWorldWindow.setFocusable(true);
+        terraWorldWindow.requestFocus();
+        terraWorldWindow.setKeyListener(game);
+        worldWindows.add(terraWorldWindow);
+
+        WorldWindow etherWorldWindow = new WorldWindow(etherWorld);
+        etherWorldWindow.setFocusable(true);
+        etherWorldWindow.requestFocus();
+        etherWorldWindow.setKeyListener(game);
+        etherWorldWindow.setLocation(new Point(1544, 500));
+        worldWindows.add(etherWorldWindow);
+    }
+
+    public LevelOne(ArrayList<String> lines, Game game, Player player) {
+        super(lines, game, player, "Level_One");
+        terraWorld.addGameObject(player);
 
         WorldWindow terraWorldWindow = new WorldWindow(terraWorld);
         terraWorldWindow.setTarget(player);

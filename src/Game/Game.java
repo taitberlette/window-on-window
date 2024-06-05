@@ -9,7 +9,11 @@ import States.StateName;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
@@ -33,6 +37,9 @@ public class Game implements KeyListener {
     private ArrayBlockingQueue<KeyEvent> pressedEvents = new ArrayBlockingQueue<>(QUEUE_LENGTH);
     private ArrayBlockingQueue<KeyEvent> releasedEvents = new ArrayBlockingQueue<>(QUEUE_LENGTH);
 
+    private final static String FILE_PATH_TEMPLATE = "saves\\%s.wow";
+    private final static int CURRENT_VERSION = 1;
+
     public Game(StateManager stateManager, int slot) {
         this.stateManager = stateManager;
 
@@ -47,6 +54,57 @@ public class Game implements KeyListener {
         levels[ActiveLevel.LEVEL_ONE.ordinal()] = new LevelOne(this, player);
         levels[ActiveLevel.LEVEL_TWO.ordinal()] = new LevelTwo(this, player);
         levels[ActiveLevel.LEVEL_THREE.ordinal()] = new LevelThree(this, player);
+        levels[ActiveLevel.LEVEL_TUTORIAL.ordinal()] = new LevelZero(this, player);
+    }
+
+    public Game(ArrayList<String> lines, StateManager stateManager, int slot) {
+        this.stateManager = stateManager;
+
+        this.slot = slot;
+        shouldSave = slot >= 0;
+        if(shouldSave) {
+            savePath = paths[slot];
+        }
+
+        for(int i = 0; i < lines.size(); i++){
+            String packet = lines.get(i);
+
+            if(packet.startsWith("CURRENT LEVEL=")) {
+                loadLevel(ActiveLevel.values()[Integer.parseInt(packet.replace("CURRENT LEVEL=", "").trim())]);
+            } else if(packet.startsWith("PLAYER")) {
+                ArrayList<String> data = new ArrayList<>();
+
+                i++;
+                for(; i < lines.size() && lines.get(i).equals("END PLAYER"); i++) {
+                    data.add(lines.get(i));
+                }
+
+                player = new Player(data, slot >= 0 ? savePath : "Player", this);
+            } else if(packet.startsWith("LEVEL")) {
+                int levelNumber = Integer.parseInt(packet.replace("LEVEL ", "").trim());
+
+                ArrayList<String> data = new ArrayList<>();
+
+                i++;
+                for(; i < lines.size() && lines.get(i).equals("END LEVEL " + levelNumber); i++) {
+                    data.add(lines.get(i));
+                }
+
+                ActiveLevel levelType = ActiveLevel.values()[levelNumber];
+                Level level;
+
+                if(levelType == ActiveLevel.LEVEL_ONE) {
+                    level = new LevelOne(data, this, player);
+                } else if(levelType == ActiveLevel.LEVEL_TWO) {
+                    level = new LevelTwo(data, this, player);
+                } else {
+                    level = new LevelThree(data, this, player);
+                }
+
+                levels[levelNumber] = level;
+            }
+        }
+
         levels[ActiveLevel.LEVEL_TUTORIAL.ordinal()] = new LevelZero(this, player);
     }
 
@@ -136,5 +194,94 @@ public class Game implements KeyListener {
 
     public void keyReleased(KeyEvent e) {
         releasedEvents.add(e);
+    }
+
+    public void load() {
+        if(!shouldSave) {
+            return;
+        }
+
+        String path = String.format(FILE_PATH_TEMPLATE, savePath);
+
+        FileReader fileReader;
+
+        try {
+            fileReader = new FileReader(path);
+        } catch (IOException e) {
+            System.out.println("FAILED TO OPEN \"" + path + "\" TO LOAD THE GAME");
+            return;
+        }
+
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        try {
+            if(!bufferedReader.readLine().equals("WOW")) {
+                System.out.println("FAILED WOW CHECK");
+                return;
+            }
+
+            int version = Integer.parseInt(bufferedReader.readLine().trim());
+            if(version != CURRENT_VERSION) {
+                System.out.println("FILE FORMAT IS DIFFERENT");
+                return;
+            }
+
+            ArrayList<String> lines = new ArrayList<>();
+
+            String line;
+            while((line = bufferedReader.readLine()) != null) {
+                lines.add(line);
+            }
+
+
+            // use the lines :))))
+        } catch (IOException e) {
+            System.out.println("FAILED TO READ THE GAME");
+        }
+
+    }
+
+    public void save() {
+        if(!shouldSave) {
+            return;
+        }
+
+        String path = String.format(FILE_PATH_TEMPLATE, savePath);
+
+
+
+        FileWriter fileWriter;
+
+        try {
+            Files.createDirectories(Paths.get("saves\\"));
+            fileWriter = new FileWriter(path);
+        } catch (IOException e) {
+            System.out.println("FAILED TO OPEN \"" + path + "\" TO SAVE THE GAME");
+            return;
+        }
+
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+
+        String result = "WOW\n";
+
+        result += CURRENT_VERSION + "\n";
+        result += "\n";
+
+        for(int i = 0; i < ActiveLevel.LEVEL_TUTORIAL.ordinal(); i++) {
+            result += "LEVEL " + i + "\n";
+            result += levels[i].encode();
+            result += "END LEVEL " + i + "\n";
+            result += "\n";
+        }
+
+        result += "CURRENT LEVEL=" + activeLevel.ordinal() + "\n";
+
+        result += "PLAYER\n";
+        result += player.encode();
+        result += "END PLAYER\n";
+
+        printWriter.println(result);
+
+        printWriter.close();
     }
 }

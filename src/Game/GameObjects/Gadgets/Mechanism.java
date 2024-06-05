@@ -3,15 +3,20 @@ package Game.GameObjects.Gadgets;
 import Game.GameObjects.GameObject;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public abstract class Mechanism extends GameObject {
     protected Switch switcher;
     protected Dimension size;
 
     public Mechanism(Point position, Dimension size, Switch switcher) {
-        this.position = position;
+        super(position);
         this.size = size;
         this.switcher = switcher;
+    }
+
+    public Mechanism(ArrayList<String> data, Dimension size) {
+        super(data);
     }
 
     public Dimension getSize() {

@@ -9,7 +9,7 @@ import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
 import Game.GameObjects.Gadgets.MovingWall;
 import Game.GameObjects.Gadgets.Target;
-import Game.GameObjects.Objects.Box;
+import Game.GameObjects.Objects.MovableBox;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
 import Game.GameObjects.Weapons.Shooter.FlameThrower;
@@ -32,7 +32,7 @@ public class LevelZero extends Level {
     private MovingPlatform platform;
     private BoxButton button;
     private MovingWall wall;
-    private Box box;
+    private MovableBox movableBox;
     private HellHound hellHound;
     private ShockSpider shockSpider;
     private FlameThrower flameThrower;
@@ -90,9 +90,9 @@ public class LevelZero extends Level {
         wall = new MovingWall(new Point(1432, 288), new Point(1432, 480), button);
         etherWorld.addGameObject(wall);
 
-        box = new Box(new Point(250, 352));
-        box.setWorld(etherWorld);
-        etherWorld.addGameObject(box);
+        movableBox = new MovableBox(new Point(250, 352));
+        movableBox.setWorld(etherWorld);
+        etherWorld.addGameObject(movableBox);
 
         flameThrower = new FlameThrower();
         flameThrower.setLocation(new Point(1547, 320));
@@ -177,7 +177,7 @@ public class LevelZero extends Level {
         } else if(tutorialState == IntroTutorialState.THROW_BONE && target.isActivated()) {
             tutorialState = IntroTutorialState.TUTORIAL_PAUSE_PLATFORM;
             introTutorialWindow.setVisible(false);
-        } else if(tutorialState == IntroTutorialState.TUTORIAL_PAUSE_PLATFORM && player.getBounds().intersects(box.getBounds())) {
+        } else if(tutorialState == IntroTutorialState.TUTORIAL_PAUSE_PLATFORM && player.getBounds().intersects(movableBox.getBounds())) {
             tutorialState = IntroTutorialState.BOX;
             introTutorialWindow.changeImage(AssetManager.getImage("res\\Tutorial\\Box.png"));
             introTutorialWindow.setLocation(new Point(55, 550));

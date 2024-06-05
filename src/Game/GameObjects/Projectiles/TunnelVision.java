@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class TunnelVision extends Projectile {
     private BufferedImage tunnelVisionImage;
@@ -16,6 +17,11 @@ public class TunnelVision extends Projectile {
     public TunnelVision() {
         super(new Dimension(16, 16));
 
+        tunnelVisionImage = AssetManager.getImage("res\\Ammunition and Skills\\TunnelVisionProjectile.png");
+    }
+
+    public TunnelVision(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(16, 16), world);
         tunnelVisionImage = AssetManager.getImage("res\\Ammunition and Skills\\TunnelVisionProjectile.png");
     }
 

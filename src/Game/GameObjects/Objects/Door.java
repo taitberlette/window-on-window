@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class Door extends GameObject {
     private NumberCodeWindow numberCodeWindow;
@@ -26,7 +27,7 @@ public class Door extends GameObject {
     private final double WALK_IN_DISTANCE = 32;
 
     public Door(Point point, Player player, World world, Game game, String path, int[] combination) {
-        setLocation(point);
+        super(point);
 
         this.player = player;
         this.world = world;
@@ -40,6 +41,33 @@ public class Door extends GameObject {
         doorImage = AssetManager.getImage("res\\" + path + "\\Door.png");
         openDoorImage = AssetManager.getImage("res\\Objects\\OpenDoor.png");
     }
+
+    public Door(ArrayList<String> lines, Player player, World world, Game game, String path) {
+        super(lines);
+
+        this.player = player;
+        this.world = world;
+        this.game = game;
+
+        for(String line : lines) {
+            if(line.startsWith("NUMBERS=")) {
+                String[] numbers = (line.replace("NUMBER=", "")).split(",");
+                combination = new int[numbers.length];
+
+                for(int i = 0; i < numbers.length; i++) {
+                    combination[i] = Integer.parseInt(numbers[i]);
+                }
+            }
+        }
+
+        numberCodeWindow = new NumberCodeWindow();
+        numberCodeWindow.setCombination(this.combination);
+        numberCodeWindow.setKeyListener(game);
+
+        doorImage = AssetManager.getImage("res\\" + path + "\\Door.png");
+        openDoorImage = AssetManager.getImage("res\\Objects\\OpenDoor.png");
+    }
+
 
     public void update(long deltaTime) {
         super.update(deltaTime);
@@ -94,5 +122,22 @@ public class Door extends GameObject {
 
     public void kill() {
         numberCodeWindow.setVisible(false);
+    }
+
+    public String encode() {
+        String result = super.encode();
+
+        result += "NUMBERS=";
+        for(int i = 0; i < combination.length; i++) {
+            result += combination[i];
+
+            if(i < combination.length - 1) {
+                result += ",";
+            } else {
+                result += "\n";
+            }
+        }
+
+        return result;
     }
 }

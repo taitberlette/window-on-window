@@ -3,11 +3,13 @@ package Game.GameObjects.Entities.Enemies;
 import Assets.AssetManager;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
+import Game.Worlds.World;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class HellHound extends Enemy {
@@ -28,6 +30,12 @@ public class HellHound extends Enemy {
     public HellHound() {
         super(new Dimension(128, 64), 5, 15, REGULAR_SPEED, 256, 100);
 
+        hellHoundImage = AssetManager.getImage("res\\Enemies\\HellHound.png");
+        hellHoundAttackImage = AssetManager.getImage("res\\Enemies\\HellHoundAttack.png");
+    }
+
+    public HellHound(ArrayList<String> lines, World world) {
+        super(new Dimension(128, 64), 5, 15, REGULAR_SPEED, 256, 100, lines, world);
         hellHoundImage = AssetManager.getImage("res\\Enemies\\HellHound.png");
         hellHoundAttackImage = AssetManager.getImage("res\\Enemies\\HellHoundAttack.png");
     }

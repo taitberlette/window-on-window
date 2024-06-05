@@ -10,6 +10,7 @@ import Game.Worlds.World;
 import javax.sound.sampled.Port;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 public abstract class Shooter extends Weapon {
     protected Class<Projectile> projectile;
@@ -22,6 +23,12 @@ public abstract class Shooter extends Weapon {
 
     public Shooter(Class<Projectile> projectile, int damage, int cooldown, int speed) {
         super(damage, cooldown, speed);
+
+        this.projectile = projectile;
+    }
+
+    public Shooter(Class<Projectile> projectile, int damage, int cooldown, int speed, ArrayList<String> lines) {
+        super(damage, cooldown, speed, lines);
 
         this.projectile = projectile;
     }

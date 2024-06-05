@@ -2,7 +2,7 @@ package Game.GameObjects.Entities;
 
 import Assets.AssetManager;
 import Game.GameObjects.GameObject;
-import Game.GameObjects.Objects.Box;
+import Game.GameObjects.Objects.MovableBox;
 import Game.GameObjects.Projectiles.TunnelVision;
 import Game.GameObjects.Weapons.Melee.PocketKnife;
 import Game.GameObjects.Weapons.Shooter.BoneShooter;
@@ -10,6 +10,7 @@ import Game.GameObjects.Weapons.Shooter.FlameThrower;
 import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.GameObjects.Weapons.Shooter.Shooter;
 import Game.GameObjects.Weapons.Weapon;
+import Game.Levels.*;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
 import Game.Utilities.Inventory;
@@ -50,7 +51,7 @@ public class Player extends Entity implements KeyListener {
     private BoneShooter boneShooter;
     private Weapon carryingWeapon;
 
-    private Box carryingBox;
+    private MovableBox carryingBox;
 
     private Skill photosynthesisSkill;
     private Skill fastLegsSkill;
@@ -92,6 +93,92 @@ public class Player extends Entity implements KeyListener {
         this.playerStatsWindow = new PlayerStatsWindow(name, this, game, photosynthesisSkill, fastLegsSkill, tunnelVisionSkill);
 
         position.setLocation(500, 500);
+
+        terraImage = AssetManager.getImage("res\\Player\\TerraPlayerIdol.png");
+        etherImage = AssetManager.getImage("res\\Player\\EtherPlayerIdol.png");
+        aimTerraImage = AssetManager.getImage("res\\Player\\Terra Arm.png");
+        aimEtherImage = AssetManager.getImage("res\\Player\\Ether Arm.png");
+
+        playerStatsWindow.setVisible(true);
+    }
+
+    public Player(ArrayList<String> lines, String name, Game game) {
+        super(lines, new Dimension(52, 128));
+
+        this.maxSpeed = 300;
+
+        this.name = name;
+        this.game = game;
+
+        this.inventory = new Inventory();
+
+        this.pocketKnife = new PocketKnife();
+        this.pocketKnife.setHeld(true);
+
+        this.boneShooter = new BoneShooter();
+        this.boneShooter.setHeld(true);
+
+        this.photosynthesisSkill = new Skill(1);
+        this.fastLegsSkill = new Skill(10);
+        this.tunnelVisionSkill = new Skill(20);
+
+        for(int i = 0; i < lines.size(); i++){
+            String packet = lines.get(i);
+
+            if(packet.startsWith("BOX=")) {
+                boolean box = Boolean.parseBoolean(packet.replace("BOX=", "").trim());
+                if(box) {
+                    carryingBox = new MovableBox(position);
+                }
+            }if(packet.startsWith("WEAPON=")) {
+                String weapon = (packet.replace("WEAPON=", "").trim());
+                if(weapon.equals("FLAME THROWER")) {
+                    carryingWeapon = new FlameThrower();
+                } else if(weapon.equals("RAIL GUN")) {
+                    carryingWeapon = new RailGun();
+                }
+            } else if(packet.startsWith("INVENTORY")) {
+                ArrayList<String> data = new ArrayList<>();
+
+                i++;
+                for(; i < lines.size() && lines.get(i).equals("END INVENTORY"); i++) {
+                    data.add(lines.get(i));
+                }
+
+                inventory = new Inventory(data);
+            } else if(packet.startsWith("PHOTOSYNTHESIS SKILL")) {
+                ArrayList<String> data = new ArrayList<>();
+
+                i++;
+                for(; i < lines.size() && lines.get(i).equals("END PHOTOSYNTHESIS SKILL"); i++) {
+                    data.add(lines.get(i));
+                }
+
+                photosynthesisSkill = new Skill(data);
+            } else if(packet.startsWith("FAST LEGS SKILL")) {
+                ArrayList<String> data = new ArrayList<>();
+
+                i++;
+                for(; i < lines.size() && lines.get(i).equals("END FAST LEGS SKILL"); i++) {
+                    data.add(lines.get(i));
+                }
+
+                fastLegsSkill = new Skill(data);
+            } else if(packet.startsWith("TUNNEL VISION SKILL")) {
+                ArrayList<String> data = new ArrayList<>();
+
+                i++;
+                for(; i < lines.size() && lines.get(i).equals("END TUNNEL VISION SKILL"); i++) {
+                    data.add(lines.get(i));
+                }
+
+                fastLegsSkill = new Skill(data);
+            }
+        }
+
+        this.maxHealth = 250;
+
+        this.playerStatsWindow = new PlayerStatsWindow(name, this, game, photosynthesisSkill, fastLegsSkill, tunnelVisionSkill);
 
         terraImage = AssetManager.getImage("res\\Player\\TerraPlayerIdol.png");
         etherImage = AssetManager.getImage("res\\Player\\EtherPlayerIdol.png");
@@ -294,9 +381,9 @@ public class Player extends Entity implements KeyListener {
                 ArrayList<GameObject> gameObjects = world.findGameObjects(getBounds());
 
                 for(GameObject gameObject : gameObjects) {
-                    if(gameObject instanceof Box box) {
-                        box.setGrabbed(true);
-                        carryingBox = box;
+                    if(gameObject instanceof MovableBox movableBox) {
+                        movableBox.setGrabbed(true);
+                        carryingBox = movableBox;
                         break;
                     }
                 }
@@ -374,5 +461,42 @@ public class Player extends Entity implements KeyListener {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public String encode() {
+        String result = super.encode();
+
+        result += "LOCATION=" + ((world instanceof TerraWorld) ? "Terra" : "Ether") + "\n";
+
+        if(carryingBox != null) {
+            result += "BOX=true" + "\n";
+        }
+
+        if(carryingWeapon != null) {
+            result += "WEAPON=";
+            if(carryingWeapon instanceof FlameThrower) {
+                result += "FLAME THROWER\n";
+            } else if(carryingWeapon instanceof RailGun) {
+                result += "RAIL GUN\n";
+            }
+        }
+
+        result += "PHOTOSYNTHESIS SKILL\n";
+        result += photosynthesisSkill.encode();
+        result += "END PHOTOSYNTHESIS SKILL\n";
+
+        result += "FAST LEGS SKILL\n";
+        result += fastLegsSkill.encode();
+        result += "END FAST LEGS SKILL\n";
+
+        result += "TUNNEL VISION SKILL\n";
+        result += tunnelVisionSkill.encode();
+        result += "END TUNNEL VISION SKILL\n";
+
+        result += "INVENTORY\n";
+        result += inventory.encode();
+        result += "END INVENTORY\n";
+
+        return result;
     }
 }

@@ -15,6 +15,7 @@ public class GameState extends State {
     }
 
     public void close() {
+        game.save();
         game.kill();
         game = null;
     }
@@ -28,7 +29,8 @@ public class GameState extends State {
     public void loadGame(int slot) {
         game = new Game(stateManager, slot);
 
-//        game.loadLevel((ActiveLevel.values.get (ActiveLevel.LEVEL_ONE.ordinal() + slot));
+//        game.load();
+        game.loadLevel(ActiveLevel.LEVEL_ONE);
     }
 
     public void loadTutorial() {

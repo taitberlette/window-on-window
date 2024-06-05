@@ -35,6 +35,32 @@ public abstract class Level implements KeyListener {
         etherWorld = new EtherWorld(game, this, levelPath);
     }
 
+    public Level(ArrayList<String> lines, Game game, Player player, String levelPath) {
+        for(int i = 0; i < lines.size(); i++){
+            String packet = lines.get(i);
+
+            if(packet.startsWith("TERRA")) {
+                ArrayList<String> data = new ArrayList<>();
+
+                i++;
+                for(; i < lines.size() && lines.get(i).equals("END TERRA"); i++) {
+                    data.add(lines.get(i));
+                }
+
+                terraWorld = new TerraWorld(data, game, this, player, levelPath);
+            } else if(packet.startsWith("ETHER")) {
+                ArrayList<String> data = new ArrayList<>();
+
+                i++;
+                for(; i < lines.size() && lines.get(i).equals("END ETHER"); i++) {
+                    data.add(lines.get(i));
+                }
+
+                etherWorld = new EtherWorld(data, game, this, player, levelPath);
+            }
+        }
+    }
+
     public World getTerra() {
         return terraWorld;
     }
@@ -166,5 +192,19 @@ public abstract class Level implements KeyListener {
             currentWindow.getView().getFrame().setLocation(worldWindow.getView().getFrame().getLocation());
             worldWindow.getView().getFrame().setLocation(currentPosition);
         }
+    }
+
+    public String encode() {
+        String result = "";
+
+        result += "TERRA\n";
+        result += terraWorld.encode();
+        result += "END TERRA\n";
+
+        result += "ETHER\n";
+        result += etherWorld.encode();
+        result += "END ETHER\n";
+
+        return result;
     }
 }

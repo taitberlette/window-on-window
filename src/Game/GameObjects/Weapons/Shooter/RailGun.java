@@ -7,6 +7,7 @@ import Game.Utilities.Inventory;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class RailGun extends Shooter {
     private BufferedImage railGunImage;
@@ -14,6 +15,11 @@ public class RailGun extends Shooter {
     private Dimension size = new Dimension(48, 27);
     public RailGun() {
         super((Class) Lightning.class, 5, 20, 750);
+        railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
+    }
+
+    public RailGun(ArrayList<String> lines) {
+        super((Class) Lightning.class, 5, 20, 750, lines);
         railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
     }
 

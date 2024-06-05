@@ -3,6 +3,7 @@ package Game.GameObjects.Entities.Enemies;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Entities.Entity;
 import Game.Utilities.HorizontalDirection;
+import Game.Worlds.World;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -24,6 +25,17 @@ public abstract class Enemy extends Entity {
         this.maxSpeed = speed;
         this.vision = vision;
         this.health = health;
+    }
+
+    public Enemy(Dimension size, int attackSpeed, int attackDamage, int speed, int vision, int health, ArrayList<String> lines, World world) {
+        super(lines, size);
+        this.random = new Random();
+        this.attackSpeed = attackSpeed;
+        this.attackDamage = attackDamage;
+        this.maxSpeed = speed;
+        this.vision = vision;
+        this.health = health;
+        this.world = world;
     }
 
     public void update(long deltaTime) {
