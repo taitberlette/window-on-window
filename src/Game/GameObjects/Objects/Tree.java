@@ -7,6 +7,8 @@ import Game.Worlds.World;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import java.util.ArrayList;
+
 public class Tree extends GameObject {
     private World world;
     private BufferedImage treeImage;
@@ -18,10 +20,15 @@ public class Tree extends GameObject {
     private Point position;
 
     public Tree(Point position){
-        this.position = position;
+        super(position);
         treeImage = AssetManager.getImage("res\\Objects\\Tree.png");
         appleImage = AssetManager.getImage("res\\Objects\\Apple.png");
     }
+
+    public Tree(ArrayList<String> lines) {
+        super(lines);
+    }
+
     public void update(long deltaTime) {
 
     }
@@ -43,5 +50,4 @@ public class Tree extends GameObject {
     public void dropApple(){
         numApples--;
     }
-
 }

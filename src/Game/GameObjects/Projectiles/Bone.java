@@ -1,11 +1,14 @@
 package Game.GameObjects.Projectiles;
 
 import Assets.AssetManager;
+import Game.Worlds.World;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Bone extends Projectile {
     private BufferedImage boneImage;
@@ -13,6 +16,11 @@ public class Bone extends Projectile {
     public Bone() {
         super(new Dimension(16, 16));
 
+        boneImage = AssetManager.getImage("res\\Ammunition and Skills\\Bone1.png");
+    }
+
+    public Bone(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(16, 16), world);
         boneImage = AssetManager.getImage("res\\Ammunition and Skills\\Bone1.png");
     }
 

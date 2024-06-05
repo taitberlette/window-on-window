@@ -7,8 +7,9 @@ import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
-public class Box extends GameObject {
+public class MovableBox extends GameObject {
     private World world;
     private BufferedImage boxImage;
     private boolean grabbed = false;
@@ -19,9 +20,15 @@ public class Box extends GameObject {
     protected double velocityY;
     protected double gravityAcceleration = -9.81 * 64;
 
-    public Box(Point position) {
-        this.position = position;
+    public MovableBox(Point position, World world) {
+        super(position);
         boxImage = AssetManager.getImage("res\\Objects\\Box.png");
+        this.world = world;
+    }
+
+    public MovableBox(ArrayList<String> lines, World world) {
+        super(lines);
+        this.world = world;
     }
 
     public void update(long deltaTime) {

@@ -1,9 +1,11 @@
 package Game.GameObjects.Projectiles;
 
 import Assets.AssetManager;
+import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Flame extends Projectile {
     private BufferedImage flameImage;
@@ -12,6 +14,11 @@ public class Flame extends Projectile {
     public Flame() {
         super(new Dimension(24, 24));
 
+        flameImage = AssetManager.getImage("res\\Weapons and Attacks\\FireBall.png");
+    }
+
+    public Flame(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(24, 24), world);
         flameImage = AssetManager.getImage("res\\Weapons and Attacks\\FireBall.png");
     }
 

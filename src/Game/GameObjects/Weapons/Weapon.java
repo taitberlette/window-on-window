@@ -5,6 +5,7 @@ import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public abstract class Weapon extends GameObject {
     protected int damage;
@@ -14,6 +15,14 @@ public abstract class Weapon extends GameObject {
     protected boolean held;
 
     public Weapon(int damage, int cooldown, int speed) {
+        this.damage = damage;
+        this.cooldown = cooldown;
+        this.speed = speed;
+    }
+
+
+    public Weapon(int damage, int cooldown, int speed, ArrayList<String> lines) {
+        super(lines);
         this.damage = damage;
         this.cooldown = cooldown;
         this.speed = speed;

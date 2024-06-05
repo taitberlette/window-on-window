@@ -1,12 +1,15 @@
 package Game.GameObjects.Entities.Enemies;
 
 import Assets.AssetManager;
+import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Weapons.Shooter.FlameThrower;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
+import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Panzer extends Enemy {
     private BufferedImage panzerImage;
@@ -23,8 +26,15 @@ public class Panzer extends Enemy {
     private static final int REGULAR_SPEED = 100;
     private static final int SLOW_SPEED = 80;
 
-    public Panzer() {
-        super(new Dimension(128, 64), 7, 20, REGULAR_SPEED, 256, 150);
+    public Panzer(Player player, World world) {
+        super(new Dimension(128, 64), 7, 20, REGULAR_SPEED, 256, 150, player, world);
+
+        panzerImage = AssetManager.getImage("res\\Enemies\\Panzer.png");
+        panzerAttackImage = AssetManager.getImage("res\\Enemies\\PanzerAttack.png");
+    }
+
+    public Panzer(ArrayList<String> lines, Player player, World world) {
+        super(new Dimension(128, 64), 7, 20, REGULAR_SPEED, 256, 150, lines, player, world);
 
         panzerImage = AssetManager.getImage("res\\Enemies\\Panzer.png");
         panzerAttackImage = AssetManager.getImage("res\\Enemies\\PanzerAttack.png");
@@ -52,7 +62,7 @@ public class Panzer extends Enemy {
     }
 
     public void kill() {
-        FlameThrower flameThrower = new FlameThrower();
+        FlameThrower flameThrower = new FlameThrower(world);
         flameThrower.setLocation(position);
         world.addGameObject(flameThrower);
     }
