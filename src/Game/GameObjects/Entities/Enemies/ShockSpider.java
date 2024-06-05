@@ -55,13 +55,9 @@ public class ShockSpider extends Enemy {
     }
 
     public void kill(){
+        player.unlockFastLegs();
     }
 
-   /* public void unlockSkill(){
-        if(Level instanceof LevelZero){
-
-        }
-    }*/
 
     public void hurt(int damage) {
         super.hurt(damage);
