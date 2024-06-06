@@ -33,27 +33,29 @@ public class MovingWall extends Mechanism {
     public MovingWall(ArrayList<String> lines, World world) {
         super(lines, new Dimension(64, 192), world);
 
-        int startX = 0;
-        int startY = 0;
-        int endX = 0;
-        int endY = 0;
+        double startX = 0;
+        double startY = 0;
+        double endX = 0;
+        double endY = 0;
 
         for(String line : lines) {
             if(line.startsWith("STARTX=")) {
-                startX = Integer.parseInt(line.replace("STARTX=", ""));
+                startX = Double.parseDouble(line.replace("STARTX=", ""));
             } else if(line.startsWith("STARTY=")) {
-                startY = Integer.parseInt(line.replace("STARTY=", ""));
+                startY = Double.parseDouble(line.replace("STARTY=", ""));
             } else if(line.startsWith("ENDX=")) {
-                endX = Integer.parseInt(line.replace("ENDX=", ""));
+                endX = Double.parseDouble(line.replace("ENDX=", ""));
             } else if(line.startsWith("ENDY=")) {
-                endY = Integer.parseInt(line.replace("ENDY=", ""));
+                endY = Double.parseDouble(line.replace("ENDY=", ""));
             } else if(line.startsWith("ID=")) {
                 switcherId = Integer.parseInt(line.replace("ID=", ""));
             }
         }
 
-        startPoint = new Point(startX, startY);
-        endPoint = new Point(endX, endY);
+        startPoint = new Point(0, 0);
+        startPoint.setLocation(startX, startY);
+        endPoint = new Point(0, 0);
+        endPoint.setLocation(endX, endY);
 
         this.realPosition.setLocation(position);
         this.speed = 150;
