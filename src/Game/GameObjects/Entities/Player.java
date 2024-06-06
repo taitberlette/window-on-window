@@ -10,7 +10,6 @@ import Game.GameObjects.Weapons.Shooter.FlameThrower;
 import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.GameObjects.Weapons.Shooter.Shooter;
 import Game.GameObjects.Weapons.Weapon;
-import Game.Levels.*;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
 import Game.Utilities.Inventory;
@@ -27,18 +26,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Player extends Entity implements KeyListener {
-//    private BufferedImage[] playerWalkingTerraImages = new BufferedImage[2];
-//    private BufferedImage[] playerWalkingEtherImages = new BufferedImage[2];
-//    private BufferedImage[] playerJumpingTerraImages = new BufferedImage[2];
-//    private BufferedImage[] playerJumpingEtherImages = new BufferedImage[2];
-//    private BufferedImage[] playerMeleeTerraImages = new BufferedImage[2];
-//    private BufferedImage[] playerMeleeEtherImages = new BufferedImage[2];
+    private BufferedImage[] terraImages = new BufferedImage[4];
+    private BufferedImage[] etherImages = new BufferedImage[4];
 
-    private BufferedImage terraImage;
-    private BufferedImage etherImage;
-
-    private BufferedImage aimTerraImage;
-    private BufferedImage aimEtherImage;
+    private BufferedImage armTerraImage;
+    private BufferedImage armEtherImage;
 
     private PlayerStatsWindow playerStatsWindow;
 
@@ -57,13 +49,17 @@ public class Player extends Entity implements KeyListener {
     private Skill fastLegsSkill;
     private Skill tunnelVisionSkill;
 
+    private int animationFrame = 0;
+    private long lastFrame = 0;
+
     private boolean leftKey = false;
     private boolean rightKey = false;
 
     private boolean aimingLeftKey = false;
     private boolean aimingRightKey = false;
     private double aimAngle = Math.PI / 2;
-    private double angleSpeed = Math.PI;
+
+    private final double ARM_SPEED = Math.PI;
 
     private final int HEAL_SPEED = 25;
 
@@ -92,12 +88,16 @@ public class Player extends Entity implements KeyListener {
 
         this.playerStatsWindow = new PlayerStatsWindow(name, this, game, photosynthesisSkill, fastLegsSkill, tunnelVisionSkill);
 
-        position.setLocation(500, 500);
+        terraImages[0] = terraImages[2] = AssetManager.getImage("res\\Player\\TerraPlayerIdol.png");
+        terraImages[1] = AssetManager.getImage("res\\Player\\TerraPlayerMoving1.png");
+        terraImages[3] = AssetManager.getImage("res\\Player\\TerraPlayerMoving2.png");
 
-        terraImage = AssetManager.getImage("res\\Player\\TerraPlayerIdol.png");
-        etherImage = AssetManager.getImage("res\\Player\\EtherPlayerIdol.png");
-        aimTerraImage = AssetManager.getImage("res\\Player\\Terra Arm.png");
-        aimEtherImage = AssetManager.getImage("res\\Player\\Ether Arm.png");
+        etherImages[0] = etherImages[2] = AssetManager.getImage("res\\Player\\EtherPlayerIdol.png");
+        etherImages[1] = AssetManager.getImage("res\\Player\\EtherPlayerMoving1.png");
+        etherImages[3] = AssetManager.getImage("res\\Player\\EtherPlayerMoving2.png");
+
+        armTerraImage = AssetManager.getImage("res\\Player\\Terra Arm.png");
+        armEtherImage = AssetManager.getImage("res\\Player\\Ether Arm.png");
 
         playerStatsWindow.setVisible(true);
     }
@@ -180,10 +180,16 @@ public class Player extends Entity implements KeyListener {
 
         this.playerStatsWindow = new PlayerStatsWindow(name, this, game, photosynthesisSkill, fastLegsSkill, tunnelVisionSkill);
 
-        terraImage = AssetManager.getImage("res\\Player\\TerraPlayerIdol.png");
-        etherImage = AssetManager.getImage("res\\Player\\EtherPlayerIdol.png");
-        aimTerraImage = AssetManager.getImage("res\\Player\\Terra Arm.png");
-        aimEtherImage = AssetManager.getImage("res\\Player\\Ether Arm.png");
+        terraImages[0] = terraImages[2] = AssetManager.getImage("res\\Player\\TerraPlayerIdol.png");
+        terraImages[1] = AssetManager.getImage("res\\Player\\TerraPlayerMoving1.png");
+        terraImages[3] = AssetManager.getImage("res\\Player\\TerraPlayerMoving2.png");
+
+        etherImages[0] = etherImages[2] = AssetManager.getImage("res\\Player\\EtherPlayerIdol.png");
+        etherImages[1] = AssetManager.getImage("res\\Player\\EtherPlayerMoving1.png");
+        etherImages[3] = AssetManager.getImage("res\\Player\\EtherPlayerMoving2.png");
+
+        armTerraImage = AssetManager.getImage("res\\Player\\Terra Arm.png");
+        armEtherImage = AssetManager.getImage("res\\Player\\Ether Arm.png");
 
         playerStatsWindow.setVisible(true);
     }
@@ -200,9 +206,9 @@ public class Player extends Entity implements KeyListener {
         }
 
         if(aimingLeftKey && !aimingRightKey) {
-            aimAngle += angleSpeed * ((double) deltaTime / 1000000000);
+            aimAngle += ARM_SPEED * ((double) deltaTime / 1000000000);
         } else if(!aimingLeftKey && aimingRightKey) {
-            aimAngle -= angleSpeed * ((double) deltaTime / 1000000000);
+            aimAngle -= ARM_SPEED * ((double) deltaTime / 1000000000);
         }
 
         super.update(deltaTime);
@@ -241,6 +247,17 @@ public class Player extends Entity implements KeyListener {
             boxPosition.translate(0, -88);
             carryingBox.setLocation(boxPosition);
         }
+
+        if(onGround) {
+            if((animationFrame % 2 != 0 || velocityX != 0)) {
+                if(System.currentTimeMillis() - lastFrame > Math.abs(50000 / maxSpeed)) {
+                    animationFrame++;
+                    lastFrame = System.currentTimeMillis();
+                }
+            }
+        } else {
+            animationFrame = 3;
+        }
     }
 
     public void draw(Graphics2D graphics2D) {
@@ -248,7 +265,8 @@ public class Player extends Entity implements KeyListener {
             return;
         }
 
-        BufferedImage image = world instanceof TerraWorld ? terraImage : etherImage;
+        BufferedImage[] images = world instanceof TerraWorld ? terraImages : etherImages;
+        BufferedImage image = images[animationFrame % images.length];
 
         int offsetX = lastDirection == HorizontalDirection.RIGHT ? image.getWidth() : 0;
 
@@ -259,7 +277,7 @@ public class Player extends Entity implements KeyListener {
         }
 
 
-        BufferedImage aimImage = world instanceof TerraWorld ? aimTerraImage : aimEtherImage;
+        BufferedImage aimImage = world instanceof TerraWorld ? armTerraImage : armEtherImage;
 
         double frontArmAngle = 0;
         double backArmAngle = Math.PI;
@@ -332,8 +350,8 @@ public class Player extends Entity implements KeyListener {
 
         int verticalOffset = 6;
         int horizontalOffset = lastDirection == HorizontalDirection.RIGHT ?  -12 : 12;
-        int x = (int) (position.getX() + horizontalOffset + (Math.cos(aimAngle) * (aimTerraImage.getWidth() )));
-        int y = (int) ((position.getY() - aimTerraImage.getHeight() / 2) - verticalOffset - (Math.sin(aimAngle) * (aimTerraImage.getWidth() )));
+        int x = (int) (position.getX() + horizontalOffset + (Math.cos(aimAngle) * (armTerraImage.getWidth() )));
+        int y = (int) ((position.getY() - armTerraImage.getHeight() / 2) - verticalOffset - (Math.sin(aimAngle) * (armTerraImage.getWidth() )));
 
         Point hand = new Point(x, y);
 

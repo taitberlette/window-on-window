@@ -14,11 +14,13 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class ShockSpider extends Enemy {
-    private BufferedImage shockSpiderImage;
+    private BufferedImage[] shockSpiderImages = new BufferedImage[2];
     private BufferedImage shockSpiderAttackImage;
 
     private long slowerSpeedStart = 0;
     private long attackStart = 0;
+    private int animationFrame = 0;
+    private long lastFrame = 0;
 
     private final double IMAGE_SCALE = 4;
     private final double ATTACK_IMAGE_SCALE = 2;
@@ -31,20 +33,29 @@ public class ShockSpider extends Enemy {
 
         super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150, player, world);
 
-        shockSpiderImage = AssetManager.getImage("res\\Enemies\\Spider.png");
+        shockSpiderImages[0] = AssetManager.getImage("res\\Enemies\\Spider.png");
+        shockSpiderImages[1] = AssetManager.getImage("res\\Enemies\\SpiderRun.png");
         shockSpiderAttackImage = AssetManager.getImage("res\\Enemies\\SpiderAttack.png");
     }
 
     public ShockSpider(ArrayList<String> lines, Player player, World world) {
         super(new Dimension(128, 64), 5, 20, REGULAR_SPEED, 256, 150, lines, player, world);
 
-        shockSpiderImage = AssetManager.getImage("res\\Enemies\\Spider.png");
+        shockSpiderImages[0] = AssetManager.getImage("res\\Enemies\\Spider.png");
+        shockSpiderImages[1] = AssetManager.getImage("res\\Enemies\\SpiderRun.png");
         shockSpiderAttackImage = AssetManager.getImage("res\\Enemies\\SpiderAttack.png");
     }
 
     public void update(long deltaTime) {
         boolean slower = System.currentTimeMillis() - slowerSpeedStart < SLOW_LENGTH;
         maxSpeed = slower ? SLOW_SPEED : REGULAR_SPEED;
+
+        if((animationFrame % 2 != 0 || velocityX != 0) && onGround) {
+            if(System.currentTimeMillis() - lastFrame > Math.abs(50000 / maxSpeed)) {
+                animationFrame++;
+                lastFrame = System.currentTimeMillis();
+            }
+        }
 
         super.update(deltaTime);
     }
@@ -53,6 +64,8 @@ public class ShockSpider extends Enemy {
         if(world == null) {
             return;
         }
+
+        BufferedImage shockSpiderImage = shockSpiderImages[animationFrame % shockSpiderImages.length];
 
         int offsetX = lastDirection == HorizontalDirection.RIGHT ? (int) (shockSpiderImage.getWidth() * IMAGE_SCALE) : 0;
         graphics2D.drawImage((Image) shockSpiderImage, ((int) (position.getX() - (shockSpiderImage.getWidth() * (IMAGE_SCALE / 2))) + offsetX), (int) ((int) position.getY() - size.getHeight()), (int) (shockSpiderImage.getWidth() * IMAGE_SCALE * (lastDirection == HorizontalDirection.RIGHT ? -1 : 1)), (int) (shockSpiderImage.getHeight() * IMAGE_SCALE), null);
