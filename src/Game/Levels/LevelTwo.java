@@ -1,6 +1,8 @@
 package Game.Levels;
 
 import Game.Game;
+import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.ShockSpider;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
@@ -72,6 +74,19 @@ public class LevelTwo extends Level {
 
         MovableBox movableBox= new MovableBox(new Point(1256, 245), etherWorld);
         etherWorld.addGameObject(movableBox);
+
+        HellHound hellHound1 = new HellHound(player, etherWorld);
+        hellHound1.setLocation(new Point(896, 764));
+        etherWorld.addGameObject(hellHound1);
+
+        HellHound hellHound2 = new HellHound(player, etherWorld);
+        hellHound2.setLocation(new Point(1727, 764));
+        etherWorld.addGameObject(hellHound2);
+
+        ShockSpider shockSpider = new ShockSpider(player, etherWorld);
+        shockSpider.setLocation(new Point(876, 148));
+        shockSpider.setBoss();
+        etherWorld.addGameObject(shockSpider);
 
         WorldWindow terraWorldWindow1 = new WorldWindow(terraWorld);
         terraWorldWindow1.setTarget(player);
