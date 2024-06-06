@@ -189,6 +189,7 @@ public class Game implements KeyListener {
 
         activeLevel = ActiveLevel.values()[(activeLevel.ordinal() + 1)];
 
+        loadLevel(activeLevel);
         if(activeLevel == ActiveLevel.COUNT_LEVEL) {
             System.out.println("WON THE GAME 😁");
         }
