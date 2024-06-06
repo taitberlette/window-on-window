@@ -41,11 +41,11 @@ public class LevelZero extends Level {
     private WorldWindow terraWorldWindow;
     private WorldWindow etherWorldWindow;
     private ImageWindow introTutorialWindow;
+    private ImageWindow bossTutorialWindow;
     private ImageWindow skillsTutorialWindow;
 
     private boolean skillsUnlocked = false;
-    private boolean seenDoor = false;
-    private boolean seenNumbers = false;
+    private boolean seenBoss = false;
 
     private enum IntroTutorialState {
         MOVEMENT,
@@ -112,6 +112,7 @@ public class LevelZero extends Level {
 
         shockSpider = new ShockSpider(player, etherWorld);
         shockSpider.setLocation(new Point(70, 305));
+        shockSpider.setBoss();
         etherWorld.addGameObject(shockSpider);
 
         terraWorldWindow = new WorldWindow(terraWorld);
@@ -130,6 +131,9 @@ public class LevelZero extends Level {
 
         introTutorialWindow = new ImageWindow("Tutorial", AssetManager.getImage("res\\Tutorial\\Movement.png"), new Point(110, 320));
         introTutorialWindow.setKeyListener(game);
+
+        bossTutorialWindow = new ImageWindow("Boss", AssetManager.getImage("res\\Tutorial\\Boss.png"), new Point(35, 35));
+        bossTutorialWindow.setKeyListener(game);
 
         skillsTutorialWindow = new ImageWindow("Skills", AssetManager.getImage("res\\Tutorial\\Skills.png"), new Point(81, 670));
         skillsTutorialWindow.setKeyListener(game);
@@ -179,7 +183,7 @@ public class LevelZero extends Level {
         } else if(tutorialState == IntroTutorialState.TUTORIAL_PAUSE_PLATFORM && player.getBounds().intersects(movableBox.getBounds())) {
             tutorialState = IntroTutorialState.BOX;
             introTutorialWindow.changeImage(AssetManager.getImage("res\\Tutorial\\Box.png"));
-            introTutorialWindow.setLocation(new Point(55, 550));
+            introTutorialWindow.setLocation(new Point(1046, 930));
             introTutorialWindow.setVisible(true);
         } else if(tutorialState == IntroTutorialState.BOX && button.isActivated()) {
             tutorialState = IntroTutorialState.TUTORIAL_PAUSE_WALL;
@@ -195,7 +199,12 @@ public class LevelZero extends Level {
             introTutorialWindow.setVisible(false);
         }
 
+        if(!seenBoss && inBossFight) {
+            bossTutorialWindow.setVisible(true);
+            seenBoss = true;
+        }
         if(shockSpider.getHealth() <= 0 && !skillsUnlocked) {
+            bossTutorialWindow.setVisible(false);
             player.unlockFastLegs();
             player.unlockPhotosynthesis();
             player.unlockTunnelVision();
