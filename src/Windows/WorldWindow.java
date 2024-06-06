@@ -16,6 +16,7 @@ public class WorldWindow extends Panel {
     private World world;
     private GameObject target;
     private Point lastPoint;
+    private boolean frozen = false;
 
     private Dimension defaultDimension = new Dimension((1080 / 4), (1080 / 4) + TITLE_BAR_HEIGHT);
 
@@ -30,7 +31,7 @@ public class WorldWindow extends Panel {
     protected void draw(Graphics2D graphics2D, Dimension size) {
         Point position = view.getLocation();
 
-        if(target != null) {
+        if(target != null && !frozen) {
             Point targetPosition = target.getLocation();
             position = new Point((int) (targetPosition.getX() - (defaultDimension.getWidth() / 2)), (int) (targetPosition.getY() - (defaultDimension.getHeight() / 2)));
         } else {
@@ -50,7 +51,7 @@ public class WorldWindow extends Panel {
     }
 
     public void update(long deltaTime) {
-        if(target != null) {
+        if(target != null && !frozen) {
             Point targetPosition = target.getLocation();
             Point position = new Point((int) (targetPosition.getX() - (defaultDimension.getWidth() / 2)), (int) (targetPosition.getY() - (defaultDimension.getHeight() / 2)));
 
@@ -73,5 +74,17 @@ public class WorldWindow extends Panel {
 
     public Rectangle getBounds() {
        return getView().getFrame().getBounds();
+    }
+
+    public void freeze(boolean frozen) {
+        this.frozen = frozen;
+    }
+
+    public boolean isFrozen() {
+        return frozen;
+    }
+
+    public void resetSize() {
+        setSize(defaultDimension);
     }
 }

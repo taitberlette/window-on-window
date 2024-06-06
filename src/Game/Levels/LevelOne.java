@@ -1,6 +1,8 @@
 package Game.Levels;
 
 import Game.Game;
+import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.ShockSpider;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.MovingPlatform;
 import Game.GameObjects.Gadgets.Target;
@@ -45,6 +47,15 @@ public class LevelOne extends Level {
 
         MovingPlatform platform = new MovingPlatform(new Point(224, 922), new Point(224, 579), idPlatform, etherWorld);
         etherWorld.addGameObject(platform);
+
+        HellHound hellHound = new HellHound(player, etherWorld);
+        hellHound.setLocation(new Point(562, 764));
+        etherWorld.addGameObject(hellHound);
+
+        ShockSpider shockSpider = new ShockSpider(player, etherWorld);
+        shockSpider.setLocation(new Point(1022, 353));
+        shockSpider.setBoss();
+        etherWorld.addGameObject(shockSpider);
 
         WorldWindow terraWorldWindow = new WorldWindow(terraWorld);
         terraWorldWindow.setTarget(player);

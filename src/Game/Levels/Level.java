@@ -25,6 +25,8 @@ public abstract class Level implements KeyListener {
 
     protected String levelPath;
 
+    protected boolean inBossFight = false;
+
     protected ArrayList<WorldWindow> worldWindows = new ArrayList<>();
     protected ArrayList<WorldWindow> worldWindowsToAdd = new ArrayList<>();
     protected ArrayList<WorldWindow> worldWindowsToRemove = new ArrayList<>();
@@ -51,6 +53,8 @@ public abstract class Level implements KeyListener {
 
             if(line.startsWith("PLAYED=")) {
                 levelPlayed = Boolean.parseBoolean(line.replace("PLAYED=", ""));
+            } else if(line.startsWith("BOSS FIGHT=")) {
+                inBossFight = Boolean.parseBoolean(line.replace("BOSS FIGHT=", ""));
             } else if(line.startsWith("IN TERRA=")) {
                 inTerra = Boolean.parseBoolean(line.replace("IN TERRA=", ""));
             } else if(line.startsWith("PX=")) {
@@ -86,6 +90,9 @@ public abstract class Level implements KeyListener {
 
                 double x = 0;
                 double y = 0;
+                double width = 0;
+                double height = 0;
+                boolean frozen = false;
 
                 i++;
                 for(; i < lines.size() && !lines.get(i).equals("END WINDOW " + worldName); i++) {
@@ -101,6 +108,12 @@ public abstract class Level implements KeyListener {
                         x = Double.parseDouble(subLine.replace("X=", ""));
                     } else if(subLine.startsWith("Y=")) {
                         y = Double.parseDouble(subLine.replace("Y=", ""));
+                    } else if(subLine.startsWith("WIDTH=")) {
+                        width = Double.parseDouble(subLine.replace("WIDTH=", ""));
+                    } else if(subLine.startsWith("HEIGHT=")) {
+                        height = Double.parseDouble(subLine.replace("HEIGHT=", ""));
+                    } else if(subLine.startsWith("FROZEN=")) {
+                        frozen = Boolean.parseBoolean(subLine.replace("FROZEN=", ""));
                     }
                 }
 
@@ -109,6 +122,13 @@ public abstract class Level implements KeyListener {
 
                 worldWindow.setLocation(location);
 
+                Dimension dimension = new Dimension(0, 0);
+                dimension.setSize(width, height);
+
+                worldWindow.setSize(dimension);
+
+                worldWindow.freeze(frozen);
+
                 worldWindows.add(worldWindow);
             }
         }
@@ -116,12 +136,59 @@ public abstract class Level implements KeyListener {
         playerPosition.setLocation(playerX, playerY);
     }
 
-    public World getTerra() {
-        return terraWorld;
+
+    public void startBossFight() {
+        WorldWindow currentWindow = null;
+
+        for(WorldWindow worldWindow : worldWindows) {
+            if(worldWindow.getTarget() == player) {
+                currentWindow = worldWindow;
+                break;
+            }
+        }
+
+        if(currentWindow == null) {
+            System.out.println("Something went horribly wrong there is no player in a window??");
+            return;
+        }
+
+        for(WorldWindow worldWindow : worldWindows) {
+            if(worldWindow != currentWindow) {
+                worldWindow.setVisible(false);
+            }
+        }
+
+        currentWindow.freeze(true);
+        currentWindow.setSize(new Dimension(1920 - 128, 1080 - 128));
+        currentWindow.setLocation(new Point(64, 64));
+
+        inBossFight = true;
     }
 
-    public World getEther() {
-        return etherWorld;
+    public void endBossFight() {
+        WorldWindow currentWindow = null;
+
+        for(WorldWindow worldWindow : worldWindows) {
+            if(worldWindow.getTarget() == player) {
+                currentWindow = worldWindow;
+                break;
+            }
+        }
+
+        if(currentWindow == null) {
+            System.out.println("Something went horribly wrong there is no player in a window??");
+            return;
+        }
+
+        for(WorldWindow worldWindow : worldWindows) {
+            worldWindow.setVisible(true);
+        }
+
+
+        currentWindow.freeze(false);
+        currentWindow.resetSize();
+
+        inBossFight = false;
     }
 
     public void update(long deltaTime) {
@@ -200,6 +267,10 @@ public abstract class Level implements KeyListener {
     }
 
     public void switchWindow() {
+        if(inBossFight) {
+            return;
+        }
+
         WorldWindow currentWindow = null;
 
         for(WorldWindow worldWindow : worldWindows) {
@@ -259,6 +330,7 @@ public abstract class Level implements KeyListener {
         String result = "";
 
         result += "PLAYED=" + levelPlayed + "\n";
+        result += "BOSS FIGHT=" + inBossFight + "\n";
         result += "IN TERRA=" + inTerra + "\n";
         result += "PX=" + playerPosition.getX() + "\n";
         result += "PY=" + playerPosition.getY() + "\n";
@@ -283,6 +355,9 @@ public abstract class Level implements KeyListener {
             result += "TARGET=" + ((worldWindow.getTarget() instanceof Player) ? "PLAYER" : "NONE") + "\n";
             result += "X=" + worldWindow.getLocation().getX() + "\n";
             result += "Y=" + worldWindow.getLocation().getY() + "\n";
+            result += "WIDTH=" + worldWindow.getSize().getWidth() + "\n";
+            result += "HEIGHT=" + worldWindow.getSize().getHeight() + "\n";
+            result += "FROZEN=" + worldWindow.isFrozen() + "\n";
             result += "END WINDOW " + location + "\n";
         }
 

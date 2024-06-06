@@ -62,6 +62,7 @@ public class Panzer extends Enemy {
     }
 
     public void kill() {
+        super.kill();
         FlameThrower flameThrower = new FlameThrower(world);
         flameThrower.setLocation(position);
         world.addGameObject(flameThrower);

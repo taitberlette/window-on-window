@@ -65,6 +65,7 @@ public class ShockSpider extends Enemy {
     }
 
     public void kill(){
+        super.kill();
         player.unlockFastLegs();
     }
 

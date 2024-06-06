@@ -92,6 +92,14 @@ public abstract class World implements KeyListener {
         }
     }
 
+    public void startBossFight() {
+        level.startBossFight();
+    }
+
+    public void endBossFight() {
+        level.endBossFight();
+    }
+
     public void setSwitcher(int id, boolean activated) {
         switchers.put(id, activated);
     }

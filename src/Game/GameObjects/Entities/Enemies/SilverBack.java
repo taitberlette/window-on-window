@@ -61,6 +61,7 @@ public class SilverBack extends Enemy {
     }
 
     public void kill() {
+        super.kill();
        player.unlockTunnelVision();
     }
 

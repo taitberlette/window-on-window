@@ -62,6 +62,7 @@ public class Thrasher extends Enemy {
     }
 
     public void kill() {
+        super.kill();
         player.unlockPhotosynthesis();
     }
 
