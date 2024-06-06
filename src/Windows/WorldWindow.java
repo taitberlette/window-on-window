@@ -45,7 +45,7 @@ public class WorldWindow extends Panel {
         BufferedImage image = new BufferedImage((int) rendering.getWidth(), (int) rendering.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
 
         Graphics2D worldGraphics2D = (Graphics2D) image.getGraphics();
-        worldGraphics2D.setClip((int) (position.getX() * scale), (int) ((position.getY()) * scale), (int) (rendering.getWidth() * scale), (int) (rendering.getHeight() * scale));
+        worldGraphics2D.setClip((int) (position.getX()), (int) ((position.getY())), (int) (rendering.getWidth()), (int) (rendering.getHeight()));
         this.world.draw(worldGraphics2D);
 
         graphics2D.drawImage(image, (int) (-position.getX() * scale), (int) ((-position.getY() + TITLE_BAR_HEIGHT) * scale), (int) (rendering.getWidth() * scale), (int) (rendering.getHeight() * scale), null);
