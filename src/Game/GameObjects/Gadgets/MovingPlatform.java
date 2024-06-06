@@ -2,11 +2,13 @@ package Game.GameObjects.Gadgets;
 
 import Assets.AssetManager;
 import Game.Worlds.CollisionType;
+import Game.Worlds.World;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 public class MovingPlatform extends Mechanism {
     private BufferedImage platformOnImage;
@@ -18,8 +20,8 @@ public class MovingPlatform extends Mechanism {
     private Point endPoint;
     private int speed;
 
-    public MovingPlatform(Point position, Point end, Switch switcher) {
-        super(position, new Dimension(128, 80), switcher);
+    public MovingPlatform(Point position, Point end, int switcherId, World world) {
+        super(position, new Dimension(128, 80), switcherId, world);
 
         this.realPosition = new Point(position);
         this.startPoint = new Point(position);
@@ -31,13 +33,47 @@ public class MovingPlatform extends Mechanism {
         platformOffImage = AssetManager.getImage("res\\Objects\\Moving Platform(off).png");
     }
 
+    public MovingPlatform(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(128, 80), world);
+
+        double startX = 0;
+        double startY = 0;
+        double endX = 0;
+        double endY = 0;
+
+        for(String line : lines) {
+            if(line.startsWith("STARTX=")) {
+                startX = Double.parseDouble(line.replace("STARTX=", ""));
+            } else if(line.startsWith("STARTY=")) {
+                startY = Double.parseDouble(line.replace("STARTY=", ""));
+            } else if(line.startsWith("ENDX=")) {
+                endX = Double.parseDouble(line.replace("ENDX=", ""));
+            } else if(line.startsWith("ENDY=")) {
+                endY = Double.parseDouble(line.replace("ENDY=", ""));
+            } else if(line.startsWith("ID=")) {
+                switcherId = Integer.parseInt(line.replace("ID=", ""));
+            }
+        }
+
+        startPoint = new Point(0, 0);
+        startPoint.setLocation(startX, startY);
+        endPoint = new Point(0, 0);
+        endPoint.setLocation(endX, endY);
+
+        this.realPosition = new Point(position);
+        this.speed = 150;
+
+        platformOnImage = AssetManager.getImage("res\\Objects\\Moving Platform(on).png");
+        platformOffImage = AssetManager.getImage("res\\Objects\\Moving Platform(off).png");
+    }
+
     public void update(long deltaTime) {
         double verticalMovement = (speed * ((double) deltaTime / 1000000000));
 
-        Point target = switcher.isActivated() ? endPoint : startPoint;
+        Point target = world.getSwitcher(switcherId) ? endPoint : startPoint;
 
         boolean moveUpWhenActivated = startPoint.getY() > endPoint.getY();
-        if(!switcher.isActivated()) {
+        if(!world.getSwitcher(switcherId)) {
             moveUpWhenActivated = !moveUpWhenActivated;
         }
 
@@ -53,8 +89,21 @@ public class MovingPlatform extends Mechanism {
     }
 
     public void draw(Graphics2D graphics2D) {
-        BufferedImage platformImage = switcher.isActivated() ? platformOnImage : platformOffImage;
+        BufferedImage platformImage = world.getSwitcher(switcherId) ? platformOnImage : platformOffImage;
 
         graphics2D.drawImage((Image) platformImage, (int) position.getX() - ((platformImage.getWidth() * IMAGE_SCALE) / 2), (int) position.getY() - ((platformImage.getHeight() * IMAGE_SCALE) / 2), platformImage.getWidth() * IMAGE_SCALE, platformImage.getHeight() * IMAGE_SCALE, null);
+    }
+
+
+    public String encode() {
+        String result = super.encode();
+
+        result += "STARTX=" + startPoint.getX() + "\n";
+        result += "STARTY=" + startPoint.getY() + "\n";
+        result += "ENDX=" + endPoint.getX() + "\n";
+        result += "ENDY=" + endPoint.getY() + "\n";
+        result += "ID=" + switcherId + "\n";
+
+        return result;
     }
 }

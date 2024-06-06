@@ -23,6 +23,25 @@ public abstract class Projectile extends GameObject {
         this.size = size;
     }
 
+    public Projectile(ArrayList<String> lines, Dimension size, World world) {
+        super(lines);
+
+        this.size = size;
+        this.world = world;
+
+        for(String line : lines) {
+            if(line.startsWith("VX=")) {
+                velocityX = Double.parseDouble(line.replace("VX=", ""));
+            } else if(line.startsWith("VY=")) {
+                velocityY = Double.parseDouble(line.replace("VY=", ""));
+            }  else if(line.startsWith("DAMAGE=")) {
+                damage = Integer.parseInt(line.replace("DAMAGE=", ""));
+            }
+        }
+
+        realPosition.setLocation(position);
+    }
+
     public void launch(World world, double angle, double velocity, int damage) {
         velocityX = Math.cos(angle) * velocity;
         velocityY = Math.sin(angle) * velocity;
@@ -134,5 +153,16 @@ public abstract class Projectile extends GameObject {
     public void setLocation(Point position) {
         this.position.setLocation(position);
         this.realPosition.setLocation(position);
+    }
+
+
+    public String encode() {
+        String result = super.encode();
+
+        result += "VX=" + velocityX + "\n";
+        result += "VY=" + velocityY + "\n";
+        result += "DAMAGE=" + damage + "\n";
+
+        return result;
     }
 }

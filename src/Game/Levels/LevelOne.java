@@ -6,9 +6,11 @@ import Game.GameObjects.Gadgets.MovingPlatform;
 import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
+import Game.GameObjects.Objects.Tree;
 import Windows.WorldWindow;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class LevelOne extends Level {
@@ -36,10 +38,12 @@ public class LevelOne extends Level {
         Door door = new Door(new Point(1774, 332), player, terraWorld, game, "Level_One", combination);
         terraWorld.addGameObject(door);
 
-        Target target = new Target(new Point(362, 725));
+        int idPlatform = 1;
+
+        Target target = new Target(new Point(362, 725), idPlatform, etherWorld);
         etherWorld.addGameObject(target);
 
-        MovingPlatform platform = new MovingPlatform(new Point(224, 922), new Point(224, 579), target);
+        MovingPlatform platform = new MovingPlatform(new Point(224, 922), new Point(224, 579), idPlatform, etherWorld);
         etherWorld.addGameObject(platform);
 
         WorldWindow terraWorldWindow = new WorldWindow(terraWorld);
@@ -57,10 +61,30 @@ public class LevelOne extends Level {
         worldWindows.add(etherWorldWindow);
     }
 
+    public LevelOne(ArrayList<String> lines, Game game, Player player) {
+        super(lines, game, player, "Level_One");
+
+        if(inTerra) {
+            terraWorld.addGameObject(player);
+        } else {
+            etherWorld.addGameObject(player);
+        }
+    }
+
     public void open() {
         super.open();
 
-        player.setLocation(new Point(124, 800));
-        player.setWorld(terraWorld);
+        if(!levelPlayed) {
+            levelPlayed = true;
+            inTerra = true;
+            playerPosition = new Point(124, 800);
+
+            player.setLocation(playerPosition);
+            player.setWorld(terraWorld);
+        } else {
+            System.out.println("LEVEL WAS PLAYED BEFORE, PUT THE PLAYER IN TERRA? " + inTerra);
+            player.setLocation(playerPosition);
+            player.setWorld(inTerra ? terraWorld : etherWorld);
+        }
     }
 }

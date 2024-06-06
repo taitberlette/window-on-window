@@ -2,7 +2,7 @@ package Game.GameObjects.Gadgets;
 
 import Assets.AssetManager;
 import Game.GameObjects.GameObject;
-import Game.GameObjects.Objects.Box;
+import Game.GameObjects.Objects.MovableBox;
 import Game.Worlds.World;
 
 import java.awt.*;
@@ -12,10 +12,15 @@ import java.util.ArrayList;
 public class BoxButton extends Switch {
     private BufferedImage buttonImage;
     private final int IMAGE_SCALE = 4;
-    private World world;
 
-    public BoxButton(Point position) {
-        super(position, new Dimension(40, 64));
+    public BoxButton(Point position, int switcherId, World world) {
+        super(position, new Dimension(40, 64), switcherId, world);
+
+        buttonImage = AssetManager.getImage("res\\Objects\\Button.png");
+    }
+
+    public BoxButton(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(40, 64), world);
 
         buttonImage = AssetManager.getImage("res\\Objects\\Button.png");
     }
@@ -30,11 +35,13 @@ public class BoxButton extends Switch {
         ArrayList<GameObject> gameObjects = world.findGameObjects(getBounds());
 
         for(GameObject gameObject : gameObjects) {
-            if(gameObject instanceof Box) {
+            if(gameObject instanceof MovableBox) {
                 activated = true;
                 break;
             }
         }
+
+        world.setSwitcher(switcherId, activated);
     }
 
     public void setWorld(World world) {

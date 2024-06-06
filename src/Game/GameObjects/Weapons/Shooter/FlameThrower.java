@@ -10,14 +10,20 @@ import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class FlameThrower extends Shooter {
     private BufferedImage flameThrowerImage;
     private final int IMAGE_SCALE = 1;
     private Dimension size = new Dimension(48, 27);
 
-    public FlameThrower() {
-        super((Class) Flame.class, 10, 100, 400);
+    public FlameThrower(World world) {
+        super((Class) Flame.class, 10, 100, 400, world);
+        flameThrowerImage = AssetManager.getImage("res\\Weapons and Attacks\\FlameThrower.png");
+    }
+
+    public FlameThrower(ArrayList<String> lines, World world) {
+        super((Class) Flame.class, 10, 100, 400, lines, world);
         flameThrowerImage = AssetManager.getImage("res\\Weapons and Attacks\\FlameThrower.png");
     }
 

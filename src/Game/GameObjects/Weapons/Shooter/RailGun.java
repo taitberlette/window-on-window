@@ -4,16 +4,23 @@ import Assets.AssetManager;
 import Game.GameObjects.Projectiles.Lightning;
 import Game.Utilities.Ammunition;
 import Game.Utilities.Inventory;
+import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class RailGun extends Shooter {
     private BufferedImage railGunImage;
     private final int IMAGE_SCALE = 1;
     private Dimension size = new Dimension(48, 27);
-    public RailGun() {
-        super((Class) Lightning.class, 5, 20, 750);
+    public RailGun(World world) {
+        super((Class) Lightning.class, 5, 20, 750, world);
+        railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
+    }
+
+    public RailGun(ArrayList<String> lines, World world) {
+        super((Class) Lightning.class, 5, 20, 750, lines, world);
         railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
     }
 

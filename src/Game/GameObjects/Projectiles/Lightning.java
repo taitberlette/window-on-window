@@ -1,9 +1,11 @@
 package Game.GameObjects.Projectiles;
 
 import Assets.AssetManager;
+import Game.Worlds.World;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Lightning extends Projectile {
     private BufferedImage lightningImage;
@@ -12,6 +14,11 @@ public class Lightning extends Projectile {
     public Lightning() {
         super(new Dimension(24, 24));
 
+        lightningImage = AssetManager.getImage("res\\Weapons and Attacks\\LightingMiddelFrame.png");
+    }
+
+    public Lightning(ArrayList<String> lines, World world) {
+        super(lines, new Dimension(24, 24), world);
         lightningImage = AssetManager.getImage("res\\Weapons and Attacks\\LightingMiddelFrame.png");
     }
 

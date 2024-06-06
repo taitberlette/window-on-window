@@ -3,9 +3,12 @@ package Game.GameObjects.Entities.Enemies;
 import Assets.AssetManager;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
+import Game.Worlds.World;
+import Game.GameObjects.Entities.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Thrasher extends Enemy {
 
@@ -23,8 +26,15 @@ public class Thrasher extends Enemy {
     private static final int REGULAR_SPEED = 150;
     private static final int SLOW_SPEED = 70;
 
-    public Thrasher() {
-        super(new Dimension(128, 64), 5, 35, REGULAR_SPEED, 256, 300);
+    public Thrasher(Player player, World world) {
+        super(new Dimension(128, 64), 5, 35, REGULAR_SPEED, 256, 300, player, world);
+
+        thrasherImage = AssetManager.getImage("res\\Enemies\\Thrasher.png");
+        thrasherAttackImage = AssetManager.getImage("res\\Enemies\\ThrasherAttack.png");
+    }
+
+    public Thrasher(ArrayList<String> lines, Player player, World world) {
+        super(new Dimension(128, 64), 5, 35, REGULAR_SPEED, 256, 300, lines, player, world);
 
         thrasherImage = AssetManager.getImage("res\\Enemies\\Thrasher.png");
         thrasherAttackImage = AssetManager.getImage("res\\Enemies\\ThrasherAttack.png");

@@ -1,13 +1,16 @@
 package Game.GameObjects.Entities.Enemies;
 
 import Assets.AssetManager;
+import Game.GameObjects.Entities.Player;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
+import Game.Worlds.World;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class HellHound extends Enemy {
@@ -25,9 +28,15 @@ public class HellHound extends Enemy {
     private static final int REGULAR_SPEED = 150;
     private static final int SLOW_SPEED = 100;
 
-    public HellHound() {
-        super(new Dimension(128, 64), 5, 15, REGULAR_SPEED, 256, 100);
+    public HellHound(Player player, World world) {
+        super(new Dimension(128, 64), 5, 15, REGULAR_SPEED, 256, 100, player, world);
 
+        hellHoundImage = AssetManager.getImage("res\\Enemies\\HellHound.png");
+        hellHoundAttackImage = AssetManager.getImage("res\\Enemies\\HellHoundAttack.png");
+    }
+
+    public HellHound(ArrayList<String> lines, Player player, World world) {
+        super(new Dimension(128, 64), 5, 15, REGULAR_SPEED, 256, 100, lines, player, world);
         hellHoundImage = AssetManager.getImage("res\\Enemies\\HellHound.png");
         hellHoundAttackImage = AssetManager.getImage("res\\Enemies\\HellHoundAttack.png");
     }

@@ -79,6 +79,10 @@ public abstract class Panel extends JPanel {
         view.setLocation(x, y);
     }
 
+    public Point getLocation() {
+        return view.getLocation();
+    }
+
     public void setVisible(boolean visible) {
         view.setVisible(visible);
     }

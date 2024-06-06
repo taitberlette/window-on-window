@@ -30,6 +30,20 @@ public abstract class Entity extends GameObject {
         this.size = size;
     }
 
+    public Entity(ArrayList<String> lines, Dimension size) {
+        super(lines);
+
+        for(String line : lines) {
+            if(line.startsWith("HEALTH=")) {
+                health = Double.parseDouble(line.replace("HEALTH=", "").trim());
+            } else if(line.startsWith("VY=")) {
+                velocityY = Double.parseDouble(line.replace("VY=", "").trim());
+            }
+        }
+
+        this.size = size;
+    }
+
     public double getHealth() {
         return health;
     }
@@ -204,5 +218,14 @@ public abstract class Entity extends GameObject {
             world.removeGameObject(this);
             this.kill();
         }
+    }
+
+    public String encode() {
+        String result = super.encode();
+
+        result += "VY=" + velocityY + "\n";
+        result += "HEALTH=" + health + "\n";
+
+        return result;
     }
 }

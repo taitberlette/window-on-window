@@ -4,9 +4,12 @@ import Assets.AssetManager;
 import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
+import Game.Worlds.World;
+import Game.GameObjects.Entities.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class ValkyrieDrone extends Enemy{
     private BufferedImage valkyrieDroneImage;
@@ -23,8 +26,15 @@ public class ValkyrieDrone extends Enemy{
     private static final int REGULAR_SPEED = 150;
     private static final int SLOW_SPEED = 100;
 
-    public ValkyrieDrone() {
-        super(new Dimension(128, 64), 5, 30, REGULAR_SPEED, 256, 250);
+    public ValkyrieDrone(Player player, World world) {
+        super(new Dimension(128, 64), 5, 30, REGULAR_SPEED, 256, 250, player, world);
+
+        valkyrieDroneImage = AssetManager.getImage("res\\Enemies\\ValkyrieDrone.png");
+        valkyrieDroneAttackImage = AssetManager.getImage("res\\Enemies\\ValkyrieDroneImage.png");
+    }
+
+    public ValkyrieDrone(ArrayList<String> lines, Player player, World world) {
+        super(new Dimension(128, 64), 5, 30, REGULAR_SPEED, 256, 250, lines, player, world);
 
         valkyrieDroneImage = AssetManager.getImage("res\\Enemies\\ValkyrieDrone.png");
         valkyrieDroneAttackImage = AssetManager.getImage("res\\Enemies\\ValkyrieDroneImage.png");
@@ -53,7 +63,7 @@ public class ValkyrieDrone extends Enemy{
 
     public void kill() {
         player.getInventory().addItems(Ammunition.LIGHTNING_CHARGE, random.nextInt(5, 16));
-        RailGun railGun = new RailGun();
+        RailGun railGun = new RailGun(world);
         railGun.setLocation(position);
         world.addGameObject(railGun);
     }

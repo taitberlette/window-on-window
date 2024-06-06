@@ -9,9 +9,10 @@ import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
 import Game.GameObjects.Gadgets.MovingWall;
 import Game.GameObjects.Gadgets.Target;
-import Game.GameObjects.Objects.Box;
+import Game.GameObjects.Objects.MovableBox;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
+import Game.GameObjects.Objects.Tree;
 import Game.GameObjects.Weapons.Shooter.FlameThrower;
 import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.Utilities.Ammunition;
@@ -32,7 +33,7 @@ public class LevelZero extends Level {
     private MovingPlatform platform;
     private BoxButton button;
     private MovingWall wall;
-    private Box box;
+    private MovableBox movableBox;
     private HellHound hellHound;
     private ShockSpider shockSpider;
     private FlameThrower flameThrower;
@@ -65,8 +66,6 @@ public class LevelZero extends Level {
     public LevelZero(Game game, Player player) {
         super(game, player, "Level_Tutorial");
 
-        terraWorld.addGameObject(player);
-
         Random random = new Random();
 
         int[] combination = {random.nextInt(1, 10)};
@@ -77,42 +76,41 @@ public class LevelZero extends Level {
         door = new Door(new Point(1789, 255), player, terraWorld, game, "Level_Tutorial", combination);
         terraWorld.addGameObject(door);
 
-        target = new Target(new Point(890, 700));
+        Tree tree = new Tree(new Point (180, 828));
+        terraWorld.addGameObject(tree);
+
+        int idPlatform = 1;
+
+        target = new Target(new Point(890, 700), idPlatform, etherWorld);
         etherWorld.addGameObject(target);
 
-        platform = new MovingPlatform(new Point(1078, 932), new Point(1078, 424), target);
+        platform = new MovingPlatform(new Point(1078, 932), new Point(1078, 424), idPlatform, etherWorld);
         etherWorld.addGameObject(platform);
 
-        button = new BoxButton(new Point(1324, 352));
-        button.setWorld(etherWorld);
+        int idWall = 2;
+
+        button = new BoxButton(new Point(1324, 352), idWall, etherWorld);
         etherWorld.addGameObject(button);
 
-        wall = new MovingWall(new Point(1432, 288), new Point(1432, 480), button);
+        wall = new MovingWall(new Point(1432, 288), new Point(1432, 480), idWall, etherWorld);
         etherWorld.addGameObject(wall);
 
-        box = new Box(new Point(250, 352));
-        box.setWorld(etherWorld);
-        etherWorld.addGameObject(box);
+        movableBox = new MovableBox(new Point(250, 352), etherWorld);
+        etherWorld.addGameObject(movableBox);
 
-        flameThrower = new FlameThrower();
+        flameThrower = new FlameThrower(etherWorld);
         flameThrower.setLocation(new Point(1547, 320));
-        flameThrower.setWorld(etherWorld);
         etherWorld.addGameObject(flameThrower);
 
-        railGun = new RailGun();
+        railGun = new RailGun(etherWorld);
         railGun.setLocation(new Point(1654, 320));
-        railGun.setWorld(etherWorld);
         etherWorld.addGameObject(railGun);
 
-        hellHound = new HellHound();
-        hellHound.setWorld(etherWorld);
-        hellHound.setPlayer(player);
+        hellHound = new HellHound(player, etherWorld);
         hellHound.setLocation(new Point(562, 764));
         etherWorld.addGameObject(hellHound);
 
-        shockSpider = new ShockSpider();
-        shockSpider.setWorld(etherWorld);
-        shockSpider.setPlayer(player);
+        shockSpider = new ShockSpider(player, etherWorld);
         shockSpider.setLocation(new Point(70, 305));
         etherWorld.addGameObject(shockSpider);
 
@@ -142,6 +140,7 @@ public class LevelZero extends Level {
 
         player.setLocation(new Point(246, 800));
         player.setWorld(terraWorld);
+        terraWorld.addGameObject(player);
 
         introTutorialWindow.setVisible(true);
     }
@@ -177,7 +176,7 @@ public class LevelZero extends Level {
         } else if(tutorialState == IntroTutorialState.THROW_BONE && target.isActivated()) {
             tutorialState = IntroTutorialState.TUTORIAL_PAUSE_PLATFORM;
             introTutorialWindow.setVisible(false);
-        } else if(tutorialState == IntroTutorialState.TUTORIAL_PAUSE_PLATFORM && player.getBounds().intersects(box.getBounds())) {
+        } else if(tutorialState == IntroTutorialState.TUTORIAL_PAUSE_PLATFORM && player.getBounds().intersects(movableBox.getBounds())) {
             tutorialState = IntroTutorialState.BOX;
             introTutorialWindow.changeImage(AssetManager.getImage("res\\Tutorial\\Box.png"));
             introTutorialWindow.setLocation(new Point(55, 550));

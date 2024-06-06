@@ -1,20 +1,28 @@
 package Game.Worlds;
 
 import Game.Game;
+import Game.GameObjects.Entities.Enemies.*;
 import Game.GameObjects.Entities.Entity;
 import Game.GameObjects.Entities.Player;
-import Game.GameObjects.Gadgets.Mechanism;
-import Game.GameObjects.Gadgets.Switch;
+import Game.GameObjects.Gadgets.*;
 import Game.GameObjects.GameObject;
-import Game.GameObjects.Projectiles.Projectile;
+import Game.GameObjects.Objects.Door;
+import Game.GameObjects.Objects.HiddenNumber;
+import Game.GameObjects.Objects.MovableBox;
+import Game.GameObjects.Objects.Tree;
+import Game.GameObjects.Projectiles.*;
+import Game.GameObjects.Weapons.Shooter.FlameThrower;
+import Game.GameObjects.Weapons.Shooter.RailGun;
 import Game.GameObjects.Weapons.Weapon;
 import Game.Levels.Level;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class World implements KeyListener {
     protected Game game;
@@ -23,6 +31,8 @@ public abstract class World implements KeyListener {
 
     protected BufferedImage image;
     protected BufferedImage collision;
+
+    private HashMap<Integer, Boolean> switchers = new HashMap<>();
 
     protected ArrayList<Switch> switches = new ArrayList<>();
     protected ArrayList<Mechanism> mechanisms = new ArrayList<>();
@@ -40,6 +50,57 @@ public abstract class World implements KeyListener {
         this.game = game;
         this.level = level;
         this.levelPath = levelPath;
+    }
+
+    public World(ArrayList<String> lines, Game game, Level level, Player player, String levelPath) {
+        this.game = game;
+        this.level = level;
+
+        for(int i = 0; i < lines.size(); i++){
+            String packet = lines.get(i);
+
+            ArrayList<String> data = new ArrayList<>();
+
+            i++;
+            for(; i < lines.size() && !lines.get(i).equals("END " + packet); i++) {
+                data.add(lines.get(i));
+            }
+
+            switch (packet) {
+                case "TARGET" -> addGameObject(new Target(data, this));
+                case "BOX BUTTON" -> addGameObject(new BoxButton(data, this));
+                case "MOVING PLATFORM" -> addGameObject(new MovingPlatform(data, this));
+                case "MOVING WALL" -> addGameObject(new MovingWall(data, this));
+                case "BOX" -> addGameObject(new MovableBox(data, this));
+                case "HIDDEN NUMBER" -> addGameObject(new HiddenNumber(data));
+                case "DOOR" -> addGameObject(new Door(data, player, this, game, levelPath));
+                case "TREE" -> addGameObject(new Tree(data));
+                case "BONE" -> addGameObject(new Bone(data, this));
+                case "FLAME" -> addGameObject(new Flame(data, this));
+                case "LIGHTNING" -> addGameObject(new Lightning(data, this));
+                case "TUNNEL VISION" -> addGameObject(new TunnelVision(data, this));
+                case "WEB" -> addGameObject(new Web(data, this));
+                case "FLAME THROWER" -> addGameObject(new FlameThrower(data, this));
+                case "RAIL GUN" -> addGameObject(new RailGun(data, this));
+                case "HELL HOUND" -> addGameObject(new HellHound(data, player, this));
+                case "PANZER" -> addGameObject(new Panzer(data, player, this));
+                case "SHOCK SPIDER" -> addGameObject(new ShockSpider(data, player, this));
+                case "SILVER BACK" -> addGameObject(new SilverBack(data, player, this));
+                case "THRASHER" -> addGameObject(new Thrasher(data, player, this));
+                case "VALKYRIE DRONE" -> addGameObject(new ValkyrieDrone(data, player, this));
+            }
+        }
+    }
+
+    public void setSwitcher(int id, boolean activated) {
+        switchers.put(id, activated);
+    }
+
+    public boolean getSwitcher(int id) {
+        if(!switchers.containsKey(id)) {
+            return false;
+        }
+        return switchers.get(id);
     }
 
     public void update(long deltaTime) {
@@ -67,46 +128,44 @@ public abstract class World implements KeyListener {
                 entity.update(deltaTime);
             }
 
-        try {
-            for (GameObject gameObject : addGameObjects) {
-                if (gameObject instanceof Switch) {
-                    switches.add((Switch) gameObject);
-                } else if (gameObject instanceof Mechanism) {
-                    mechanisms.add((Mechanism) gameObject);
-                } else if (gameObject instanceof Projectile) {
-                    projectiles.add((Projectile) gameObject);
-                } else if (gameObject instanceof Weapon) {
-                    droppedWeapons.add((Weapon) gameObject);
-                } else if (gameObject instanceof Entity) {
-                    entities.add((Entity) gameObject);
-                } else {
-                    gameObjects.add(gameObject);
-                }
+            updateArrays();
+    }
+
+    private void updateArrays() {
+
+        for (GameObject gameObject : addGameObjects) {
+            if (gameObject instanceof Switch) {
+                switches.add((Switch) gameObject);
+            } else if (gameObject instanceof Mechanism) {
+                mechanisms.add((Mechanism) gameObject);
+            } else if (gameObject instanceof Projectile) {
+                projectiles.add((Projectile) gameObject);
+            } else if (gameObject instanceof Weapon) {
+                droppedWeapons.add((Weapon) gameObject);
+            } else if (gameObject instanceof Entity) {
+                entities.add((Entity) gameObject);
+            } else {
+                gameObjects.add(gameObject);
             }
-            addGameObjects.clear();
-        } catch (Exception e) {
-            System.out.println("There was an error updating something!!");
-            System.err.println(e.getMessage());
-            e.printStackTrace();
         }
+        addGameObjects.clear();
 
-            for (GameObject gameObject : removeGameObjects) {
-                if (gameObject instanceof Switch) {
-                    switches.remove((Switch) gameObject);
-                } else if (gameObject instanceof Mechanism) {
-                    mechanisms.remove((Mechanism) gameObject);
-                } else if (gameObject instanceof Projectile) {
-                    projectiles.remove((Projectile) gameObject);
-                } else if (gameObject instanceof Weapon) {
-                    droppedWeapons.remove((Weapon) gameObject);
-                } else if (gameObject instanceof Entity) {
-                    entities.remove((Entity) gameObject);
-                } else {
-                    gameObjects.remove(gameObject);
-                }
+        for (GameObject gameObject : removeGameObjects) {
+            if (gameObject instanceof Switch) {
+                switches.remove((Switch) gameObject);
+            } else if (gameObject instanceof Mechanism) {
+                mechanisms.remove((Mechanism) gameObject);
+            } else if (gameObject instanceof Projectile) {
+                projectiles.remove((Projectile) gameObject);
+            } else if (gameObject instanceof Weapon) {
+                droppedWeapons.remove((Weapon) gameObject);
+            } else if (gameObject instanceof Entity) {
+                entities.remove((Entity) gameObject);
+            } else {
+                gameObjects.remove(gameObject);
             }
-            removeGameObjects.clear();
-
+        }
+        removeGameObjects.clear();
     }
 
     public void addGameObject(GameObject gameObject) {
@@ -446,4 +505,123 @@ public abstract class World implements KeyListener {
         }
     }
 
+    public String encode() {
+        updateArrays();
+
+        String result = "";
+//
+//        result += "SWITCHES\n";
+        for(Switch switcher : switches) {
+            String type = "";
+            if(switcher instanceof Target) {
+                type = "TARGET";
+            } else if(switcher instanceof BoxButton) {
+                type = "BOX BUTTON";
+            }
+
+            result += type + "\n";
+            result += switcher.encode();
+            result += "END " + type + "\n";
+        }
+//        result += "END SWITCHES\n";
+
+//        result += "MECHANISMS\n";
+        for(Mechanism mechanism : mechanisms) {
+            String type = "";
+            if(mechanism instanceof MovingPlatform) {
+                type = "MOVING PLATFORM";
+            } else if(mechanism instanceof MovingWall) {
+                type = "MOVING WALL";
+            }
+
+            result += type + "\n";
+            result += mechanism.encode();
+            result += "END " + type + "\n";
+        }
+//        result += "END MECHANISMS\n";
+
+//        result += "GAME OBJECTS\n";
+        for(GameObject gameObject : gameObjects) {
+            String type = "";
+            if(gameObject instanceof MovableBox) {
+                type = "BOX";
+            } else if(gameObject instanceof HiddenNumber) {
+                type = "HIDDEN NUMBER";
+            } else if(gameObject instanceof Door) {
+                type = "DOOR";
+            } else if(gameObject instanceof Tree) {
+                type = "TREE";
+            }
+
+            result += type + "\n";
+            result += gameObject.encode();
+            result += "END " + type + "\n";
+        }
+//        result += "END GAME OBJECTS\n";
+
+//        result += "PROJECTILES\n";
+        for(Projectile projectile : projectiles) {
+            String type = "";
+            if(projectile instanceof Bone) {
+                type = "BONE";
+            } else if(projectile instanceof Flame) {
+                type = "FLAME";
+            } else if(projectile instanceof Lightning) {
+                type = "LIGHTNING";
+            } else if(projectile instanceof TunnelVision) {
+                type = "TUNNEL VISION";
+            } else if(projectile instanceof Web) {
+                type = "WEB";
+            }
+
+            result += type + "\n";
+            result += projectile.encode();
+            result += "END " + type + "\n";
+        }
+//        result += "END PROJECTILES\n";
+
+//        result += "WEAPONS\n";
+        for(Weapon weapon : droppedWeapons) {
+            String type = "";
+            if (weapon instanceof FlameThrower) {
+                type = "FLAME THROWER";
+            } else if (weapon instanceof RailGun) {
+                type = "RAIL GUN";
+
+                result += type + "\n";
+                result += weapon.encode();
+                result += "END " + type + "\n";
+            }
+        }
+//        result += "END WEAPONS\n";
+
+
+//        result += "ENTITIES\n";
+        for(Entity entity : entities) {
+            String type = "";
+            if (entity instanceof Player) {
+                // the game encodes the player
+                continue;
+            } else if (entity instanceof HellHound) {
+                type = "HELL HOUND";
+            } else if (entity instanceof Panzer) {
+                type = "PANZER";
+            } else if (entity instanceof ShockSpider) {
+                type = "SHOCK SPIDER";
+            } else if (entity instanceof SilverBack) {
+                type = "SILVER BACK";
+            } else if (entity instanceof Thrasher) {
+                type = "THRASHER";
+            } else if (entity instanceof ValkyrieDrone) {
+                type = "VALKYRIE DRONE";
+            }
+
+            result += type + "\n";
+            result += entity.encode();
+            result += "END " + type + "\n";
+        }
+//        result += "END ENTITIES\n";
+
+        return result;
+    }
 }

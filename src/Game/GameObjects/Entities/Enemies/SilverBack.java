@@ -3,9 +3,12 @@ package Game.GameObjects.Entities.Enemies;
 import Assets.AssetManager;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
+import Game.Worlds.World;
+import Game.GameObjects.Entities.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class SilverBack extends Enemy {
     private BufferedImage silverBackImage;
@@ -22,8 +25,15 @@ public class SilverBack extends Enemy {
     private static final int REGULAR_SPEED = 200;
     private static final int SLOW_SPEED = 100;
 
-    public SilverBack() {
-        super(new Dimension(128, 64), 3, 25, REGULAR_SPEED, 256, 200);
+    public SilverBack(Player player, World world) {
+        super(new Dimension(128, 64), 3, 25, REGULAR_SPEED, 256, 200, player, world);
+
+        silverBackImage = AssetManager.getImage("res\\Enemies\\SilverBack.png");
+        silverBackAttackImage = AssetManager.getImage("res\\Enemies\\SilverBackAttack.png");
+    }
+
+    public SilverBack(ArrayList<String> lines, Player player, World world) {
+        super(new Dimension(128, 64), 3, 25, REGULAR_SPEED, 256, 200, lines, player, world);
 
         silverBackImage = AssetManager.getImage("res\\Enemies\\SilverBack.png");
         silverBackAttackImage = AssetManager.getImage("res\\Enemies\\SilverBackAttack.png");
