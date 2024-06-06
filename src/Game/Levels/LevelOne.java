@@ -25,16 +25,16 @@ public class LevelOne extends Level {
 
         int[] combination = {random.nextInt(1, 10), random.nextInt(1, 10), random.nextInt(1, 10)};
 
-        HiddenNumber firstNumber = new HiddenNumber(new Point(979, 360), combination[0], Color.RED);
+        HiddenNumber firstNumber = new HiddenNumber(new Point(979, 360), combination[0], Color.RED, etherWorld);
         etherWorld.addGameObject(firstNumber);
 
-        HiddenNumber secondNumber = new HiddenNumber(new Point(1124, 802), combination[1], Color.YELLOW);
+        HiddenNumber secondNumber = new HiddenNumber(new Point(1124, 802), combination[1], Color.YELLOW, etherWorld);
         etherWorld.addGameObject(secondNumber);
 
-        HiddenNumber thirdNumber = new HiddenNumber(new Point(1820, 605), combination[2], Color.BLUE);
+        HiddenNumber thirdNumber = new HiddenNumber(new Point(1820, 605), combination[2], Color.BLUE, etherWorld);
         etherWorld.addGameObject(thirdNumber);
 
-        HiddenNumber decoyNumber = new HiddenNumber(new Point(13, 739), random.nextInt(1, 10), Color.GREEN);
+        HiddenNumber decoyNumber = new HiddenNumber(new Point(13, 739), random.nextInt(1, 10), Color.GREEN, etherWorld);
         etherWorld.addGameObject(decoyNumber);
 
         Door door = new Door(new Point(1774, 332), player, terraWorld, game, "Level_One", combination);

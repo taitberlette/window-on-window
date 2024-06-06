@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public class TerraWorld extends World {
 
-    public TerraWorld(Game game, Level level, String levelPath) {
-        super(game, level, levelPath);
+    public TerraWorld(Game game, Level level, Player player, String levelPath) {
+        super(game, level, player, levelPath);
 
         this.image = AssetManager.getImage("res\\" + levelPath + "\\Terra.png");
         this.collision = AssetManager.getImage("res\\" + levelPath + "\\TerraCollision.png");

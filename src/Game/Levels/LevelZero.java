@@ -70,7 +70,7 @@ public class LevelZero extends Level {
 
         int[] combination = {random.nextInt(1, 10)};
 
-        firstNumber = new HiddenNumber(new Point(1750, 280), combination[0], Color.RED);
+        firstNumber = new HiddenNumber(new Point(1750, 280), combination[0], Color.RED, etherWorld);
         etherWorld.addGameObject(firstNumber);
 
         door = new Door(new Point(1789, 255), player, terraWorld, game, "Level_Tutorial", combination);

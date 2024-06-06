@@ -28,6 +28,7 @@ public class MovableBox extends GameObject {
 
     public MovableBox(ArrayList<String> lines, World world) {
         super(lines);
+        boxImage = AssetManager.getImage("res\\Objects\\Box.png");
         this.world = world;
     }
 

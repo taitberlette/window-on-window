@@ -19,6 +19,7 @@ public class WorldWindow extends Panel {
     private boolean frozen = false;
 
     private Dimension defaultDimension = new Dimension((1080 / 4), (1080 / 4) + TITLE_BAR_HEIGHT);
+    private Dimension frozenDimension = new Dimension(1920 - 128, 1080 - 128);
 
     public WorldWindow(World world) {
         super(world instanceof TerraWorld ? "Terra" : "Ether");
@@ -78,13 +79,15 @@ public class WorldWindow extends Panel {
 
     public void freeze(boolean frozen) {
         this.frozen = frozen;
+        super.setSize(this.frozen ? frozenDimension : defaultDimension);
     }
 
     public boolean isFrozen() {
         return frozen;
     }
 
-    public void resetSize() {
-        setSize(defaultDimension);
+    public Dimension getSize() {
+        return this.frozen ? frozenDimension : defaultDimension;
     }
+
 }

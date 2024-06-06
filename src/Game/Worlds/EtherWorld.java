@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class EtherWorld extends World {
     private BufferedImage testing;
 
-    public EtherWorld(Game game, Level level, String levelPath) {
-        super(game, level, levelPath);
+    public EtherWorld(Game game, Level level, Player player, String levelPath) {
+        super(game, level, player, levelPath);
 
         this.image = AssetManager.getImage("res\\" + levelPath + "\\Ether.png");
         this.collision = AssetManager.getImage("res\\" + levelPath + "\\EtherCollision.png");

@@ -46,15 +46,17 @@ public abstract class World implements KeyListener {
 
     protected String levelPath;
 
-    public World(Game game, Level level, String levelPath) {
+    public World(Game game, Level level, Player player, String levelPath) {
         this.game = game;
         this.level = level;
         this.levelPath = levelPath;
+        this.player = player;
     }
 
     public World(ArrayList<String> lines, Game game, Level level, Player player, String levelPath) {
         this.game = game;
         this.level = level;
+        this.player = player;
 
         for(int i = 0; i < lines.size(); i++){
             String packet = lines.get(i);
@@ -72,7 +74,7 @@ public abstract class World implements KeyListener {
                 case "MOVING PLATFORM" -> addGameObject(new MovingPlatform(data, this));
                 case "MOVING WALL" -> addGameObject(new MovingWall(data, this));
                 case "BOX" -> addGameObject(new MovableBox(data, this));
-                case "HIDDEN NUMBER" -> addGameObject(new HiddenNumber(data));
+                case "HIDDEN NUMBER" -> addGameObject(new HiddenNumber(data, this));
                 case "DOOR" -> addGameObject(new Door(data, player, this, game, levelPath));
                 case "TREE" -> addGameObject(new Tree(data));
                 case "BONE" -> addGameObject(new Bone(data, this));
@@ -98,6 +100,10 @@ public abstract class World implements KeyListener {
 
     public void endBossFight() {
         level.endBossFight();
+    }
+
+    public boolean bossFightActive() {
+        return level.bossFightActive();
     }
 
     public void setSwitcher(int id, boolean activated) {
@@ -179,16 +185,16 @@ public abstract class World implements KeyListener {
     public void addGameObject(GameObject gameObject) {
         addGameObjects.add(gameObject);
 
-        if(gameObject instanceof Player) {
-            player = (Player) gameObject;
-        }
+//        if(gameObject instanceof Player) {
+//            player = (Player) gameObject;
+//        }
     }
 
     public void removeGameObject(GameObject gameObject) {
         removeGameObjects.add(gameObject);
-        if(gameObject instanceof Player) {
-            player = null;
-        }
+//        if(gameObject instanceof Player) {
+//            player = null;
+//        }
     }
 
     public CollisionType checkCollision(Point position) {

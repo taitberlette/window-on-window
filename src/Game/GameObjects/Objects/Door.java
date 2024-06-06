@@ -90,6 +90,7 @@ public class Door extends GameObject {
         if(numberCodeWindow.isCorrect() && distanceHorizontal < WALK_IN_DISTANCE) {
             System.out.println("COMPLETE LEVEL");
             game.levelCompleted();
+            numberCodeWindow.setVisible(false);
         }
 
         Point windowLocation = new Point(playerPosition);

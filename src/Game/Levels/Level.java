@@ -36,8 +36,8 @@ public abstract class Level implements KeyListener {
         this.player = player;
         this.levelPath = levelPath;
 
-        terraWorld = new TerraWorld(game, this, levelPath);
-        etherWorld = new EtherWorld(game, this, levelPath);
+        terraWorld = new TerraWorld(game, this, player, levelPath);
+        etherWorld = new EtherWorld(game, this, player, levelPath);
     }
 
     public Level(ArrayList<String> lines, Game game, Player player, String levelPath) {
@@ -53,6 +53,7 @@ public abstract class Level implements KeyListener {
 
             if(line.startsWith("PLAYED=")) {
                 levelPlayed = Boolean.parseBoolean(line.replace("PLAYED=", ""));
+                System.out.println(levelPath + " " + levelPlayed);
             } else if(line.startsWith("BOSS FIGHT=")) {
                 inBossFight = Boolean.parseBoolean(line.replace("BOSS FIGHT=", ""));
             } else if(line.startsWith("IN TERRA=")) {
@@ -159,7 +160,6 @@ public abstract class Level implements KeyListener {
         }
 
         currentWindow.freeze(true);
-        currentWindow.setSize(new Dimension(1920 - 128, 1080 - 128));
         currentWindow.setLocation(new Point(64, 64));
 
         inBossFight = true;
@@ -184,11 +184,13 @@ public abstract class Level implements KeyListener {
             worldWindow.setVisible(true);
         }
 
-
         currentWindow.freeze(false);
-        currentWindow.resetSize();
 
         inBossFight = false;
+    }
+
+    public boolean bossFightActive() {
+        return inBossFight;
     }
 
     public void update(long deltaTime) {
@@ -213,6 +215,14 @@ public abstract class Level implements KeyListener {
         for(WorldWindow worldWindow : worldWindows) {
             worldWindow.setVisible(true);
         }
+
+        if(inBossFight) {
+            startBossFight();
+        } else {
+            endBossFight();
+        }
+
+        System.out.println("OPEN " + this.getClass().getName());
     }
 
     public void close() {
@@ -222,6 +232,8 @@ public abstract class Level implements KeyListener {
         for(WorldWindow worldWindow : worldWindows) {
             worldWindow.setVisible(false);
         }
+
+        System.out.println("CLOSE " + this.getClass().getName());
     }
 
     public void addWorldWindow(WorldWindow worldWindow) {

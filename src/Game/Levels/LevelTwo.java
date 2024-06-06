@@ -24,22 +24,22 @@ public class LevelTwo extends Level {
 
         int[] combination = {random.nextInt(1, 10), random.nextInt(1, 10), random.nextInt(1, 10), random.nextInt(1, 10)};
 
-        HiddenNumber firstNumber = new HiddenNumber(new Point(53, 499), combination[0], Color.RED);
+        HiddenNumber firstNumber = new HiddenNumber(new Point(53, 499), combination[0], Color.RED, etherWorld);
         etherWorld.addGameObject(firstNumber);
 
-        HiddenNumber secondNumber = new HiddenNumber(new Point(225, 93), combination[1], Color.YELLOW);
+        HiddenNumber secondNumber = new HiddenNumber(new Point(225, 93), combination[1], Color.YELLOW, etherWorld);
         etherWorld.addGameObject(secondNumber);
 
-        HiddenNumber thirdNumber = new HiddenNumber(new Point(1201, 193), combination[2], Color.BLUE);
+        HiddenNumber thirdNumber = new HiddenNumber(new Point(1201, 193), combination[2], Color.BLUE, etherWorld);
         etherWorld.addGameObject(thirdNumber);
 
-        HiddenNumber fourthNumber = new HiddenNumber((new Point(1849, 809)), combination[3], Color.GREEN);
+        HiddenNumber fourthNumber = new HiddenNumber((new Point(1849, 809)), combination[3], Color.GREEN, etherWorld);
         etherWorld.addGameObject(fourthNumber);
 
-        HiddenNumber decoyNumber1 = new HiddenNumber(new Point(704, 900), random.nextInt(1, 10), Color.PINK);
+        HiddenNumber decoyNumber1 = new HiddenNumber(new Point(704, 900), random.nextInt(1, 10), Color.PINK, etherWorld);
         etherWorld.addGameObject(decoyNumber1);
 
-        HiddenNumber decoynumber2 = new HiddenNumber(new Point(1840, 197), random.nextInt(1, 10), Color.orange);
+        HiddenNumber decoynumber2 = new HiddenNumber(new Point(1840, 197), random.nextInt(1, 10), Color.orange, etherWorld);
         etherWorld.addGameObject(decoynumber2);
 
         Door door = new Door(new Point(1757, 152), player, terraWorld, game, "Level_Two", combination);
@@ -115,6 +115,8 @@ public class LevelTwo extends Level {
 
             player.setLocation(playerPosition);
             player.setWorld(terraWorld);
+
+            System.out.println("NEW SETUP LEVEL 2");
         } else {
             System.out.println("LEVEL WAS PLAYED BEFORE, PUT THE PLAYER IN TERRA? " + inTerra);
             player.setLocation(playerPosition);

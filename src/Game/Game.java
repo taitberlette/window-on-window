@@ -22,6 +22,7 @@ import Game.Levels.ActiveLevel;
 public class Game implements KeyListener {
     private Level[] levels = new Level[ActiveLevel.COUNT_LEVEL.ordinal()];
     private ActiveLevel activeLevel = ActiveLevel.NONE;
+    private ActiveLevel nextLevel = ActiveLevel.NONE;
     private Player player;
 
     private StateManager stateManager;
@@ -88,15 +89,8 @@ public class Game implements KeyListener {
 
                 ArrayList<String> data = new ArrayList<>();
 
-
-                System.out.println();
-                System.out.println();
-                System.out.println();
-                System.out.println("CREATING A LEVEL " + levelNumber + "!!");
-
                 i++;
                 for(; i < lines.size() && !lines.get(i).equals("END LEVEL " + levelNumber); i++) {
-                    System.out.println(lines.get(i));
                     data.add(lines.get(i));
                 }
 
@@ -121,6 +115,22 @@ public class Game implements KeyListener {
     }
 
     public void update(long deltaTime) {
+        if(activeLevel != nextLevel) {
+            int currentLevel = activeLevel.ordinal();
+            int newLevel = nextLevel.ordinal();
+
+            if(currentLevel < ActiveLevel.COUNT_LEVEL.ordinal()) {
+                levels[currentLevel].close();
+            }
+
+            activeLevel = nextLevel;
+
+            if(newLevel < ActiveLevel.COUNT_LEVEL.ordinal()) {
+                levels[newLevel].open();
+            }
+        }
+
+
         int index = activeLevel.ordinal();
 
         if(index < ActiveLevel.COUNT_LEVEL.ordinal()) {
@@ -154,22 +164,7 @@ public class Game implements KeyListener {
     }
 
     public void loadLevel(ActiveLevel level) {
-        if(activeLevel == level) {
-            return;
-        }
-
-        int currentLevel = activeLevel.ordinal();
-        int newLevel = level.ordinal();
-
-        if(currentLevel < ActiveLevel.COUNT_LEVEL.ordinal()) {
-            levels[currentLevel].close();
-        }
-
-        activeLevel = level;
-
-        if(newLevel < ActiveLevel.COUNT_LEVEL.ordinal()) {
-            levels[newLevel].open();
-        }
+        nextLevel = level;
     }
 
     public void kill() {
@@ -187,9 +182,12 @@ public class Game implements KeyListener {
             return;
         }
 
-        activeLevel = ActiveLevel.values()[(activeLevel.ordinal() + 1)];
+//        activeLevel = ActiveLevel.values()[(activeLevel.ordinal() + 1)];
 
-        loadLevel(activeLevel);
+        loadLevel(ActiveLevel.values()[(activeLevel.ordinal() + 1)]);
+//
+//        System.out.println(activeLevel);
+
         if(activeLevel == ActiveLevel.COUNT_LEVEL) {
             System.out.println("WON THE GAME 😁");
         }
