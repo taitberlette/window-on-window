@@ -152,7 +152,7 @@ public class Player extends Entity implements KeyListener {
                 i++;
                 for(; i < lines.size() && !lines.get(i).equals("END PHOTOSYNTHESIS SKILL"); i++) {
                     data.add(lines.get(i));
-                }
+                };
 
                 photosynthesisSkill = new Skill(data);
             } else if(packet.startsWith("FAST LEGS SKILL")) {
@@ -172,7 +172,7 @@ public class Player extends Entity implements KeyListener {
                     data.add(lines.get(i));
                 }
 
-                fastLegsSkill = new Skill(data);
+                tunnelVisionSkill = new Skill(data);
             }
         }
 
