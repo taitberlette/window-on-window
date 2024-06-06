@@ -57,7 +57,7 @@ public class MovingWall extends Mechanism {
         endPoint = new Point(0, 0);
         endPoint.setLocation(endX, endY);
 
-        this.realPosition.setLocation(position);
+        this.realPosition = new Point(position);
         this.speed = 150;
 
         wallImage = AssetManager.getImage("res\\Objects\\Wall.png");
