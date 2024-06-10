@@ -35,7 +35,7 @@ public class LevelTwo extends Level {
         HiddenNumber thirdNumber = new HiddenNumber(new Point(1201, 193), combination[2], Color.BLUE, etherWorld);
         etherWorld.addGameObject(thirdNumber);
 
-        HiddenNumber fourthNumber = new HiddenNumber((new Point(1849, 809)), combination[3], Color.GREEN, etherWorld);
+        HiddenNumber fourthNumber = new HiddenNumber((new Point(1889, 809)), combination[3], Color.GREEN, etherWorld);
         etherWorld.addGameObject(fourthNumber);
 
         HiddenNumber decoyNumber1 = new HiddenNumber(new Point(704, 900), random.nextInt(1, 10), Color.PINK, etherWorld);
