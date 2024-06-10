@@ -87,7 +87,7 @@ public class HellHound extends Enemy {
         slowerSpeedStart = System.currentTimeMillis();
     }
 
-    public void attackAniamtion() {
+    public void startAttack() {
         attackStart = System.currentTimeMillis();
     }
 }

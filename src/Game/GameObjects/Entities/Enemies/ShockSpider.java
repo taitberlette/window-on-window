@@ -88,7 +88,7 @@ public class ShockSpider extends Enemy {
         slowerSpeedStart = System.currentTimeMillis();
     }
 
-    public void attackAniamtion() {
+    public void startAttack() {
         attackStart = System.currentTimeMillis();
     }
 }

@@ -105,4 +105,12 @@ public class StateManager {
     public void loadTutorial() {
         gameState.loadTutorial();
     }
+
+    public void resetGame() {
+        gameState.reset();
+    }
+
+    public void saveGame() {
+        gameState.save();
+    }
 }

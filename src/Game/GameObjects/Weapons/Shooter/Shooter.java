@@ -96,7 +96,7 @@ public abstract class Shooter extends Weapon {
         try {
             Projectile instance = projectile.getDeclaredConstructor().newInstance();
             instance.setLocation(position);
-            instance.launch(world, angle, speed, damage);
+            instance.launch(world, angle, speed, damage, true);
             world.addGameObject(instance);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             System.out.println("There was an error creating the projectile");

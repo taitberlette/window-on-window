@@ -2,6 +2,7 @@ package Game.Levels;
 
 import Game.Game;
 import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.Panzer;
 import Game.GameObjects.Entities.Enemies.ShockSpider;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
@@ -36,7 +37,7 @@ public class LevelTwo extends Level {
         HiddenNumber thirdNumber = new HiddenNumber(new Point(1201, 193), combination[2], Color.BLUE, etherWorld);
         etherWorld.addGameObject(thirdNumber);
 
-        HiddenNumber fourthNumber = new HiddenNumber((new Point(1849, 809)), combination[3], Color.GREEN, etherWorld);
+        HiddenNumber fourthNumber = new HiddenNumber((new Point(1889, 809)), combination[3], Color.GREEN, etherWorld);
         etherWorld.addGameObject(fourthNumber);
 
         HiddenNumber decoyNumber1 = new HiddenNumber(new Point(704, 900), random.nextInt(1, 10), Color.PINK, etherWorld);
@@ -97,9 +98,12 @@ public class LevelTwo extends Level {
         etherWorld.addGameObject(hellHound2);
 
         ShockSpider shockSpider = new ShockSpider(player, etherWorld);
-        shockSpider.setLocation(new Point(876, 148));
-        shockSpider.setBoss();
+        shockSpider.setLocation(new Point(1200, 764));
         etherWorld.addGameObject(shockSpider);
+
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(876, 100));
+        etherWorld.addGameObject(panzer);
 
         WorldWindow terraWorldWindow1 = new WorldWindow(terraWorld);
         terraWorldWindow1.setTarget(player);
