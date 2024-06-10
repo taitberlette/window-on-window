@@ -74,7 +74,7 @@ public class ValkyrieDrone extends Enemy{
         slowerSpeedStart = System.currentTimeMillis();
     }
 
-    public void attackAniamtion() {
+    public void startAttack() {
         attackStart = System.currentTimeMillis();
     }
 }

@@ -2,6 +2,7 @@ package Game.Levels;
 
 import Game.Game;
 import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.Panzer;
 import Game.GameObjects.Entities.Enemies.ShockSpider;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
@@ -84,9 +85,12 @@ public class LevelTwo extends Level {
         etherWorld.addGameObject(hellHound2);
 
         ShockSpider shockSpider = new ShockSpider(player, etherWorld);
-        shockSpider.setLocation(new Point(876, 148));
-        shockSpider.setBoss();
+        shockSpider.setLocation(new Point(1200, 764));
         etherWorld.addGameObject(shockSpider);
+
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(876, 100));
+        etherWorld.addGameObject(panzer);
 
         WorldWindow terraWorldWindow1 = new WorldWindow(terraWorld);
         terraWorldWindow1.setTarget(player);
