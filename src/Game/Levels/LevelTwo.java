@@ -11,6 +11,7 @@ import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
 import Game.GameObjects.Objects.MovableBox;
+import Game.GameObjects.Objects.Tree;
 import Windows.WorldWindow;
 
 import java.awt.*;
@@ -46,6 +47,18 @@ public class LevelTwo extends Level {
 
         Door door = new Door(new Point(1757, 152), player, terraWorld, game, "Level_Two", combination);
         terraWorld.addGameObject(door);
+
+        Tree tree = new Tree(new Point (118, 824));
+        terraWorld.addGameObject(tree);
+
+        Tree tree1 = new Tree(new Point (303, 824));
+        terraWorld.addGameObject(tree1);
+
+        Tree tree2 = new Tree(new Point (449, 824));
+        terraWorld.addGameObject(tree2);
+
+        Tree tree3 = new Tree(new Point (629, 824));
+        terraWorld.addGameObject(tree3);
 
         int idPlatform1 = 1;
         int idPlatform2 = 2;

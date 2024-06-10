@@ -76,8 +76,18 @@ public class LevelZero extends Level {
         door = new Door(new Point(1789, 255), player, terraWorld, game, "Level_Tutorial", combination);
         terraWorld.addGameObject(door);
 
-        Tree tree = new Tree(new Point (180, 828));
+        Tree tree = new Tree(new Point (180, 822));
         terraWorld.addGameObject(tree);
+
+        Tree tree1 = new Tree(new Point (1303, 383));
+        terraWorld.addGameObject(tree1);
+
+        Tree tree2 = new Tree(new Point (1491, 340));
+        terraWorld.addGameObject(tree2);
+
+        Tree tree3 = new Tree(new Point (350, 822));
+        terraWorld.addGameObject(tree3);
+
 
         int idPlatform = 1;
 

@@ -40,6 +40,21 @@ public class LevelOne extends Level {
         Door door = new Door(new Point(1774, 332), player, terraWorld, game, "Level_One", combination);
         terraWorld.addGameObject(door);
 
+        Tree tree = new Tree(new Point (78, 820));
+        terraWorld.addGameObject(tree);
+
+        Tree tree1 = new Tree(new Point (363, 490));
+        terraWorld.addGameObject(tree1);
+
+        Tree tree2 = new Tree(new Point (608, 451));
+        terraWorld.addGameObject(tree2);
+
+        Tree tree3 = new Tree(new Point (1446, 691));
+        terraWorld.addGameObject(tree3);
+
+        Tree tree4 = new Tree(new Point (1719, 694));
+        terraWorld.addGameObject(tree4);
+
         int idPlatform = 1;
 
         Target target = new Target(new Point(362, 725), idPlatform, etherWorld);
