@@ -46,7 +46,7 @@ public class Switch extends GameObject {
     }
 
     public void toggle() {
-        activated = !activated;
+        activated = !world.getSwitcher(switcherId);
         world.setSwitcher(switcherId, activated);
     }
 
