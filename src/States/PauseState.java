@@ -60,6 +60,7 @@ public class PauseState extends State {
 
             stateManager.clearStates();
             stateManager.pushState(StateName.STATE_HOME);
+            stateManager.saveGame();
         }
     }
 }

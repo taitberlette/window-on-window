@@ -27,8 +27,6 @@ public class ResetState extends State {
         int middle = (int) (screen.getWidth() / 2);
         int buttonWidth = 344;
 
-        int padding = 64;
-
         yesButton = new ButtonWindow("yes", "Reset my game", new Point(middle + (buttonWidth / 2), buttonHeight));
         noButton = new ButtonWindow("no", "Back to game", new Point(middle - (buttonWidth / 2) - buttonWidth, buttonHeight));
     }
@@ -65,6 +63,7 @@ public class ResetState extends State {
 
             stateManager.clearStates();
             stateManager.pushState(StateName.STATE_HOME);
+            stateManager.resetGame();
         }
 
         blurredWindow.update(deltaTime);
