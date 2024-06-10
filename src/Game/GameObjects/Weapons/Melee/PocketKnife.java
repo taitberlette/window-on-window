@@ -7,7 +7,7 @@ import Game.GameObjects.Entities.Entity;
 import Game.GameObjects.GameObject;
 import Game.GameObjects.Objects.Tree;
 import Game.Utilities.HorizontalDirection;
-import Game.Worlds.World;
+import Game.GameObjects.Entities.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class PocketKnife extends Melee {
     private BufferedImage pocketKnifeImage;
+    private Player player;
 
     private long startAttack = 0;
     private HorizontalDirection attackDirection;
@@ -28,8 +29,10 @@ public class PocketKnife extends Melee {
 
     private final long ATTACK_TIME = 1000;
 
-    public PocketKnife() {
+    public PocketKnife(Player player) {
         super(20, 2, 0,52);
+
+        this.player = player;
 
         pocketKnifeImage = AssetManager.getImage("res\\Weapons and Attacks\\PocketKnife.png");
     }
@@ -68,6 +71,8 @@ public class PocketKnife extends Melee {
                 for(GameObject gameObject : gameObjects) {
                     if(gameObject instanceof Tree tree) {
                         tree.dropApple();
+                        player.heal(10);
+                        hitSomething = true;
                         break;
                     }
                 }

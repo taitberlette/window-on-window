@@ -220,6 +220,10 @@ public abstract class Entity extends GameObject {
         }
     }
 
+    public void heal(int health) {
+        this.health = Math.min(this.health + health, maxHealth);
+    }
+
     public String encode() {
         String result = super.encode();
 

@@ -73,7 +73,7 @@ public class Player extends Entity implements KeyListener {
 
         this.inventory = new Inventory();
 
-        this.pocketKnife = new PocketKnife();
+        this.pocketKnife = new PocketKnife(this);
         this.pocketKnife.setHeld(true);
 
         this.boneShooter = new BoneShooter(world);
@@ -112,7 +112,7 @@ public class Player extends Entity implements KeyListener {
 
         this.inventory = new Inventory();
 
-        this.pocketKnife = new PocketKnife();
+        this.pocketKnife = new PocketKnife(this);
         this.pocketKnife.setHeld(true);
 
         this.boneShooter = new BoneShooter(world);
