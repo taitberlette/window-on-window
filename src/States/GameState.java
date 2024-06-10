@@ -5,6 +5,7 @@ import Game.Levels.ActiveLevel;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
@@ -23,6 +24,18 @@ public class GameState extends State {
     }
 
     public void close() {
+        game.kill();
+        game = null;
+    }
+
+    public void update(long deltaTime) {
+        if(game != null) {
+            game.update(deltaTime);
+        }
+    }
+
+    public void save() {
+        System.out.println("SAVE THE GAME");
 
         if(game.savingEnabled()) {
             String path = String.format(FILE_PATH_TEMPLATE, paths[slot]);
@@ -42,15 +55,6 @@ public class GameState extends State {
             printWriter.println(game.encode());
 
             printWriter.close();
-        }
-
-        game.kill();
-        game = null;
-    }
-
-    public void update(long deltaTime) {
-        if(game != null) {
-            game.update(deltaTime);
         }
     }
 
@@ -91,5 +95,18 @@ public class GameState extends State {
         game = new Game(stateManager, -1);
 
         game.loadLevel(ActiveLevel.LEVEL_TUTORIAL);
+    }
+
+    public void reset() {
+        if(slot >= 0) {
+            System.out.println("DELETE");
+            String path = String.format(FILE_PATH_TEMPLATE, paths[slot]);
+
+            try {
+                Files.deleteIfExists(Path.of(path));
+            } catch (IOException e) {
+                System.out.println("FAILED TO DELETE THE SAVE FILE");
+            }
+        }
     }
 }
