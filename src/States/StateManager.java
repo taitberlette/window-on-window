@@ -9,6 +9,7 @@ public class StateManager {
     private GameState gameState;
     private PauseState pauseState;
     private ResetState resetState;
+    private GameOverState gameOverState;
 
     private Stack<State> runningStates = new Stack<>();
     private LinkedList<State> statesToPush = new LinkedList<>();
@@ -22,6 +23,7 @@ public class StateManager {
         gameState = new GameState(this);
         pauseState = new PauseState(this);
         resetState = new ResetState(this);
+        gameOverState = new GameOverState(this);
 
         pushState(homeState);
     }
@@ -34,6 +36,7 @@ public class StateManager {
             case STATE_GAME -> state = gameState;
             case STATE_PAUSE -> state = pauseState;
             case STATE_RESET -> state = resetState;
+            case STATE_GAMEOVER -> state = gameOverState;
             default -> state = homeState;
         }
 
@@ -78,6 +81,9 @@ public class StateManager {
         for(State state : runningStates) {
             state.update(deltaTime);
         }
+//        if (!runningStates.isEmpty()){
+//            runningStates.lastElement().update(deltaTime);
+//        }
 
         for(int i = 0; i < statesToPop; i++) {
             State popped = runningStates.pop();
@@ -96,6 +102,10 @@ public class StateManager {
 //        if(runningState != null) {
 //            runningState.update(deltaTime);
 //        }
+    }
+
+    public void reloadGame(){
+        gameState.reloadGame();
     }
 
     public void loadGame(int slot) {

@@ -93,7 +93,7 @@ public class GameState extends State {
 
     public void loadTutorial() {
         game = new Game(stateManager, -1);
-
+        slot = -1;
         game.loadLevel(ActiveLevel.LEVEL_TUTORIAL);
     }
 
@@ -108,5 +108,16 @@ public class GameState extends State {
                 System.out.println("FAILED TO DELETE THE SAVE FILE");
             }
         }
+    }
+
+    public void reloadGame(){
+        reset();
+        close();
+        if (slot >= 0){
+            loadGame(slot);
+        } else {
+            loadTutorial();
+        }
+
     }
 }

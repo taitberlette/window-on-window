@@ -161,6 +161,11 @@ public class Game implements KeyListener {
             }
         }
         releasedEvents.clear();
+
+        if (player.getHealth() <= 0){
+            player.heal(250);
+            stateManager.pushState(StateName.STATE_GAMEOVER);
+        }
     }
 
     public void loadLevel(ActiveLevel level) {

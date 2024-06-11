@@ -17,7 +17,7 @@ public class View {
         frame.add(panel);
         frame.setUndecorated(true);
         frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setFocusable(true);
         frame.setAlwaysOnTop(true);
 
