@@ -78,7 +78,7 @@ public class HellHound extends Enemy {
 
     public void kill() {
         super.kill();
-        player.getInventory().addItems(Ammunition.BONE, random.nextInt(5, 16));
+        player.getInventory().addItems(Ammunition.BONE, random.nextInt(10, 15));
         player.getInventory().addItems(Ammunition.FIRE_CHARGE, random.nextInt(10, 51));
     }
 
