@@ -18,6 +18,7 @@ public abstract class Enemy extends Entity {
     protected long lastHitTime = 0;
     protected boolean isBoss = false;
     protected boolean bossFight = false;
+    protected boolean outRange = false;
 
     public Enemy(Dimension size, int attackSpeed, int attackDamage, int speed, int vision, int health, Player player, World world) {
         super(size);
@@ -64,7 +65,9 @@ public abstract class Enemy extends Entity {
         double yDistance = Math.abs(player.getLocation().getY() - position.getY());
         double multiplier = player.getLocation().getX() - position.getX() < 0 ? -1 : 1;
 
-        if(player == null || (!bossFight && (distance >= vision || xDistance <= size.getWidth() / 2))) {
+        outRange = player == null || (!bossFight && (distance >= vision || xDistance <= size.getWidth() / 2));
+
+        if(outRange) {
             // walk back and forth
             velocityX = 0;
         } else {
@@ -82,7 +85,7 @@ public abstract class Enemy extends Entity {
             for(Entity entity : entities) {
                 if(entity instanceof Player) {
                     entity.hurt(attackDamage);
-                    attackAniamtion();
+                    startAttack();
                     lastHitTime = System.currentTimeMillis();
                     break;
                 }
@@ -90,7 +93,7 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public void attackAniamtion() {
+    public void startAttack() {
 
     }
 

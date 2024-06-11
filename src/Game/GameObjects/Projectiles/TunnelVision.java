@@ -26,7 +26,7 @@ public class TunnelVision extends Projectile {
     }
 
     public void launch(World world, double angle, double velocity, int damage) {
-        super.launch(world, angle, velocity, damage);
+        super.launch(world, angle, velocity, damage, true);
 
         worldWindow = new WorldWindow(world);
         worldWindow.setTarget(this);

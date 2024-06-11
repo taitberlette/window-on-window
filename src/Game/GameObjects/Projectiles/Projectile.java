@@ -6,6 +6,7 @@ import Game.GameObjects.Gadgets.Switch;
 import Game.Worlds.CollisionType;
 import Game.Worlds.World;
 import Game.GameObjects.GameObject;
+import Game.GameObjects.Entities.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public abstract class Projectile extends GameObject {
     protected World world;
     protected Point realPosition = new Point(0, 0);
     protected Dimension size;
+    protected boolean playerLaunched = true;
 
     public Projectile(Dimension size) {
         this.size = size;
@@ -36,18 +38,21 @@ public abstract class Projectile extends GameObject {
                 velocityY = Double.parseDouble(line.replace("VY=", ""));
             }  else if(line.startsWith("DAMAGE=")) {
                 damage = Integer.parseInt(line.replace("DAMAGE=", ""));
+            } if(line.startsWith("PLAYER LAUNCHER=")) {
+                playerLaunched = Boolean.parseBoolean(line.replace("PLAYER LAUNCHED=", "").trim());
             }
         }
 
         realPosition.setLocation(position);
     }
 
-    public void launch(World world, double angle, double velocity, int damage) {
+    public void launch(World world, double angle, double velocity, int damage, boolean playerLaunched) {
         velocityX = Math.cos(angle) * velocity;
         velocityY = Math.sin(angle) * velocity;
 
         this.world = world;
         this.damage = damage;
+        this.playerLaunched = playerLaunched;
     }
 
     public void update(long deltaTime) {
@@ -133,11 +138,20 @@ public abstract class Projectile extends GameObject {
 
         ArrayList<Entity> hitEntities = world.findEntities(position);
         for(Entity entity : hitEntities) {
-            if(entity instanceof Enemy enemy) {
-                enemy.hurt(damage);
-                world.removeGameObject(this);
-                kill();
-                return;
+            if(playerLaunched) {
+                if(entity instanceof Enemy enemy) {
+                    enemy.hurt(damage);
+                    world.removeGameObject(this);
+                    kill();
+                    return;
+                }
+            } else {
+                if(entity instanceof Player player) {
+                    player.hurt(damage);
+                    world.removeGameObject(this);
+                    kill();
+                    return;
+                }
             }
         }
 
@@ -162,6 +176,7 @@ public abstract class Projectile extends GameObject {
         result += "VX=" + velocityX + "\n";
         result += "VY=" + velocityY + "\n";
         result += "DAMAGE=" + damage + "\n";
+        result += "PLAYER LAUNCHED=" + playerLaunched + "\n";
 
         return result;
     }

@@ -2,6 +2,7 @@ package Game.Levels;
 
 import Game.Game;
 import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.Panzer;
 import Game.GameObjects.Entities.Enemies.ShockSpider;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
@@ -11,6 +12,7 @@ import Game.GameObjects.Gadgets.Target;
 import Game.GameObjects.Objects.Door;
 import Game.GameObjects.Objects.HiddenNumber;
 import Game.GameObjects.Objects.MovableBox;
+import Game.GameObjects.Objects.Tree;
 import Windows.WorldWindow;
 
 import java.awt.*;
@@ -46,6 +48,18 @@ public class LevelTwo extends Level {
 
         Door door = new Door(new Point(1757, 152), player, terraWorld, game, "Level_Two", combination);
         terraWorld.addGameObject(door);
+
+        Tree tree = new Tree(new Point (118, 824));
+        terraWorld.addGameObject(tree);
+
+        Tree tree1 = new Tree(new Point (303, 824));
+        terraWorld.addGameObject(tree1);
+
+        Tree tree2 = new Tree(new Point (449, 824));
+        terraWorld.addGameObject(tree2);
+
+        Tree tree3 = new Tree(new Point (629, 824));
+        terraWorld.addGameObject(tree3);
 
         int idPlatform1 = 1;
         int idPlatform2 = 2;
@@ -84,9 +98,12 @@ public class LevelTwo extends Level {
         etherWorld.addGameObject(hellHound2);
 
         ShockSpider shockSpider = new ShockSpider(player, etherWorld);
-        shockSpider.setLocation(new Point(876, 148));
-        shockSpider.setBoss();
+        shockSpider.setLocation(new Point(1200, 764));
         etherWorld.addGameObject(shockSpider);
+
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(876, 100));
+        etherWorld.addGameObject(panzer);
 
         WorldWindow terraWorldWindow1 = new WorldWindow(terraWorld);
         terraWorldWindow1.setTarget(player);
