@@ -4,6 +4,7 @@ import Game.Game;
 import Game.GameObjects.Entities.Enemies.HellHound;
 import Game.GameObjects.Entities.Enemies.Panzer;
 import Game.GameObjects.Entities.Enemies.ShockSpider;
+import Game.GameObjects.Entities.Enemies.SilverBack;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
@@ -104,6 +105,12 @@ public class LevelTwo extends Level {
         Panzer panzer = new Panzer(player, etherWorld);
         panzer.setLocation(new Point(876, 100));
         etherWorld.addGameObject(panzer);
+
+        SilverBack silverback = new SilverBack(player, etherWorld);
+        silverback.setLocation(new Point(604, 205));
+        silverback.setBoss();
+        etherWorld.addGameObject(silverback);
+
 
         WorldWindow terraWorldWindow1 = new WorldWindow(terraWorld);
         terraWorldWindow1.setTarget(player);
