@@ -1,6 +1,9 @@
 package Game.Levels;
 
 import Game.Game;
+import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.SilverBack;
+import Game.GameObjects.Entities.Enemies.Thrasher;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
@@ -96,6 +99,11 @@ public class LevelThree extends Level {
 
         Tree tree3 = new Tree(new Point (854, 271));
         terraWorld.addGameObject(tree3);
+
+        Thrasher thrasher = new Thrasher(player, terraWorld);
+        thrasher.setLocation(new Point(130, 700));
+        thrasher.setBoss();
+        terraWorld.addGameObject(thrasher);
 
         WorldWindow terraWorldWindow1 = new WorldWindow(terraWorld);
         terraWorldWindow1.setTarget(player);
