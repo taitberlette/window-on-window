@@ -1,6 +1,10 @@
 package Game.Levels;
 
 import Game.Game;
+import Game.GameObjects.Entities.Enemies.Panzer;
+import Game.GameObjects.Entities.Enemies.SilverBack;
+import Game.GameObjects.Entities.Enemies.Thrasher;
+import Game.GameObjects.Entities.Enemies.ValkyrieDrone;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
@@ -93,6 +97,27 @@ public class LevelThree extends Level {
 
         Tree tree3 = new Tree(new Point (854, 271));
         terraWorld.addGameObject(tree3);
+
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(1745, 500));
+        etherWorld.addGameObject(panzer);
+
+        SilverBack silverback = new SilverBack(player, etherWorld);
+        silverback.setLocation(new Point(486, 285));
+        etherWorld.addGameObject(silverback);
+
+        ValkyrieDrone valkyrieDrone1 = new ValkyrieDrone(player, etherWorld);
+        valkyrieDrone1.setLocation(new Point(1586, 103));
+        etherWorld.addGameObject(valkyrieDrone1);
+
+        ValkyrieDrone valkyrieDrone2 = new ValkyrieDrone(player, etherWorld);
+        valkyrieDrone2.setLocation(new Point(121, 443));
+        etherWorld.addGameObject(valkyrieDrone2);
+
+        Thrasher thrasher = new Thrasher(player, etherWorld);
+        thrasher.setLocation(new Point(131, 836));
+        thrasher.setBoss();
+        etherWorld.addGameObject(thrasher);
 
         WorldWindow terraWorldWindow1 = new WorldWindow(terraWorld);
         terraWorldWindow1.setTarget(player);
