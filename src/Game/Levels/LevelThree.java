@@ -56,30 +56,27 @@ public class LevelThree extends Level {
 
         int idPlatform1 = 1;
         int idPlatform2 = 2;
-        Target target1_1 = new Target(new Point(1392, 442), idPlatform1, etherWorld);
-        etherWorld.addGameObject(target1_1);
+        Target target1 = new Target(new Point(1192, 642), idPlatform1, etherWorld);
+        etherWorld.addGameObject(target1);
 
-        Target target1_2 = new Target(new Point(266,56 ), idPlatform1, etherWorld);
-        etherWorld.addGameObject(target1_2);
-
-        MovingPlatform platform1 = new MovingPlatform(new Point(1041, 876), new Point(1041, 587), idPlatform1, etherWorld);
+        MovingPlatform platform1 = new MovingPlatform(new Point(1041, 876), new Point(1041, 647), idPlatform1, etherWorld);
         etherWorld.addGameObject(platform1);
 
-        MovingPlatform platform3 = new MovingPlatform(new Point(486, 876), new Point(486, 587), idPlatform1, etherWorld);
+        MovingPlatform platform3 = new MovingPlatform(new Point(486, 876), new Point(486, 647), idPlatform1, etherWorld);
         etherWorld.addGameObject(platform3);
 
-        Target target2 = new Target(new Point(1093, 104), idPlatform2, etherWorld);
+        Target target2 = new Target(new Point(1093, 164), idPlatform2, etherWorld);
         etherWorld.addGameObject(target2);
 
-        MovingPlatform platform2 = new MovingPlatform(new Point(764, 876), new Point(764, 587), idPlatform2, etherWorld);
+        MovingPlatform platform2 = new MovingPlatform(new Point(764, 876), new Point(764, 647), idPlatform2, etherWorld);
         etherWorld.addGameObject(platform2);
 
         int idWall = 3;
 
-        BoxButton button = new BoxButton(new Point(299, 494), idWall, etherWorld);
+        BoxButton button = new BoxButton(new Point(299, 526), idWall, etherWorld);
         etherWorld.addGameObject(button);
 
-        MovingWall wall = new MovingWall(new Point(201, 366), new Point(1432, 480), idWall, etherWorld);
+        MovingWall wall = new MovingWall(new Point(201, 462), new Point(1432, 280), idWall, etherWorld);
         etherWorld.addGameObject(wall);
 
         MovableBox movableBox= new MovableBox(new Point(1618, 285), etherWorld);
