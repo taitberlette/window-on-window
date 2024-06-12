@@ -3,6 +3,7 @@ package Game;
 import Game.GameObjects.Entities.Player;
 import Game.Levels.ActiveLevel;
 import Game.Levels.*;
+import Game.Utilities.Inventory;
 import States.PauseState;
 import States.StateManager;
 import States.StateName;
@@ -23,7 +24,7 @@ public class Game implements KeyListener {
     private Level[] levels = new Level[ActiveLevel.COUNT_LEVEL.ordinal()];
     private ActiveLevel activeLevel = ActiveLevel.NONE;
     private ActiveLevel nextLevel = ActiveLevel.NONE;
-    private ActiveLevel maxLevel = ActiveLevel.NONE;
+    private ActiveLevel maxLevel = ActiveLevel.LEVEL_ONE;
     private Player player;
 
     private StateManager stateManager;
@@ -117,6 +118,25 @@ public class Game implements KeyListener {
         loadLevel(ActiveLevel.values()[startLevel]);
     }
 
+    public void respawn() {
+        player.heal((int) player.getMaxHealth());
+
+        player.getInventory().clear();
+
+        for(Level level : levels) {
+            level.close();
+        }
+
+        levels[ActiveLevel.LEVEL_ONE.ordinal()] = new LevelOne(this, player);
+        levels[ActiveLevel.LEVEL_TWO.ordinal()] = new LevelTwo(this, player);
+        levels[ActiveLevel.LEVEL_THREE.ordinal()] = new LevelThree(this, player);
+
+
+        if(activeLevel != ActiveLevel.LEVEL_TUTORIAL) {
+            loadLevel(ActiveLevel.LEVEL_ONE);
+        }
+    }
+
     public void update(long deltaTime) {
         if(activeLevel != nextLevel) {
             int currentLevel = activeLevel.ordinal();
@@ -132,9 +152,10 @@ public class Game implements KeyListener {
                 levels[newLevel].open();
             }
 
-            if(newLevel > maxLevel.ordinal() && activeLevel.ordinal() < ActiveLevel.COUNT_LEVEL.ordinal()) {
-                maxLevel = activeLevel;
-            }
+        }
+
+        if(activeLevel.ordinal() > maxLevel.ordinal() && activeLevel.ordinal() < ActiveLevel.COUNT_LEVEL.ordinal()) {
+            maxLevel = activeLevel;
         }
 
         if(maxLevel.ordinal() < ActiveLevel.COUNT_LEVEL.ordinal() && activeLevel != ActiveLevel.LEVEL_TUTORIAL) {
@@ -142,6 +163,8 @@ public class Game implements KeyListener {
         } else {
             stateManager.setVisibleCheckpoints(0);
         }
+
+        System.out.println(maxLevel);
 
 
         int index = activeLevel.ordinal();

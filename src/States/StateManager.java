@@ -131,4 +131,6 @@ public class StateManager {
     public void saveGame() {
         gameState.save();
     }
+
+    public void respawn() {gameState.respawn();}
 }

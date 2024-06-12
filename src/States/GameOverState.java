@@ -61,14 +61,15 @@ public class GameOverState extends State{
 
             stateManager.clearStates();
             stateManager.pushState(StateName.STATE_HOME);
-            stateManager.resetGame();
+            stateManager.respawn();
+            stateManager.saveGame();
         }
 
         if(yesButton.wasClicked()) {
             yesButton.resetClicked();
 
             stateManager.popState();
-            stateManager.reloadGame();
+            stateManager.respawn();
 
             System.out.println("RELOADED THE GAME");
         }

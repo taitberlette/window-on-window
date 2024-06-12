@@ -54,6 +54,12 @@ public class Inventory {
 
     }
 
+    public void clear() {
+        items.put(Ammunition.BONE, 0);
+        items.put(Ammunition.FIRE_CHARGE, 0);
+        items.put(Ammunition.LIGHTNING_CHARGE, 0);
+    }
+
     public String encode() {
         String result = "";
 

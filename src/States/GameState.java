@@ -124,4 +124,8 @@ public class GameState extends State {
         }
 
     }
+
+    public void respawn() {
+        game.respawn();
+    }
 }
