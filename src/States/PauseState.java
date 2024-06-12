@@ -82,7 +82,7 @@ public class PauseState extends State {
 
                 stateManager.popState();
 
-                stateManager.loadLevel(i);
+                stateManager.loadCheckpoint(i);
             }
         }
     }

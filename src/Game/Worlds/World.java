@@ -197,6 +197,18 @@ public abstract class World implements KeyListener {
 //        }
     }
 
+    public int numberOfEnemies() {
+        int num = 0;
+
+        for(Entity entity : entities) {
+            if(entity instanceof Enemy) {
+                num++;
+            }
+        }
+
+        return num;
+    }
+
     public CollisionType checkCollision(Point position) {
         if(position.getX() < 0 || position.getX() >= collision.getWidth() || position.getY() < 0 || position.getY() >= collision.getHeight()) {
             return CollisionType.GROUND;

@@ -1,10 +1,7 @@
 package Game.Levels;
 
 import Game.Game;
-import Game.GameObjects.Entities.Enemies.Panzer;
-import Game.GameObjects.Entities.Enemies.SilverBack;
-import Game.GameObjects.Entities.Enemies.Thrasher;
-import Game.GameObjects.Entities.Enemies.ValkyrieDrone;
+import Game.GameObjects.Entities.Enemies.*;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
@@ -172,5 +169,21 @@ public class LevelThree extends Level {
             player.setLocation(playerPosition);
             player.setWorld(inTerra ? terraWorld : etherWorld);
         }
+    }
+
+    public void populateAfterCheckpoint() {
+        if(etherWorld.numberOfEnemies() > 0) return;
+
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(1745, 500));
+        etherWorld.addGameObject(panzer);
+
+        ValkyrieDrone valkyrieDrone1 = new ValkyrieDrone(player, etherWorld);
+        valkyrieDrone1.setLocation(new Point(1586, 103));
+        etherWorld.addGameObject(valkyrieDrone1);
+
+        ValkyrieDrone valkyrieDrone2 = new ValkyrieDrone(player, etherWorld);
+        valkyrieDrone2.setLocation(new Point(121, 443));
+        etherWorld.addGameObject(valkyrieDrone2);
     }
 }

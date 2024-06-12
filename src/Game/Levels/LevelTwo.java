@@ -162,4 +162,20 @@ public class LevelTwo extends Level {
             player.setWorld(inTerra ? terraWorld : etherWorld);
         }
     }
+
+    public void populateAfterCheckpoint() {
+        if(etherWorld.numberOfEnemies() > 0) return;
+        
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(876, 100));
+        etherWorld.addGameObject(panzer);
+
+        HellHound hellHound1 = new HellHound(player, etherWorld);
+        hellHound1.setLocation(new Point(896, 764));
+        etherWorld.addGameObject(hellHound1);
+
+        HellHound hellHound2 = new HellHound(player, etherWorld);
+        hellHound2.setLocation(new Point(1727, 764));
+        etherWorld.addGameObject(hellHound2);
+    }
 }

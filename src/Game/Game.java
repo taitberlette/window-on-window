@@ -137,6 +137,14 @@ public class Game implements KeyListener {
         }
     }
 
+    public void loadCheckpoint(ActiveLevel level) {
+        if(level != activeLevel) {
+            levels[level.ordinal()].populateAfterCheckpoint();
+        }
+
+        loadLevel(level);
+    }
+
     public void update(long deltaTime) {
         if(activeLevel != nextLevel) {
             int currentLevel = activeLevel.ordinal();
@@ -163,9 +171,6 @@ public class Game implements KeyListener {
         } else {
             stateManager.setVisibleCheckpoints(0);
         }
-
-        System.out.println(maxLevel);
-
 
         int index = activeLevel.ordinal();
 

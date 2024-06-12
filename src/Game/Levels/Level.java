@@ -375,4 +375,8 @@ public abstract class Level implements KeyListener {
 
         return result;
     }
+
+    public void populateAfterCheckpoint() {
+
+    }
 }
