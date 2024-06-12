@@ -60,6 +60,10 @@ public abstract class Entity extends GameObject {
 
         onGround = collisionType == CollisionType.GROUND || collisionType == CollisionType.LADDER;
 
+        if(collisionType == CollisionType.DEATH) {
+            this.hurt((int) health + 1);
+        }
+
         if(collisionType == CollisionType.LADDER && velocityY <= 0) {
             Point feet = new Point(this.position);
             feet.translate(0, ((int) size.getHeight() / 2));
