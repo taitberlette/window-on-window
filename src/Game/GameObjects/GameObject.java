@@ -77,4 +77,8 @@ public class GameObject implements KeyListener {
 
         return result;
     }
+
+    public void close() {
+
+    }
 }

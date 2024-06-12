@@ -81,14 +81,20 @@ public class Door extends GameObject {
         double distance = playerPosition.distance(position);
         inRange = distance < DOOR_DISTANCE;
 
-        if(inRange != numberCodeWindow.isVisible()) {
-            numberCodeWindow.setVisible(inRange);
+
+        boolean enabled = false;
+
+        if(player.getWorld() == world) {
+            enabled = inRange;
+        }
+
+        if(numberCodeWindow.isVisible() != enabled) {
+            numberCodeWindow.setVisible(enabled);
         }
 
         double distanceHorizontal = Math.abs(playerPosition.getX() - (position.getX() + 64));
 
         if(numberCodeWindow.isCorrect() && distanceHorizontal < WALK_IN_DISTANCE) {
-            System.out.println("COMPLETE LEVEL");
             game.levelCompleted();
             numberCodeWindow.setVisible(false);
         }
@@ -140,5 +146,9 @@ public class Door extends GameObject {
         }
 
         return result;
+    }
+
+    public void close() {
+        numberCodeWindow.setVisible(false);
     }
 }

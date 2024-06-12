@@ -13,7 +13,7 @@ public class ResetState extends State {
     private ButtonWindow noButton;
     private BlurredWindow blurredWindow;
 
-    private long frames = 0;
+    private double timer = 0;
 
     public ResetState(StateManager stateManager) {
         super(stateManager);
@@ -29,6 +29,8 @@ public class ResetState extends State {
 
         yesButton = new ButtonWindow("yes", "Reset my game", new Point(middle + (buttonWidth / 2), buttonHeight));
         noButton = new ButtonWindow("no", "Back to game", new Point(middle - (buttonWidth / 2) - buttonWidth, buttonHeight));
+
+        timer = 1;
     }
 
     public void open() {
@@ -46,10 +48,11 @@ public class ResetState extends State {
     }
 
     public void update(long deltaTime) {
-        if(frames++ % 16 == 0) {
+        if((timer -= ((double) deltaTime / 1000000000)) <= 0) {
             title.getView().getFrame().toFront();
             yesButton.getView().getFrame().toFront();
             noButton.getView().getFrame().toFront();
+            timer = 1;
         }
 
         if(noButton.wasClicked()) {

@@ -14,7 +14,7 @@ public class GameOverState extends State{
     private ButtonWindow noButton;
     private BlurredWindow blurredWindow;
 
-    private long frames = 0;
+    private double timer = 0;
 
     public GameOverState(StateManager stateManager) {
         super(stateManager);
@@ -28,8 +28,10 @@ public class GameOverState extends State{
         int middle = (int) (screen.getWidth() / 2);
         int buttonWidth = 344;
 
-        yesButton = new ButtonWindow("yes", "retry level", new Point(middle + (buttonWidth / 2), buttonHeight));
+        yesButton = new ButtonWindow("yes", "Retry level", new Point(middle + (buttonWidth / 2), buttonHeight));
         noButton = new ButtonWindow("no", "Back to home", new Point(middle - (buttonWidth / 2) - buttonWidth, buttonHeight));
+
+        timer = 1;
     }
 
     public void open() {
@@ -47,10 +49,11 @@ public class GameOverState extends State{
     }
 
     public void update(long deltaTime) {
-        if(frames++ % 16 == 0) {
+        if((timer -= ((double) deltaTime / 1000000000)) <= 0) {
             title.getView().getFrame().toFront();
             yesButton.getView().getFrame().toFront();
             noButton.getView().getFrame().toFront();
+            timer = 1;
         }
 
         if(noButton.wasClicked()) {
@@ -64,8 +67,7 @@ public class GameOverState extends State{
         if(yesButton.wasClicked()) {
             yesButton.resetClicked();
 
-            stateManager.clearStates();
-            stateManager.pushState(StateName.STATE_GAME);
+            stateManager.popState();
             stateManager.reloadGame();
 
             System.out.println("RELOADED THE GAME");

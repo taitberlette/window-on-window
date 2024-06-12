@@ -97,6 +97,10 @@ public class GameState extends State {
         game.loadLevel(ActiveLevel.LEVEL_TUTORIAL);
     }
 
+    public void loadLevel(int level) {
+        game.loadLevel(ActiveLevel.values()[level]);
+    }
+
     public void reset() {
         if(slot >= 0) {
             System.out.println("DELETE");

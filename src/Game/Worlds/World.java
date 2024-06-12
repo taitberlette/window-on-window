@@ -267,7 +267,29 @@ public abstract class World implements KeyListener {
     }
 
     public void close() {
+        for (Switch switcher : switches) {
+            switcher.close();
+        }
 
+        for (Mechanism mechanism : mechanisms) {
+            mechanism.close();
+        }
+
+        for (GameObject gameObject : gameObjects) {
+            gameObject.close();
+        }
+
+        for (Projectile projectile : projectiles) {
+            projectile.close();
+        }
+
+        for (Weapon droppedWeapon : droppedWeapons) {
+            droppedWeapon.close();
+        }
+
+        for (Entity entity : entities) {
+            entity.close();
+        }
     }
 
     public ArrayList<Entity> findEntities(Point point) {

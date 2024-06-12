@@ -78,12 +78,12 @@ public class StateManager {
     }
 
     public void update(long deltaTime) {
-        for(State state : runningStates) {
-            state.update(deltaTime);
-        }
-//        if (!runningStates.isEmpty()){
-//            runningStates.lastElement().update(deltaTime);
+//        for(State state : runningStates) {
+//            state.update(deltaTime);
 //        }
+        if (!runningStates.isEmpty()){
+            runningStates.lastElement().update(deltaTime);
+        }
 
         for(int i = 0; i < statesToPop; i++) {
             State popped = runningStates.pop();
@@ -114,6 +114,14 @@ public class StateManager {
 
     public void loadTutorial() {
         gameState.loadTutorial();
+    }
+
+    public void loadLevel(int level) {
+        gameState.loadLevel(level);
+    }
+
+    public void setVisibleCheckpoints(int visibleCheckpoints) {
+        pauseState.setVisibleCheckpoints(visibleCheckpoints);
     }
 
     public void resetGame() {

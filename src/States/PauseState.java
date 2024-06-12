@@ -1,7 +1,9 @@
 package States;
 
+import Game.Levels.ActiveLevel;
 import WindowOnWindow.WindowOnWindow;
 import Windows.ButtonWindow;
+import Windows.TextboxWindow;
 
 import java.awt.*;
 
@@ -10,6 +12,7 @@ public class PauseState extends State {
     private ButtonWindow home;
     private ButtonWindow resume;
     private ButtonWindow reset;
+    private int visibleCheckpoints = 0;
     public PauseState(StateManager stateManager) {
         super(stateManager);
 
@@ -24,11 +27,17 @@ public class PauseState extends State {
         resume = new ButtonWindow("resume", "Resume the game", new Point(middle - (buttonWidth / 2), buttonHeight));
         home = new ButtonWindow("home", "Return to home", new Point(middle + (buttonWidth / 2) + padding, buttonHeight));
 
+
+        checkpoints = new ButtonWindow[ActiveLevel.COUNT_LEVEL.ordinal()];
+
+        for(int i = 0; i < checkpoints.length; i++) {
+            checkpoints[i] = new ButtonWindow("level " + i, "Return to level " + i,  new Point((middle - (buttonWidth / 2) - padding - buttonWidth) + (i * (padding + buttonWidth)), buttonHeight - 250));
+        }
     }
 
     public void open() {
-        for(int i = 0; i < 3; i++){
-//            checkpoints[i].setVisible(true);
+        for(int i = 0; i < visibleCheckpoints && i < checkpoints.length; i++){
+            checkpoints[i].setVisible(true);
         }
 
         reset.setVisible(true);
@@ -37,6 +46,10 @@ public class PauseState extends State {
     }
 
     public void close() {
+        for(int i = 0; i < checkpoints.length; i++){
+            checkpoints[i].setVisible(false);
+        }
+
         reset.setVisible(false);
         resume.setVisible(false);
         home.setVisible(false);
@@ -62,5 +75,19 @@ public class PauseState extends State {
             stateManager.pushState(StateName.STATE_HOME);
             stateManager.saveGame();
         }
+
+        for(int i = 0; i < checkpoints.length; i++) {
+            if(checkpoints[i].wasClicked()) {
+                checkpoints[i].resetClicked();
+
+                stateManager.popState();
+
+                stateManager.loadLevel(i);
+            }
+        }
+    }
+
+    public void setVisibleCheckpoints(int visibleCheckpoints) {
+        this.visibleCheckpoints = visibleCheckpoints;
     }
 }
