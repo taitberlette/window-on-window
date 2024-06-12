@@ -214,6 +214,10 @@ public abstract class World implements KeyListener {
         boolean ladder = (colour & 0x0000FF00) != 0;
         boolean stairs = (colour & 0x000000FF) != 0;
 
+        if(ground && ladder && stairs) {
+            return CollisionType.DEATH;
+        }
+
         if(ground) {
             return CollisionType.GROUND;
         }

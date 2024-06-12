@@ -20,16 +20,19 @@ public abstract class Shooter extends Weapon {
 
     protected double velocityY;
     protected double gravityAcceleration = -9.81 * 64;
+    protected Dimension size;
 
-    public Shooter(Class<Projectile> projectile, int damage, int cooldown, int speed, World world) {
+    public Shooter(Class<Projectile> projectile, int damage, int cooldown, int speed, Dimension size, World world) {
         super(damage, cooldown, speed);
+        this.size = size;
 
         this.projectile = projectile;
         this.world = world;
     }
 
-    public Shooter(Class<Projectile> projectile, int damage, int cooldown, int speed, ArrayList<String> lines, World world) {
+    public Shooter(Class<Projectile> projectile, int damage, int cooldown, int speed, Dimension size, ArrayList<String> lines, World world) {
         super(damage, cooldown, speed, lines);
+        this.size = size;
 
         this.projectile = projectile;
         this.world = world;

@@ -13,14 +13,13 @@ import java.util.ArrayList;
 public class RailGun extends Shooter {
     private BufferedImage railGunImage;
     private final int IMAGE_SCALE = 1;
-    private Dimension size = new Dimension(48, 27);
     public RailGun(World world) {
-        super((Class) Lightning.class, 5, 20, 750, world);
+        super((Class) Lightning.class, 5, 20, 750, new Dimension(48, 27), world);
         railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
     }
 
     public RailGun(ArrayList<String> lines, World world) {
-        super((Class) Lightning.class, 5, 20, 750, lines, world);
+        super((Class) Lightning.class, 5, 20, 750, new Dimension(48, 27), lines, world);
         railGunImage = AssetManager.getImage("res\\Weapons and Attacks\\RailGun.png");
     }
 
