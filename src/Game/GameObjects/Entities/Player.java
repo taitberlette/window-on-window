@@ -457,9 +457,12 @@ public class Player extends Entity implements KeyListener {
     public void setWorld(World world) {
         if(world != this.world) {
             if(carryingBox != null) {
-                carryingBox.setGrabbed(false);
-                carryingBox = null;
+                carryingBox.setWorld(world);
+
+                world.addGameObject(carryingBox);
+                this.world.removeGameObject(carryingBox);
             }
+
         }
 
         this.world = world;
