@@ -129,6 +129,7 @@ public class Player extends Entity implements KeyListener {
                 boolean box = Boolean.parseBoolean(packet.replace("BOX=", "").trim());
                 if(box) {
                     carryingBox = new MovableBox(position, world);
+                    carryingBox.setGrabbed(true);
                 }
             }if(packet.startsWith("WEAPON=")) {
                 String weapon = (packet.replace("WEAPON=", "").trim());

@@ -113,4 +113,10 @@ public class MovableBox extends GameObject {
     public void setWorld(World world) {
         this.world = world;
     }
+
+    public String encode() {
+        // if the player has a box they will recreate it
+        if(grabbed) return "";
+        return super.encode();
+    }
 }
