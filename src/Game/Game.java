@@ -3,22 +3,13 @@ package Game;
 import Game.GameObjects.Entities.Player;
 import Game.Levels.ActiveLevel;
 import Game.Levels.*;
-import Game.Utilities.Inventory;
-import States.PauseState;
 import States.StateManager;
 import States.StateName;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
-import Game.Levels.ActiveLevel;
 
 public class Game implements KeyListener {
     private Level[] levels = new Level[ActiveLevel.COUNT_LEVEL.ordinal()];
@@ -139,7 +130,7 @@ public class Game implements KeyListener {
 
     public void loadCheckpoint(ActiveLevel level) {
         if(level != activeLevel) {
-            levels[level.ordinal()].populateAfterCheckpoint();
+            levels[level.ordinal()].checkpointJump();
         }
 
         loadLevel(level);

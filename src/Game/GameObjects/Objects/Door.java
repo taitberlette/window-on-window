@@ -127,6 +127,10 @@ public class Door extends GameObject {
         }
     }
 
+    public void lock() {
+        numberCodeWindow.clear();
+    }
+
     public void kill() {
         numberCodeWindow.setVisible(false);
     }

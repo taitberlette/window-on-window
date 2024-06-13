@@ -464,7 +464,9 @@ public class Player extends Entity implements KeyListener {
                 carryingBox.setWorld(world);
 
                 world.addGameObject(carryingBox);
-                this.world.removeGameObject(carryingBox);
+                if(this.world != null) {
+                    this.world.removeGameObject(carryingBox);
+                }
             }
 
         }
