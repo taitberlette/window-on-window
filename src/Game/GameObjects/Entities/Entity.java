@@ -68,7 +68,7 @@ public abstract class Entity extends GameObject {
                 int testHeight = (int) (32);
 
                 for (int height = 0; height < testHeight; height++) {
-                    feet.translate(0, -1);
+                    feet.translate(0, 1);
 
                     CollisionType testPoint = world.checkCollision(feet);
                     if (testPoint != CollisionType.NONE) {
