@@ -53,7 +53,7 @@ public class Thrasher extends Enemy {
         maxSpeed = slower ? SLOW_SPEED : REGULAR_SPEED;
 
         if((animationFrame % 2 != 0 || velocityX != 0) && onGround) {
-            if(System.currentTimeMillis() - lastFrame > Math.abs(50000 / maxSpeed)) {
+            if(System.currentTimeMillis() - lastFrame > 1000) {
                 animationFrame++;
                 lastFrame = System.currentTimeMillis();
             }
