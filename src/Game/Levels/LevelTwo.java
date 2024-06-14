@@ -160,7 +160,9 @@ public class LevelTwo extends Level {
         }
     }
 
-    public void populateAfterCheckpoint() {
+    public void checkpointJump() {
+        super.checkpointJump();
+
         if(etherWorld.numberOfEnemies() > 0) return;
         
         Panzer panzer = new Panzer(player, etherWorld);

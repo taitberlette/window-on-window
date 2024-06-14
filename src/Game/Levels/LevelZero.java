@@ -163,6 +163,8 @@ public class LevelZero extends Level {
         super.close();
 
         introTutorialWindow.setVisible(false);
+        bossTutorialWindow.setVisible(false);
+        skillsTutorialWindow.setVisible(false);
     }
 
     public void update(long deltaTime) {

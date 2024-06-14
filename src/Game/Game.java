@@ -9,15 +9,8 @@ import States.StateName;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
-import Game.Levels.ActiveLevel;
 
 public class Game implements KeyListener {
     private Level[] levels = new Level[ActiveLevel.COUNT_LEVEL.ordinal()];
@@ -112,6 +105,34 @@ public class Game implements KeyListener {
         levels[ActiveLevel.LEVEL_TUTORIAL.ordinal()] = new LevelZero(this, player);
 
         loadLevel(ActiveLevel.values()[startLevel]);
+    }
+
+
+    public void respawn() {
+        player.heal((int) player.getMaxHealth());
+
+        player.getInventory().clear();
+
+        for(Level level : levels) {
+            level.close();
+        }
+
+        levels[ActiveLevel.LEVEL_ONE.ordinal()] = new LevelOne(this, player);
+        levels[ActiveLevel.LEVEL_TWO.ordinal()] = new LevelTwo(this, player);
+        levels[ActiveLevel.LEVEL_THREE.ordinal()] = new LevelThree(this, player);
+
+
+        if(activeLevel != ActiveLevel.LEVEL_TUTORIAL) {
+            loadLevel(ActiveLevel.LEVEL_ONE);
+        }
+    }
+
+    public void loadCheckpoint(ActiveLevel level) {
+        if(level != activeLevel) {
+            levels[level.ordinal()].checkpointJump();
+        }
+
+        loadLevel(level);
     }
 
     public void update(long deltaTime) {
