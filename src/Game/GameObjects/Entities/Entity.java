@@ -58,7 +58,28 @@ public abstract class Entity extends GameObject {
         base.translate(0, ((int) size.getHeight() / 2) + 1);
         CollisionType collisionType = world.checkCollision(base);
 
-        onGround = collisionType == CollisionType.GROUND || collisionType == CollisionType.LADDER;
+        boolean newOnGround = collisionType == CollisionType.GROUND || collisionType == CollisionType.LADDER;
+
+        if(newOnGround != onGround) {
+            if(collisionType == CollisionType.LADDER && velocityY <= 0) {
+                Point feet = new Point(this.position);
+                feet.translate(0, ((int) size.getHeight() / 2));
+
+                int testHeight = (int) (32);
+
+                for (int height = 0; height < testHeight; height++) {
+                    feet.translate(0, -1);
+
+                    CollisionType testPoint = world.checkCollision(feet);
+                    if (testPoint != CollisionType.NONE) {
+                        newOnGround = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        onGround = newOnGround;
 
         if(collisionType == CollisionType.DEATH) {
             this.hurt((int) health + 1);
