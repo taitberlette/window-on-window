@@ -52,7 +52,6 @@ public abstract class Level implements KeyListener {
 
             if(line.startsWith("PLAYED=")) {
                 levelPlayed = Boolean.parseBoolean(line.replace("PLAYED=", ""));
-                System.out.println(levelPath + " " + levelPlayed);
             } else if(line.startsWith("BOSS FIGHT=")) {
                 inBossFight = Boolean.parseBoolean(line.replace("BOSS FIGHT=", ""));
             } else if(line.startsWith("IN TERRA=")) {
@@ -220,8 +219,6 @@ public abstract class Level implements KeyListener {
         } else {
             endBossFight();
         }
-
-        System.out.println("OPEN " + this.getClass().getName());
     }
 
     public void close() {
@@ -231,8 +228,6 @@ public abstract class Level implements KeyListener {
         for(WorldWindow worldWindow : worldWindows) {
             worldWindow.setVisible(false);
         }
-
-        System.out.println("CLOSE " + this.getClass().getName());
     }
 
     public void addWorldWindow(WorldWindow worldWindow) {

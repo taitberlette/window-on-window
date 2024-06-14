@@ -108,7 +108,6 @@ public class LevelOne extends Level {
             player.setLocation(playerPosition);
             player.setWorld(terraWorld);
         } else {
-            System.out.println("LEVEL WAS PLAYED BEFORE, PUT THE PLAYER IN TERRA? " + inTerra);
             player.setLocation(playerPosition);
             player.setWorld(inTerra ? terraWorld : etherWorld);
         }

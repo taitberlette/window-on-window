@@ -70,8 +70,6 @@ public class GameOverState extends State{
 
             stateManager.popState();
             stateManager.respawn();
-
-            System.out.println("RELOADED THE GAME");
         }
 
         blurredWindow.update(deltaTime);
