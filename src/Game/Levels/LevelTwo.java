@@ -1,10 +1,7 @@
 package Game.Levels;
 
 import Game.Game;
-import Game.GameObjects.Entities.Enemies.HellHound;
-import Game.GameObjects.Entities.Enemies.Panzer;
-import Game.GameObjects.Entities.Enemies.ShockSpider;
-import Game.GameObjects.Entities.Enemies.SilverBack;
+import Game.GameObjects.Entities.Enemies.*;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
@@ -163,7 +160,9 @@ public class LevelTwo extends Level {
         }
     }
 
-    public void populateAfterCheckpoint() {
+    public void checkpointJump() {
+        super.checkpointJump();
+
         if(etherWorld.numberOfEnemies() > 0) return;
         
         Panzer panzer = new Panzer(player, etherWorld);

@@ -453,6 +453,14 @@ public abstract class World implements KeyListener {
         return level;
     }
 
+    public void checkpointJump() {
+        for(GameObject gameObject : gameObjects) {
+            if(gameObject instanceof Door door) {
+                door.lock();
+            }
+        }
+    }
+
     public void kill() {
         for(Switch switcher : switches) {
             switcher.kill();

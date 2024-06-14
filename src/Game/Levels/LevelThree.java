@@ -1,6 +1,9 @@
 package Game.Levels;
 
 import Game.Game;
+import Game.GameObjects.Entities.Enemies.HellHound;
+import Game.GameObjects.Entities.Enemies.SilverBack;
+import Game.GameObjects.Entities.Enemies.Thrasher;
 import Game.GameObjects.Entities.Enemies.*;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
@@ -171,7 +174,9 @@ public class LevelThree extends Level {
         }
     }
 
-    public void populateAfterCheckpoint() {
+    public void checkpointJump() {
+        super.checkpointJump();
+
         if(etherWorld.numberOfEnemies() > 0) return;
 
         Panzer panzer = new Panzer(player, etherWorld);

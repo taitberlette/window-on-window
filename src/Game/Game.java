@@ -3,28 +3,19 @@ package Game;
 import Game.GameObjects.Entities.Player;
 import Game.Levels.ActiveLevel;
 import Game.Levels.*;
-import Game.Utilities.Inventory;
 import States.PauseState;
 import States.StateManager;
 import States.StateName;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-
-import Game.Levels.ActiveLevel;
 
 public class Game implements KeyListener {
     private Level[] levels = new Level[ActiveLevel.COUNT_LEVEL.ordinal()];
     private ActiveLevel activeLevel = ActiveLevel.NONE;
     private ActiveLevel nextLevel = ActiveLevel.NONE;
-    private ActiveLevel maxLevel = ActiveLevel.LEVEL_ONE;
     private Player player;
 
     private StateManager stateManager;
@@ -77,8 +68,6 @@ public class Game implements KeyListener {
 
             if(packet.startsWith("CURRENT LEVEL=")) {
                 startLevel = Integer.parseInt(packet.replace("CURRENT LEVEL=", "").trim());
-            } else if(packet.startsWith("MAX LEVEL=")) {
-                maxLevel = ActiveLevel.values()[Integer.parseInt(packet.replace("MAX LEVEL=", "").trim())];
             } else if(packet.startsWith("PLAYER")) {
                 ArrayList<String> data = new ArrayList<>();
 
@@ -118,6 +107,7 @@ public class Game implements KeyListener {
         loadLevel(ActiveLevel.values()[startLevel]);
     }
 
+
     public void respawn() {
         player.heal((int) player.getMaxHealth());
 
@@ -139,7 +129,7 @@ public class Game implements KeyListener {
 
     public void loadCheckpoint(ActiveLevel level) {
         if(level != activeLevel) {
-            levels[level.ordinal()].populateAfterCheckpoint();
+            levels[level.ordinal()].checkpointJump();
         }
 
         loadLevel(level);
@@ -159,18 +149,8 @@ public class Game implements KeyListener {
             if(newLevel < ActiveLevel.COUNT_LEVEL.ordinal()) {
                 levels[newLevel].open();
             }
-
         }
 
-        if(activeLevel.ordinal() > maxLevel.ordinal() && activeLevel.ordinal() < ActiveLevel.COUNT_LEVEL.ordinal()) {
-            maxLevel = activeLevel;
-        }
-
-        if(maxLevel.ordinal() < ActiveLevel.COUNT_LEVEL.ordinal() && activeLevel != ActiveLevel.LEVEL_TUTORIAL) {
-            stateManager.setVisibleCheckpoints(maxLevel.ordinal() + 1);
-        } else {
-            stateManager.setVisibleCheckpoints(0);
-        }
 
         int index = activeLevel.ordinal();
 
@@ -270,7 +250,6 @@ public class Game implements KeyListener {
         }
 
         result += "CURRENT LEVEL=" + activeLevel.ordinal() + "\n";
-        result += "MAX LEVEL=" + maxLevel.ordinal() + "\n";
 
         return result;
     }

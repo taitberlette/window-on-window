@@ -12,7 +12,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public abstract class Level implements KeyListener {
     protected Game game;
@@ -376,7 +375,8 @@ public abstract class Level implements KeyListener {
         return result;
     }
 
-    public void populateAfterCheckpoint() {
-
+    public void checkpointJump() {
+        terraWorld.checkpointJump();
+        etherWorld.checkpointJump();
     }
 }
