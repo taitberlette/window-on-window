@@ -194,6 +194,11 @@ public class Player extends Entity implements KeyListener {
         playerStatsWindow.setVisible(true);
     }
 
+    public void heal(int health) {
+        super.heal(health);
+        playerStatsWindow.setVisible(true);
+    }
+
     public void update(long deltaTime) {
         if(leftKey && !rightKey) {
             velocityX = -maxSpeed;
@@ -322,7 +327,6 @@ public class Player extends Entity implements KeyListener {
     public void kill() {
         if(playerStatsWindow != null) {
             playerStatsWindow.setVisible(false);
-            playerStatsWindow = null;
         }
     }
 

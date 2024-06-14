@@ -4,6 +4,7 @@ import Game.Game;
 import Game.GameObjects.Entities.Enemies.HellHound;
 import Game.GameObjects.Entities.Enemies.SilverBack;
 import Game.GameObjects.Entities.Enemies.Thrasher;
+import Game.GameObjects.Entities.Enemies.*;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
@@ -59,30 +60,27 @@ public class LevelThree extends Level {
 
         int idPlatform1 = 1;
         int idPlatform2 = 2;
-        Target target1_1 = new Target(new Point(1392, 442), idPlatform1, etherWorld);
-        etherWorld.addGameObject(target1_1);
+        Target target1 = new Target(new Point(1192, 642), idPlatform1, etherWorld);
+        etherWorld.addGameObject(target1);
 
-        Target target1_2 = new Target(new Point(266,56 ), idPlatform1, etherWorld);
-        etherWorld.addGameObject(target1_2);
-
-        MovingPlatform platform1 = new MovingPlatform(new Point(1041, 876), new Point(1041, 587), idPlatform1, etherWorld);
+        MovingPlatform platform1 = new MovingPlatform(new Point(1041, 876), new Point(1041, 647), idPlatform1, etherWorld);
         etherWorld.addGameObject(platform1);
 
-        MovingPlatform platform3 = new MovingPlatform(new Point(486, 876), new Point(486, 587), idPlatform1, etherWorld);
+        MovingPlatform platform3 = new MovingPlatform(new Point(486, 876), new Point(486, 647), idPlatform1, etherWorld);
         etherWorld.addGameObject(platform3);
 
-        Target target2 = new Target(new Point(1093, 104), idPlatform2, etherWorld);
+        Target target2 = new Target(new Point(1093, 164), idPlatform2, etherWorld);
         etherWorld.addGameObject(target2);
 
-        MovingPlatform platform2 = new MovingPlatform(new Point(764, 876), new Point(764, 587), idPlatform2, etherWorld);
+        MovingPlatform platform2 = new MovingPlatform(new Point(764, 876), new Point(764, 647), idPlatform2, etherWorld);
         etherWorld.addGameObject(platform2);
 
         int idWall = 3;
 
-        BoxButton button = new BoxButton(new Point(299, 494), idWall, etherWorld);
+        BoxButton button = new BoxButton(new Point(299, 526), idWall, etherWorld);
         etherWorld.addGameObject(button);
 
-        MovingWall wall = new MovingWall(new Point(201, 366), new Point(1432, 480), idWall, etherWorld);
+        MovingWall wall = new MovingWall(new Point(201, 462), new Point(1432, 280), idWall, etherWorld);
         etherWorld.addGameObject(wall);
 
         MovableBox movableBox= new MovableBox(new Point(1618, 285), etherWorld);
@@ -100,10 +98,26 @@ public class LevelThree extends Level {
         Tree tree3 = new Tree(new Point (854, 271));
         terraWorld.addGameObject(tree3);
 
-        Thrasher thrasher = new Thrasher(player, terraWorld);
-        thrasher.setLocation(new Point(130, 700));
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(1745, 500));
+        etherWorld.addGameObject(panzer);
+
+        SilverBack silverback = new SilverBack(player, etherWorld);
+        silverback.setLocation(new Point(486, 285));
+        etherWorld.addGameObject(silverback);
+
+        ValkyrieDrone valkyrieDrone1 = new ValkyrieDrone(player, etherWorld);
+        valkyrieDrone1.setLocation(new Point(1586, 103));
+        etherWorld.addGameObject(valkyrieDrone1);
+
+        ValkyrieDrone valkyrieDrone2 = new ValkyrieDrone(player, etherWorld);
+        valkyrieDrone2.setLocation(new Point(121, 443));
+        etherWorld.addGameObject(valkyrieDrone2);
+
+        Thrasher thrasher = new Thrasher(player, etherWorld);
+        thrasher.setLocation(new Point(131, 836));
         thrasher.setBoss();
-        terraWorld.addGameObject(thrasher);
+        etherWorld.addGameObject(thrasher);
 
         WorldWindow terraWorldWindow1 = new WorldWindow(terraWorld);
         terraWorldWindow1.setTarget(player);
@@ -158,5 +172,21 @@ public class LevelThree extends Level {
             player.setLocation(playerPosition);
             player.setWorld(inTerra ? terraWorld : etherWorld);
         }
+    }
+
+    public void populateAfterCheckpoint() {
+        if(etherWorld.numberOfEnemies() > 0) return;
+
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(1745, 500));
+        etherWorld.addGameObject(panzer);
+
+        ValkyrieDrone valkyrieDrone1 = new ValkyrieDrone(player, etherWorld);
+        valkyrieDrone1.setLocation(new Point(1586, 103));
+        etherWorld.addGameObject(valkyrieDrone1);
+
+        ValkyrieDrone valkyrieDrone2 = new ValkyrieDrone(player, etherWorld);
+        valkyrieDrone2.setLocation(new Point(121, 443));
+        etherWorld.addGameObject(valkyrieDrone2);
     }
 }

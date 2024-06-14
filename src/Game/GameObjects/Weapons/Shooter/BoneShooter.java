@@ -12,7 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public class BoneShooter extends Shooter {
     public BoneShooter(World world) {
-        super((Class) Bone.class, 20, 500, 500, world);
+        super((Class) Bone.class, 20, 500, 500, new Dimension(0, 0), world);
     }
 
     public void attack(double angle, Point position, Inventory inventory) {

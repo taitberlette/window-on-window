@@ -31,7 +31,7 @@ public class PauseState extends State {
         checkpoints = new ButtonWindow[ActiveLevel.COUNT_LEVEL.ordinal()];
 
         for(int i = 0; i < checkpoints.length; i++) {
-            checkpoints[i] = new ButtonWindow("level " + i, "Return to level " + i,  new Point((middle - (buttonWidth / 2) - padding - buttonWidth) + (i * (padding + buttonWidth)), buttonHeight - 250));
+            checkpoints[i] = new ButtonWindow("level " + (i + 1), "Return to level " + (i + 1),  new Point((middle - (buttonWidth / 2) - padding - buttonWidth) + (i * (padding + buttonWidth)), buttonHeight - 250));
         }
     }
 
@@ -82,7 +82,7 @@ public class PauseState extends State {
 
                 stateManager.popState();
 
-                stateManager.loadLevel(i);
+                stateManager.loadCheckpoint(i);
             }
         }
     }

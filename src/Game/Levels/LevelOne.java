@@ -113,4 +113,13 @@ public class LevelOne extends Level {
             player.setWorld(inTerra ? terraWorld : etherWorld);
         }
     }
+
+    public void populateAfterCheckpoint() {
+        if(etherWorld.numberOfEnemies() > 0) return;
+
+
+        HellHound hellHound = new HellHound(player, etherWorld);
+        hellHound.setLocation(new Point(562, 764));
+        etherWorld.addGameObject(hellHound);
+    }
 }

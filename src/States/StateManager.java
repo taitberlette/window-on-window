@@ -1,5 +1,7 @@
 package States;
 
+import Game.Levels.ActiveLevel;
+
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -120,6 +122,10 @@ public class StateManager {
         gameState.loadLevel(level);
     }
 
+    public void loadCheckpoint(int level) {
+        gameState.loadCheckpoint(level);
+    }
+
     public void setVisibleCheckpoints(int visibleCheckpoints) {
         pauseState.setVisibleCheckpoints(visibleCheckpoints);
     }
@@ -131,4 +137,6 @@ public class StateManager {
     public void saveGame() {
         gameState.save();
     }
+
+    public void respawn() {gameState.respawn();}
 }

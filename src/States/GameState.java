@@ -101,6 +101,10 @@ public class GameState extends State {
         game.loadLevel(ActiveLevel.values()[level]);
     }
 
+    public void loadCheckpoint(int level) {
+        game.loadCheckpoint(ActiveLevel.values()[level]);
+    }
+
     public void reset() {
         if(slot >= 0) {
             System.out.println("DELETE");
@@ -123,5 +127,9 @@ public class GameState extends State {
             loadTutorial();
         }
 
+    }
+
+    public void respawn() {
+        game.respawn();
     }
 }

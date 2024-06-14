@@ -69,7 +69,7 @@ public class Thrasher extends Enemy {
         BufferedImage thrasherImage = thrasherImages[animationFrame % thrasherImages.length];
 
         int offsetX = lastDirection == HorizontalDirection.LEFT ? (int) (thrasherImage.getWidth() * IMAGE_SCALE) : 0;
-        graphics2D.drawImage((Image) thrasherImage, ((int) (position.getX() - (thrasherImage.getWidth() * (IMAGE_SCALE / 2))) + offsetX), (int) (position.getY() - size.getHeight() * IMAGE_SCALE), (int) (thrasherImage.getWidth() * IMAGE_SCALE * (lastDirection == HorizontalDirection.LEFT ? -1 : 1)), (int) (thrasherImage.getHeight() * IMAGE_SCALE), null);
+        graphics2D.drawImage((Image) thrasherImage, ((int) (position.getX() - (thrasherImage.getWidth() * (IMAGE_SCALE / 2))) + offsetX), (int) (position.getY() - ((size.getHeight() * IMAGE_SCALE) / 4)), (int) (thrasherImage.getWidth() * IMAGE_SCALE * (lastDirection == HorizontalDirection.LEFT ? -1 : 1)), (int) (thrasherImage.getHeight() * IMAGE_SCALE), null);
 
         BufferedImage thrasherAttackImage = thrasherAttackImages[animationFrame % thrasherAttackImages.length];
 

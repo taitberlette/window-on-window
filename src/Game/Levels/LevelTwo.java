@@ -1,10 +1,7 @@
 package Game.Levels;
 
 import Game.Game;
-import Game.GameObjects.Entities.Enemies.HellHound;
-import Game.GameObjects.Entities.Enemies.Panzer;
-import Game.GameObjects.Entities.Enemies.ShockSpider;
-import Game.GameObjects.Entities.Enemies.SilverBack;
+import Game.GameObjects.Entities.Enemies.*;
 import Game.GameObjects.Entities.Player;
 import Game.GameObjects.Gadgets.BoxButton;
 import Game.GameObjects.Gadgets.MovingPlatform;
@@ -161,5 +158,21 @@ public class LevelTwo extends Level {
             player.setLocation(playerPosition);
             player.setWorld(inTerra ? terraWorld : etherWorld);
         }
+    }
+
+    public void populateAfterCheckpoint() {
+        if(etherWorld.numberOfEnemies() > 0) return;
+        
+        Panzer panzer = new Panzer(player, etherWorld);
+        panzer.setLocation(new Point(876, 100));
+        etherWorld.addGameObject(panzer);
+
+        HellHound hellHound1 = new HellHound(player, etherWorld);
+        hellHound1.setLocation(new Point(896, 764));
+        etherWorld.addGameObject(hellHound1);
+
+        HellHound hellHound2 = new HellHound(player, etherWorld);
+        hellHound2.setLocation(new Point(1727, 764));
+        etherWorld.addGameObject(hellHound2);
     }
 }
