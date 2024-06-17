@@ -58,7 +58,10 @@ public class Panzer extends Enemy {
             }
         }
 
-        if(!outRange && System.currentTimeMillis() - attackStart > 1000) {
+
+        double distance = player.getLocation().getLocation().distance(position);
+
+        if(distance <= vision && System.currentTimeMillis() - attackStart > 1000) {
             attackStart = System.currentTimeMillis();
 
             Point launch = new Point(position);
