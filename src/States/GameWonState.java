@@ -20,7 +20,7 @@ public class GameWonState extends State{
 
         blurredWindow = new BlurredWindow();
 
-        title = new TextboxWindow("you won!", new Point(782, 234));
+        title = new TextboxWindow("you won!", new Point(815, 234));
 
         Dimension screen = WindowOnWindow.getRenderingSize();
         int buttonHeight = (int) (screen.getHeight() - 400);
