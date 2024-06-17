@@ -12,6 +12,7 @@ public class StateManager {
     private PauseState pauseState;
     private ResetState resetState;
     private GameOverState gameOverState;
+    private GameWonState gameWonState;
 
     private Stack<State> runningStates = new Stack<>();
     private LinkedList<State> statesToPush = new LinkedList<>();
@@ -26,6 +27,7 @@ public class StateManager {
         pauseState = new PauseState(this);
         resetState = new ResetState(this);
         gameOverState = new GameOverState(this);
+        gameWonState = new GameWonState(this);
 
         pushState(homeState);
     }
@@ -39,6 +41,7 @@ public class StateManager {
             case STATE_PAUSE -> state = pauseState;
             case STATE_RESET -> state = resetState;
             case STATE_GAMEOVER -> state = gameOverState;
+            case STATE_GAMEWON -> state = gameWonState;
             default -> state = homeState;
         }
 
