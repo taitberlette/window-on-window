@@ -221,12 +221,12 @@ public class Game implements KeyListener {
             return;
         }
 
-        loadLevel(ActiveLevel.values()[(activeLevel.ordinal() + 1)]);
-
-        if(activeLevel == ActiveLevel.COUNT_LEVEL) {
-            stateManager.clearStates();
+        if (activeLevel==ActiveLevel.LEVEL_THREE){
             stateManager.pushState(StateName.STATE_GAMEWON);
+        } else {
+            loadLevel(ActiveLevel.values()[(activeLevel.ordinal() + 1)]);
         }
+
     }
 
 

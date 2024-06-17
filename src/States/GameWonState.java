@@ -20,7 +20,7 @@ public class GameWonState extends State{
 
         blurredWindow = new BlurredWindow();
 
-        title = new TextboxWindow("you won!", new Point(782, 234));
+        title = new TextboxWindow("you won!", new Point(815, 234));
 
         Dimension screen = WindowOnWindow.getRenderingSize();
         int buttonHeight = (int) (screen.getHeight() - 400);
@@ -54,11 +54,10 @@ public class GameWonState extends State{
 
         if(homeButton.wasClicked()) {
             homeButton.resetClicked();
-
+            stateManager.saveGame();
             stateManager.clearStates();
             stateManager.pushState(StateName.STATE_HOME);
-            stateManager.respawn();
-            stateManager.saveGame();
+
         }
 
         blurredWindow.update(deltaTime);
