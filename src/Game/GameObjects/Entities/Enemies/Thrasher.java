@@ -14,9 +14,7 @@ import java.util.ArrayList;
 public class Thrasher extends Enemy {
 
     private BufferedImage[] thrasherImages = new BufferedImage[2];
-    private BufferedImage thrasherImage;
     private BufferedImage[] thrasherAttackImages = new BufferedImage[2];
-    private BufferedImage thrasherAttackImage;
 
     private long slowerSpeedStart = 0;
     private long attackStart = 0;
@@ -65,7 +63,7 @@ public class Thrasher extends Enemy {
             attackStart = System.currentTimeMillis();
 
             Point launch = new Point(position);
-            launch.translate(thrasherImage.getWidth() * (lastDirection == HorizontalDirection.LEFT ? -1 : 1), 0);
+            launch.translate(thrasherImages[0].getWidth() * (lastDirection == HorizontalDirection.LEFT ? -1 : 1), 0);
 
             Flame flame = new Flame();
             flame.setLocation(position);
