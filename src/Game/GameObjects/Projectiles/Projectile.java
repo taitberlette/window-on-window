@@ -155,12 +155,14 @@ public abstract class Projectile extends GameObject {
             }
         }
 
-        ArrayList<Switch> hitSwitches = world.findSwitches(position);
-        for(Switch switcher : hitSwitches) {
-            switcher.toggle();
-            world.removeGameObject(this);
-            kill();
-            return;
+        if(playerLaunched) {
+            ArrayList<Switch> hitSwitches = world.findSwitches(position);
+            for(Switch switcher : hitSwitches) {
+                switcher.toggle();
+                world.removeGameObject(this);
+                kill();
+                return;
+            }
         }
     }
 
