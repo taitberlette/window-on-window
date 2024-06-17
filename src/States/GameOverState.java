@@ -28,7 +28,7 @@ public class GameOverState extends State{
         int middle = (int) (screen.getWidth() / 2);
         int buttonWidth = 344;
 
-        yesButton = new ButtonWindow("yes", "Retry level", new Point(middle + (buttonWidth / 2), buttonHeight));
+        yesButton = new ButtonWindow("yes", "retry", new Point(middle + (buttonWidth / 2), buttonHeight));
         noButton = new ButtonWindow("no", "Back to home", new Point(middle - (buttonWidth / 2) - buttonWidth, buttonHeight));
 
         timer = 1;

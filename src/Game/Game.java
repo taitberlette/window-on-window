@@ -16,6 +16,7 @@ public class Game implements KeyListener {
     private Level[] levels = new Level[ActiveLevel.COUNT_LEVEL.ordinal()];
     private ActiveLevel activeLevel = ActiveLevel.NONE;
     private ActiveLevel nextLevel = ActiveLevel.NONE;
+    private ActiveLevel maxLevel = ActiveLevel.LEVEL_ONE;
     private Player player;
 
     private StateManager stateManager;
@@ -68,7 +69,9 @@ public class Game implements KeyListener {
 
             if(packet.startsWith("CURRENT LEVEL=")) {
                 startLevel = Integer.parseInt(packet.replace("CURRENT LEVEL=", "").trim());
-            } else if(packet.startsWith("PLAYER")) {
+            } else if(packet.startsWith("MAX LEVEL=")) {
+                maxLevel = ActiveLevel.values()[Integer.parseInt(packet.replace("MAX LEVEL=", "").trim())];
+            }  else if(packet.startsWith("PLAYER")) {
                 ArrayList<String> data = new ArrayList<>();
 
                 i++;
@@ -149,6 +152,16 @@ public class Game implements KeyListener {
             if(newLevel < ActiveLevel.COUNT_LEVEL.ordinal()) {
                 levels[newLevel].open();
             }
+        }
+
+        if(activeLevel.ordinal() > maxLevel.ordinal() && activeLevel.ordinal() < ActiveLevel.COUNT_LEVEL.ordinal()) {
+            maxLevel = activeLevel;
+        }
+
+        if(maxLevel.ordinal() < ActiveLevel.COUNT_LEVEL.ordinal() && activeLevel != ActiveLevel.LEVEL_TUTORIAL) {
+            stateManager.setVisibleCheckpoints(maxLevel.ordinal() + 1);
+        } else {
+            stateManager.setVisibleCheckpoints(0);
         }
 
 
@@ -247,6 +260,7 @@ public class Game implements KeyListener {
         }
 
         result += "CURRENT LEVEL=" + activeLevel.ordinal() + "\n";
+        result += "MAX LEVEL=" + maxLevel.ordinal() + "\n";
 
         return result;
     }
