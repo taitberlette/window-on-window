@@ -54,11 +54,10 @@ public class GameWonState extends State{
 
         if(homeButton.wasClicked()) {
             homeButton.resetClicked();
-
+            stateManager.saveGame();
             stateManager.clearStates();
             stateManager.pushState(StateName.STATE_HOME);
-            stateManager.respawn();
-            stateManager.saveGame();
+
         }
 
         blurredWindow.update(deltaTime);
