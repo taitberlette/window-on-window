@@ -1,6 +1,7 @@
 package Game.GameObjects.Entities.Enemies;
 
 import Assets.AssetManager;
+import Game.GameObjects.Projectiles.Bone;
 import Game.GameObjects.Projectiles.Flame;
 import Game.Utilities.Ammunition;
 import Game.Utilities.HorizontalDirection;
@@ -53,22 +54,21 @@ public class Thrasher extends Enemy {
         boolean slower = System.currentTimeMillis() - slowerSpeedStart < SLOW_LENGTH;
         maxSpeed = slower ? SLOW_SPEED : REGULAR_SPEED;
 
-        if((animationFrame % 2 != 0 || velocityX != 0) && onGround) {
-            if(System.currentTimeMillis() - lastFrame > 1000) {
-                animationFrame++;
-                lastFrame = System.currentTimeMillis();
-            }
+        if(System.currentTimeMillis() - lastFrame > 1000) {
+            animationFrame++;
+            lastFrame = System.currentTimeMillis();
         }
+
         if(!outRange && System.currentTimeMillis() - attackStart > 1000) {
             attackStart = System.currentTimeMillis();
 
             Point launch = new Point(position);
             launch.translate(thrasherImages[0].getWidth() * (lastDirection == HorizontalDirection.LEFT ? -1 : 1), 0);
 
-            Flame flame = new Flame();
-            flame.setLocation(position);
-            flame.launch(world, lastDirection == HorizontalDirection.LEFT ? Math.PI : 0, BONE_SPEED, BONE_DAMAGE, false);
-            world.addGameObject(flame);
+            Bone bone = new Bone();
+            bone.setLocation(position);
+            bone.launch(world, lastDirection == HorizontalDirection.LEFT ? Math.PI : 0, BONE_SPEED, BONE_DAMAGE, false);
+            world.addGameObject(bone);
         }
 
         super.update(deltaTime);
